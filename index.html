@@ -316,6 +316,23 @@
   .pwa-update-bar button{padding:5px 9px;border:0;border-radius:999px;background:var(--sage);color:#fff;font-size:.7rem;font-weight:700;cursor:pointer}
   .pwa-update-bar button:last-child{background:rgba(120,150,120,.12);color:var(--forest)}
   .pwa-install-status{min-height:1.35em;margin:8px 0 0;color:var(--muted);font-size:.72rem;line-height:1.45}
+  .voice-fix-link{display:inline-block;margin:4px 0 0;padding:0;border:0;background:transparent;color:var(--sage);font-size:.7rem;font-weight:700;cursor:pointer}
+  .voice-fix-link:hover{text-decoration:underline}
+  .voice-fix-box{display:grid;grid-template-columns:1fr 1fr auto;gap:6px;align-items:center;margin:5px 0 0;padding:7px;border:1px solid rgba(69,102,78,.13);border-radius:12px;background:rgba(255,254,250,.72)}
+  .voice-fix-box input{min-width:0;padding:6px 7px;border:1px solid rgba(69,102,78,.16);border-radius:9px;background:var(--paper);color:var(--ink);font:500 .72rem var(--round)}
+  .voice-fix-box button{padding:6px 8px;border:0;border-radius:999px;background:var(--sage);color:#fff;font-size:.68rem;font-weight:700;cursor:pointer}
+  .word-list-count{margin:0 0 10px;color:var(--muted);font-size:.72rem}
+  .word-list-form{display:grid;grid-template-columns:1fr 1fr auto;gap:6px;align-items:end}
+  .word-list-form label{display:grid;gap:4px;color:var(--muted);font-size:.68rem}
+  .word-list-form input{min-width:0;min-height:34px;padding:6px 8px;border:1px solid rgba(69,102,78,.16);border-radius:10px;background:var(--cream);color:var(--ink);font:500 .75rem var(--round)}
+  .word-list-form button{min-height:34px;padding:7px 10px;border:0;border-radius:999px;background:var(--sage);color:#fff;font-size:.7rem;font-weight:700;cursor:pointer}
+  .word-list-items{display:grid;gap:6px;margin-top:10px}
+  .word-list-item{display:grid;grid-template-columns:1fr auto 1fr auto auto;gap:6px;align-items:center;padding:7px 8px;border-radius:10px;background:rgba(120,150,120,.09);color:var(--ink);font-size:.72rem}
+  .word-list-item em{color:var(--muted);font-style:normal}
+  .word-list-item button{padding:3px 6px;border:0;border-radius:999px;background:transparent;color:var(--forest);font-size:.68rem;cursor:pointer}
+  .word-list-empty{margin:8px 0 0;color:var(--muted);font-size:.72rem}
+  .tips-list{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:.72rem;line-height:1.5}
+  @media(max-width:520px){.voice-fix-box,.word-list-form{grid-template-columns:1fr 1fr}.voice-fix-box button,.word-list-form button{grid-column:1/-1}.word-list-item{grid-template-columns:1fr auto 1fr auto auto;font-size:.68rem}}
   .set-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px;width:100%;margin-top:13px}
   .set-card{position:relative;isolation:isolate;overflow:hidden;min-height:150px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;padding:22px;border:1px solid rgba(255,255,255,.95);border-radius:23px;background:var(--paper);color:var(--ink);text-align:left;cursor:pointer;box-shadow:0 7px 0 var(--forest),0 13px 25px rgba(64,77,57,.1),inset 0 0 0 1px rgba(120,150,120,.12);transition:transform .25s var(--ease),box-shadow .25s;opacity:0;animation:set-card-in .5s var(--ease) forwards}
   .set-card::before{content:"";position:absolute;inset:8px;border:1px solid rgba(120,150,120,.15);border-radius:16px;pointer-events:none}
@@ -769,6 +786,29 @@
           <button type="button" data-voice-mode="auto">Auto</button><button type="button" data-voice-mode="continuous">Continuous</button><button type="button" data-voice-mode="phrase">Phrase by phrase</button>
         </div>
         <p class="setting-help">Auto uses short listening rounds on phones and continuous listening on computers.</p>
+        <label class="setting-toggle"><span><strong>Smart cleanup</strong><small>Polish confirmed voice phrases without changing typed text.</small></span><input type="checkbox" data-setting-toggle="smartCleanup"><i aria-hidden="true"></i></label>
+        <label class="setting-toggle"><span><strong>Spoken punctuation</strong><small>Turn “comma,” “period,” and “new line” into punctuation.</small></span><input type="checkbox" data-setting-toggle="spokenPunctuation"><i aria-hidden="true"></i></label>
+        <label class="setting-toggle"><span><strong>Remove safe fillers</strong><small>Remove a few likely “um” and “uh” pauses from voice phrases.</small></span><input type="checkbox" data-setting-toggle="removeVoiceFillers"><i aria-hidden="true"></i></label>
+      </section>
+      <section class="setting-section">
+        <h3>My word list</h3>
+        <p class="word-list-count" id="word-list-count"></p>
+        <form class="word-list-form" id="word-list-form">
+          <label>When you hear <input id="word-list-hear" type="text" maxlength="80" autocomplete="off"></label>
+          <label>Write <input id="word-list-write" type="text" maxlength="80" autocomplete="off"></label>
+          <button type="submit">Add a word</button>
+        </form>
+        <div class="word-list-items" id="word-list-items"></div>
+        <p class="setting-help">Matches are case-insensitive whole words or phrases in voice typing only.</p>
+      </section>
+      <section class="setting-section">
+        <h3>Tips for clearer voice typing</h3>
+        <ul class="tips-list">
+          <li>Speak in short phrases and pause between them.</li>
+          <li>Keep the microphone close and choose a quiet place.</li>
+          <li>Choose Tagalog for Tagalog and Taglish for Taglish; choose English for English.</li>
+          <li>Spell out names once, then add them to My word list.</li>
+        </ul>
       </section>
       <section class="setting-section">
         <h3>Voice typing help</h3>
@@ -873,7 +913,7 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.1.0";
+  const APP_VERSION = "1.2.0";
   const VERSION_DATE = "Oct 30, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
   const WORD_GOAL_MIN = 0;
@@ -898,6 +938,9 @@
     offerPassed: true,          // Offer a second chance to revisit passed questions
     voiceLanguage: "taglish",  // "en", "tl", or "taglish"
     voiceMode: "auto",          // "auto", "continuous", or "phrase"
+    smartCleanup: true,         // Polish confirmed voice phrases only
+    spokenPunctuation: true,    // Convert spoken punctuation words
+    removeVoiceFillers: false,  // Remove a short safe list of fillers
     keepMicBetweenQuestions: true, // Keep voice typing active while moving between questions
     showVoiceTest: false,       // Show temporary voice diagnostics in Settings
     shuffleQuestions: true,    // Mix question order when a set starts
@@ -907,9 +950,16 @@
   // Settings and answer history stay in this browser on this device.
   const SETTINGS_STORAGE_KEY = STORAGE_PREFIX+"settings";
   const NOTES_STORAGE_KEY = STORAGE_PREFIX+"answers";
+  const WORD_LIST_STORAGE_KEY = STORAGE_PREFIX+"word-list";
   const LEGACY_SETTINGS_STORAGE_KEY = "little-quest-settings";
   const LEGACY_NOTES_STORAGE_KEY = "little-quest-notes-v1";
   const LEGACY_MIC_PERMISSION_SEEN_KEY = "little-quest-mic-explanation-seen";
+  const STARTER_WORD_LIST = [
+    {hear:"git hub",write:"GitHub"},
+    {hear:"capstone defense",write:"capstone defense"},
+    {hear:"happiness",write:"HappYness"},
+    {hear:"kay chrishawne",write:"kay Chrishawne"}
+  ];
   // Change POINTS_PER_NEXT to set XP earned each time a completed answer advances.
   const POINTS_PER_NEXT = 10;
   // QUEST SETS — make all set and question edits in this section.
@@ -1023,13 +1073,17 @@
     textSize: ["small","medium","large","xlarge"],
     voiceLanguage: ["en","tl","taglish"],
     voiceMode: ["auto","continuous","phrase"],
+    smartCleanup: [true,false],
+    spokenPunctuation: [true,false],
+    removeVoiceFillers: [true,false],
     animations: ["full","lite","off"],
     passLimit: ["unlimited","1","2","3","5"]
   };
   const settings = loadSettings();
+  let wordList=loadWordList();
   let activeSet=null, activeQuestions=[], activeWasShuffled=false, index=0, points=0, streak=0, busy=false, notePanelOpen=false;
   let answers=[], furthestIndex=0, selectedLanguage=settings.voiceLanguage, recognition=null, voiceSession=null, listening=false, restartTimer=null;
-  let voiceTextarea=null, notePanelAnimation=null, noteOpenId=null, pendingRestoreNotes=null;
+  let voiceTextarea=null, notePanelAnimation=null, noteOpenId=null, pendingRestoreNotes=null, pendingRestoreWordList=null;
   let downloadedBackup=(()=>{try{return localStorage.getItem(NOTES_STORAGE_KEY+"-backup")==="1";}catch(_){return false;}})();
   let notesStorageAvailable=noteStorageWorks();
   let historyNeedsMigration=false;
@@ -1231,7 +1285,7 @@
     Object.keys(allowedSettings).forEach(key=>{
       if(allowedSettings[key].includes(saved[key]))result[key]=saved[key];
     });
-    ["streak","background","confetti","sound","shuffleQuestions","reshuffleOnReplay","myAnswerChip","saveAnswersOnDevice","showVoiceTest"].forEach(key=>{
+    ["streak","background","confetti","sound","shuffleQuestions","reshuffleOnReplay","myAnswerChip","saveAnswersOnDevice","showVoiceTest","smartCleanup","spokenPunctuation","removeVoiceFillers"].forEach(key=>{
       if(typeof saved[key]==="boolean")result[key]=saved[key];
     });
     if(typeof saved.saveAnswersOnDevice!=="boolean"&&typeof saved.saveNotesOnDevice==="boolean")result.saveAnswersOnDevice=saved.saveNotesOnDevice;
@@ -1254,6 +1308,60 @@
       localStorage.removeItem(key);
       return true;
     }catch(_){return false;}
+  }
+  function cleanWordList(source){
+    if(!Array.isArray(source))return [];
+    const seen=new Set(),result=[];
+    source.forEach(item=>{
+      const hear=typeof item?.hear==="string"?item.hear.trim():"";
+      const write=typeof item?.write==="string"?item.write.trim():"";
+      const key=normalizeSpokenPhrase(hear);
+      if(!key||!write||seen.has(key))return;
+      seen.add(key);
+      result.push({hear:hear.slice(0,80),write:write.slice(0,80)});
+    });
+    return result.slice(0,100);
+  }
+  function loadWordList(){
+    try{
+      const raw=localStorage.getItem(WORD_LIST_STORAGE_KEY);
+      if(raw){
+        const source=JSON.parse(raw);
+        if(Array.isArray(source))return cleanWordList(source);
+      }
+      const starter=cleanWordList(STARTER_WORD_LIST);
+      localStorage.setItem(WORD_LIST_STORAGE_KEY,JSON.stringify(starter));
+      return starter;
+    }catch(_){return cleanWordList(STARTER_WORD_LIST);}
+  }
+  function persistWordList(){
+    try{localStorage.setItem(WORD_LIST_STORAGE_KEY,JSON.stringify(wordList));}catch(_){}
+  }
+  function renderWordList(){
+    const count=$("word-list-count"),items=$("word-list-items");
+    if(!count||!items)return;
+    count.textContent=wordList.length+" entr"+(wordList.length===1?"y":"ies");
+    items.replaceChildren();
+    if(!wordList.length){
+      const empty=document.createElement("p");empty.className="word-list-empty";empty.textContent="No custom corrections yet.";items.appendChild(empty);return;
+    }
+    wordList.forEach((entry,index)=>{
+      const row=document.createElement("div");row.className="word-list-item";
+      const hear=document.createElement("span");hear.textContent=entry.hear;
+      const arrow=document.createElement("em");arrow.textContent="→";
+      const write=document.createElement("span");write.textContent=entry.write;
+      const edit=document.createElement("button");edit.type="button";edit.textContent="Edit";edit.setAttribute("aria-label","Edit "+entry.hear);
+      edit.addEventListener("click",()=>{
+        $("word-list-hear").value=entry.hear;
+        $("word-list-write").value=entry.write;
+        $("word-list-form").dataset.editIndex=String(index);
+        $("word-list-form").querySelector("button").textContent="Save word";
+        $("word-list-hear").focus();
+      });
+      const remove=document.createElement("button");remove.type="button";remove.textContent="Delete";remove.setAttribute("aria-label","Delete "+entry.hear);
+      remove.addEventListener("click",()=>{wordList.splice(index,1);persistWordList();renderWordList();});
+      row.append(hear,arrow,write,edit,remove);items.appendChild(row);
+    });
   }
   function cleanAnswerEntry(value){
     if(!value||typeof value!=="object"||typeof value.text!=="string"||!value.text.trim())return null;
@@ -1295,7 +1403,11 @@
       if(!raw&&legacyRaw)raw=legacyRaw;
       if(!raw)return result;
       const parsed=JSON.parse(raw);
-      if(parsed?.format==="little-quest-answer-history"&&parsed.version===1){
+      if(parsed?.format==="little-quest-answer-history"&&(parsed.version===1||parsed.version===2)){
+        if(parsed.version===2&&Array.isArray(parsed.wordList)){
+          const restored=cleanWordList(parsed.wordList);
+          if(restored.length){wordList=restored;persistWordList();}
+        }
         return cleanHistoryMap(parsed.answers);
       }
       const legacy=parsed?.format==="little-quest-notes"&&parsed.version===1
@@ -1313,7 +1425,7 @@
     }catch(_){return result;}
   }
   function serializeNotes(){
-    return JSON.stringify({format:"little-quest-answer-history",version:1,exportedAt:new Date().toISOString(),answers:notesById});
+    return JSON.stringify({format:"little-quest-answer-history",version:2,exportedAt:new Date().toISOString(),answers:notesById,wordList});
   }
   function persistNotes(){
     if(!settings.saveAnswersOnDevice||!notesStorageAvailable)return false;
@@ -1545,11 +1657,11 @@
     $("notes-backup-status").textContent="Backup downloaded.";
   }
   function normalizeBackupData(parsed){
-    if(parsed?.format==="little-quest-answer-history"&&parsed.version===1&&parsed.answers&&typeof parsed.answers==="object"&&!Array.isArray(parsed.answers)){
-      return cleanHistoryMap(parsed.answers);
+    if(parsed?.format==="little-quest-answer-history"&&(parsed.version===1||parsed.version===2)&&parsed.answers&&typeof parsed.answers==="object"&&!Array.isArray(parsed.answers)){
+      return {answers:cleanHistoryMap(parsed.answers),wordList:cleanWordList(parsed.wordList)};
     }
     if(parsed?.format==="little-quest-notes"&&parsed.version===1&&parsed.notes&&typeof parsed.notes==="object"&&!Array.isArray(parsed.notes)){
-      return cleanHistoryMap(parsed.notes,true);
+      return {answers:cleanHistoryMap(parsed.notes,true),wordList:[]};
     }
     throw new Error("invalid");
   }
@@ -1557,7 +1669,9 @@
     const status=$("notes-backup-status");
     try{
       const parsed=JSON.parse(await file.text());
-      pendingRestoreNotes=normalizeBackupData(parsed);
+      const restored=normalizeBackupData(parsed);
+      pendingRestoreNotes=restored.answers;
+      pendingRestoreWordList=restored.wordList;
       const count=Object.values(pendingRestoreNotes).reduce((sum,entries)=>sum+entries.length,0);
       $("notes-restore-description").textContent=count+" answer"+(count===1?"":"s")+" found. Choose how to restore them.";
       $("notes-restore-backdrop").hidden=false;
@@ -1581,7 +1695,14 @@
       merged.sort((a,b)=>(Date.parse(a.answeredAt)||0)-(Date.parse(b.answeredAt)||0));
       notesById[id]=merged.slice(-MAX_ANSWERS_PER_QUESTION);
     });
+    if(pendingRestoreWordList?.length){
+      if(mode==="replace")wordList=cleanWordList(pendingRestoreWordList);
+      else wordList=cleanWordList([...wordList,...pendingRestoreWordList]);
+      persistWordList();
+      renderWordList();
+    }
     pendingRestoreNotes=null;
+    pendingRestoreWordList=null;
     $("notes-restore-backdrop").hidden=true;
     persistNotes();
     refreshNotesStatus();
@@ -1650,6 +1771,7 @@
     document.querySelectorAll("[data-setting-toggle]").forEach(input=>{input.checked=settings[input.dataset.settingToggle];});
     document.querySelectorAll("[data-voice-mode]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.voiceMode===settings.voiceMode)));
     $("voice-test-panel").hidden=!settings.showVoiceTest;
+    renderWordList();
     $("version-line").textContent="Version "+APP_VERSION+", "+VERSION_DATE;
     if($("mic-permission-state"))setMicPermissionState(micPermissionState);
     refreshNotesStatus();
@@ -1964,7 +2086,7 @@
     function createWritingArea(){
       const area=document.createElement("div");
       area.className="writing-area";
-      area.innerHTML='<div class="answer-box"><div class="answer-input-layer"><textarea class="answer-input" id="answer-input" aria-label="Write your answer" placeholder="Write or speak your answer here..." rows="5"></textarea></div><div class="writing-tools"><div class="mic-wrap voice-area"><button class="mic-button" id="mic-button" type="button" aria-label="Start voice typing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3m-4 0h8"/></svg></button><span class="mic-label" id="mic-label">Voice typing</span><span class="voice-waves" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div><div class="language-switch" role="group" aria-label="Voice typing language"><button class="language-choice" type="button" data-language="en" aria-pressed="false">English</button><button class="language-choice" type="button" data-language="tl" aria-pressed="false">Tagalog</button><button class="language-choice" type="button" data-language="taglish" aria-pressed="true">Taglish</button></div><p class="language-note">Pick the language you will speak for best accuracy.</p></div><div class="speech-display" id="speech-display" aria-hidden="true"><span class="speech-interim" id="speech-interim"></span></div></div><button class="undo-voice" id="undo-voice-text" type="button" hidden>Undo voice text</button><p class="voice-message" id="voice-message" aria-live="polite"></p><button class="note-quiet-button mic-retry" id="mic-retry" type="button" hidden>Try again</button><div class="word-row"><svg class="word-ring" id="word-ring" viewBox="0 0 44 44" aria-label="Word goal progress"><circle class="ring-track" cx="22" cy="22" r="18"/><circle class="ring-progress" id="ring-progress" cx="22" cy="22" r="18"/><path class="ring-sparkle" d="M22 5.5 23.2 9l3.3 1.2-3.3 1.2L22 15l-1.2-3.6-3.3-1.2 3.3-1.2 3.3-1.2L22 5.5z"/></svg><span class="word-readout"><strong id="word-count">0</strong><span id="word-goal-copy"> / 100 words</span></span><span class="ready-note" id="ready-note">✦ Nice! You can continue.</span></div>';
+      area.innerHTML='<div class="answer-box"><div class="answer-input-layer"><textarea class="answer-input" id="answer-input" aria-label="Write your answer" placeholder="Write or speak your answer here..." rows="5"></textarea></div><div class="writing-tools"><div class="mic-wrap voice-area"><button class="mic-button" id="mic-button" type="button" aria-label="Start voice typing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3m-4 0h8"/></svg></button><span class="mic-label" id="mic-label">Voice typing</span><span class="voice-waves" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div><div class="language-switch" role="group" aria-label="Voice typing language"><button class="language-choice" type="button" data-language="en" aria-pressed="false">English</button><button class="language-choice" type="button" data-language="tl" aria-pressed="false">Tagalog</button><button class="language-choice" type="button" data-language="taglish" aria-pressed="true">Taglish</button></div><p class="language-note">Pick the language you will speak for best accuracy.</p></div><div class="speech-display" id="speech-display" aria-hidden="true"><span class="speech-interim" id="speech-interim"></span></div></div><button class="undo-voice" id="undo-voice-text" type="button" hidden>Undo voice text</button><button class="voice-fix-link" id="voice-fix-link" type="button" hidden>Fix a word?</button><div class="voice-fix-box" id="voice-fix-box" hidden><input id="voice-fix-hear" type="text" maxlength="80" placeholder="Heard as..." aria-label="Heard as"><input id="voice-fix-write" type="text" maxlength="80" placeholder="Write as..." aria-label="Write as"><button id="voice-fix-save" type="button">Add</button></div><p class="voice-message" id="voice-message" aria-live="polite"></p><button class="note-quiet-button mic-retry" id="mic-retry" type="button" hidden>Try again</button><div class="word-row"><svg class="word-ring" id="word-ring" viewBox="0 0 44 44" aria-label="Word goal progress"><circle class="ring-track" cx="22" cy="22" r="18"/><circle class="ring-progress" id="ring-progress" cx="22" cy="22" r="18"/><path class="ring-sparkle" d="M22 5.5 23.2 9l3.3 1.2-3.3 1.2L22 15l-1.2-3.6 3.3-1.2-3.3-1.2-3.3-1.2L22 5.5z"/></svg><span class="word-readout"><strong id="word-count">0</strong><span id="word-goal-copy"> / 100 words</span></span><span class="ready-note" id="ready-note">✦ Nice! You can continue.</span></div>';
       const retry=area.querySelector("#mic-retry");
       retry.addEventListener("click",()=>startListening(area.querySelector("#answer-input")));
       const textarea=area.querySelector("#answer-input");
@@ -1996,6 +2118,27 @@
         mic.addEventListener("click",()=>listening?stopVoice():startListening(textarea));
       }
       area.querySelector("#undo-voice-text").addEventListener("click",undoLastVoicePhrase);
+      area.querySelector("#voice-fix-link").addEventListener("click",()=>{
+        const box=area.querySelector("#voice-fix-box");
+        box.hidden=!box.hidden;
+        if(!box.hidden){
+          const value=area.querySelector("#voice-fix-link").dataset.lastVoiceText||"";
+          area.querySelector("#voice-fix-hear").value=value.replace(/[.!?]+$/u,"");
+          area.querySelector("#voice-fix-write").value="";
+          area.querySelector("#voice-fix-hear").focus();
+        }
+      });
+      area.querySelector("#voice-fix-save").addEventListener("click",()=>{
+        const hear=area.querySelector("#voice-fix-hear").value.trim();
+        const write=area.querySelector("#voice-fix-write").value.trim();
+        if(!hear||!write)return;
+        wordList=cleanWordList([...wordList,{hear,write}]);
+        persistWordList();
+        renderWordList();
+        area.querySelector("#voice-fix-box").hidden=true;
+        area.querySelector("#voice-fix-link").textContent="Word added";
+        delay(()=>{const link=$("voice-fix-link");if(link)link.textContent="Fix a word?";},1800);
+      });
       return area;
     }
     function autoGrow(textarea,max=270){
@@ -2049,6 +2192,55 @@
     }
     function normalizeSpokenPhrase(text){
       return text.toLocaleLowerCase().replace(/[^\p{L}\p{N}]+/gu," ").trim().replace(/\s+/gu," ");
+    }
+    function escapeRegExp(text){
+      return text.replace(/[.*+?^${}()|[\]\\]/g,"\\$&");
+    }
+    function replaceWordListEntries(text){
+      return wordList.slice().sort((a,b)=>b.hear.length-a.hear.length).reduce((value,entry)=>{
+        const source=normalizeSpokenPhrase(entry.hear);
+        if(!source)return value;
+        const pattern=new RegExp("(^|[^\\p{L}\\p{N}_])"+escapeRegExp(source)+"(?=$|[^\\p{L}\\p{N}_])","giu");
+        return value.replace(pattern,(_,prefix)=>prefix+entry.write);
+      },text);
+    }
+    function replaceSpokenToken(text,spoken,replacement){
+      const pattern=new RegExp("(^|[^\\p{L}\\p{N}_])"+spoken.replace(/\s+/gu,"\\s+")+"(?=$|[^\\p{L}\\p{N}_])","giu");
+      return text.replace(pattern,(_,prefix)=>prefix+replacement);
+    }
+    function cleanupVoicePhrase(rawPhrase,base=""){
+      const original=String(rawPhrase||"").trim();
+      if(!original||!settings.smartCleanup)return original;
+      try{
+        let text=replaceWordListEntries(original);
+        if(settings.removeVoiceFillers){
+          const fillerPattern=selectedLanguage==="en"?/\b(?:um|uh|ah)\b[ \t,]*/giu:/\b(?:um|uh)\b[ \t,]*/giu;
+          text=text.replace(fillerPattern,"");
+        }
+        if(settings.spokenPunctuation){
+          text=replaceSpokenToken(text,"new\\s+paragraph","\n\n");
+          text=replaceSpokenToken(text,"new\\s+line","\n");
+          text=replaceSpokenToken(text,"question\\s+mark","?");
+          text=replaceSpokenToken(text,"comma|kuwit",",");
+          text=replaceSpokenToken(text,"period|full\\s+stop|tuldok",".");
+        }
+        text=text.replace(/[ \t]+/gu," ").replace(/[ \t]*\n[ \t]*/gu,"\n");
+        text=text.replace(/[ \t]+([,.;:!?])/gu,"$1");
+        text=text.replace(/([,.;:!?])(?=\S)/gu,"$1 ");
+        text=text.replace(/\b(the|a|an|to|of|in|on|for|and|but|is|it|that|this|my|your|i)\s+\1\b/giu,"$1");
+        text=text.trim();
+        const startsNewSentence=!base.trim()||/[.!?…]["')\]]*\s*$/u.test(base.trim());
+        text=text.replace(/([.!?]\s+|\n+)(\p{L})/gu,(_,prefix,letter)=>prefix+letter.toLocaleUpperCase());
+        if(startsNewSentence)text=text.replace(/^(\p{L})/u,letter=>letter.toLocaleUpperCase());
+        text=text.replace(/\bi\b/gu,"I");
+        const hasEnding=/[.!?…]["')\]]*$/u.test(text);
+        const firstWord=(text.match(/^\p{L}+/u)?.[0]||"").toLocaleLowerCase();
+        const isQuestion=/^(what|why|how|who|when|where|ano|bakit|paano|sino|kailan|saan)$/.test(firstWord)||/\bba$/iu.test(text.replace(/[ \t.!?]+$/u,""));
+        if(text&&!hasEnding&&!/[,;:]\s*$/u.test(text)&&!/\n$/u.test(text))text+=(isQuestion?"?":".");
+        return text||original;
+      }catch(_){
+        return original;
+      }
     }
     function effectiveVoiceMode(){
       if(settings.voiceMode==="phrase")return "phrase";
@@ -2176,7 +2368,7 @@
       const textarea=voiceTextarea;
       const before=textarea.value;
       const base=before.replace(/\s+$/u,"");
-      const text=capitalizeSpokenPhrase(phrase,base);
+      const text=cleanupVoicePhrase(phrase,base);
       const separator=!base||/^[,.;:!?]/u.test(text)?"":" ";
       const after=base+separator+text;
       applyingSpeech=true;
@@ -2188,7 +2380,12 @@
       lastCommittedVoicePhraseKey=phraseKey;
       lastCommittedVoicePhraseAt=performance.now();
       updateVoiceTargetUI(textarea);
-      showVoiceUndo(before,after,textarea);
+      showVoiceUndo(before,after,textarea,text);
+      const fixLink=$("voice-fix-link");
+      if(fixLink){
+        fixLink.hidden=false;
+        fixLink.dataset.lastVoiceText=text;
+      }
       logVoiceTest("Confirmed phrase",text);
       return true;
     }
@@ -2199,11 +2396,12 @@
       const button=$("undo-voice-text");
       if(button){button.classList.remove("visible");button.hidden=true;}
     }
-    function showVoiceUndo(before,after,textarea){
+    function showVoiceUndo(before,after,textarea,addedText=""){
       if(voiceUndoTimer)clearDelay(voiceUndoTimer);
       lastVoiceUndo={before,after,textarea};
       const button=$("undo-voice-text");
       if(!button)return;
+      button.textContent="Undo: "+(addedText.length>38?addedText.slice(0,35)+"…":addedText);
       button.hidden=false;
       requestAnimationFrame(()=>button.classList.add("visible"));
       voiceUndoTimer=delay(()=>{
@@ -3378,6 +3576,20 @@
   choosePill("[data-pass-limit]","data-pass-limit","passLimit",allowedSettings.passLimit);
   document.querySelectorAll("[data-setting-toggle]").forEach(input=>{
     input.addEventListener("change",()=>setSetting(input.dataset.settingToggle,input.checked));
+  });
+  $("word-list-form").addEventListener("submit",event=>{
+    event.preventDefault();
+    const form=event.currentTarget,hear=$("word-list-hear").value.trim(),write=$("word-list-write").value.trim();
+    if(!hear||!write)return;
+    const editIndex=Number(form.dataset.editIndex);
+    if(Number.isInteger(editIndex)&&editIndex>=0&&editIndex<wordList.length)wordList[editIndex]={hear,write};
+    else wordList.push({hear,write});
+    wordList=cleanWordList(wordList);
+    persistWordList();
+    form.reset();
+    delete form.dataset.editIndex;
+    form.querySelector("button").textContent="Add a word";
+    renderWordList();
   });
   const setWordGoal=value=>{
     const goal=Math.min(WORD_GOAL_MAX,Math.max(WORD_GOAL_MIN,Math.round(Number(value)||0)));
