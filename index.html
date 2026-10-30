@@ -1189,14 +1189,16 @@
     let saved={};
     try{
       let raw=localStorage.getItem(SETTINGS_STORAGE_KEY);
+      let legacySource=false;
       if(!raw){
         raw=localStorage.getItem(LEGACY_SETTINGS_STORAGE_KEY);
-        if(raw){
-          localStorage.setItem(SETTINGS_STORAGE_KEY,raw);
-          localStorage.removeItem(LEGACY_SETTINGS_STORAGE_KEY);
-        }
+        legacySource=Boolean(raw);
       }
       saved=JSON.parse(raw||"{}")||{};
+      if(legacySource){
+        localStorage.setItem(SETTINGS_STORAGE_KEY,raw);
+        localStorage.removeItem(LEGACY_SETTINGS_STORAGE_KEY);
+      }
     }catch(_){}
     const result={...DEFAULT_SETTINGS};
     Object.keys(allowedSettings).forEach(key=>{
