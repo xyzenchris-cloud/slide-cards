@@ -7,6 +7,12 @@
 <meta name="description" content="A cozy one-question-at-a-time reflection game with answer history and optional voice typing.">
 <meta property="og:title" content="Little Quest">
 <meta property="og:description" content="A cozy one-question-at-a-time reflection game with answer history and optional voice typing.">
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Little Quest">
+<link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon-180.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23f6f2e9'/%3E%3Cpath d='m32 10 5.7 14.3L52 30l-14.3 5.7L32 50l-5.7-14.3L12 30l14.3-5.7z' fill='%23d8aa55'/%3E%3C/svg%3E">
 <title>Little Quest</title>
 <style>
@@ -304,6 +310,12 @@
   .file-notice{display:flex;align-items:center;gap:9px;margin:2px 0 0;padding:8px 11px;border:1px solid rgba(69,102,78,.12);border-radius:14px;background:rgba(255,254,250,.72);color:var(--muted);font-size:.72rem;line-height:1.4}
   .file-notice button{flex:none;padding:3px 8px;border:0;border-radius:999px;background:rgba(120,150,120,.12);color:var(--forest);font-size:.68rem;font-weight:700;cursor:pointer}
   .version-line{margin-top:16px;text-align:center}
+  .pwa-update-bar{position:fixed;z-index:25;left:50%;bottom:max(18px,env(safe-area-inset-bottom));display:flex;align-items:center;gap:8px;width:min(calc(100% - 28px),520px);padding:9px 11px 9px 14px;border:1px solid rgba(69,102,78,.16);border-radius:16px;background:var(--paper);color:var(--ink);box-shadow:0 6px 0 rgba(61,91,68,.14),0 16px 35px rgba(46,60,48,.15);font-size:.76rem;transform:translate(-50%,12px);opacity:0;transition:opacity .25s,transform .3s var(--ease)}
+  .pwa-update-bar.visible{opacity:1;transform:translate(-50%,0)}
+  .pwa-update-bar span{flex:1}
+  .pwa-update-bar button{padding:5px 9px;border:0;border-radius:999px;background:var(--sage);color:#fff;font-size:.7rem;font-weight:700;cursor:pointer}
+  .pwa-update-bar button:last-child{background:rgba(120,150,120,.12);color:var(--forest)}
+  .pwa-install-status{min-height:1.35em;margin:8px 0 0;color:var(--muted);font-size:.72rem;line-height:1.45}
   .set-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px;width:100%;margin-top:13px}
   .set-card{position:relative;isolation:isolate;overflow:hidden;min-height:150px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;padding:22px;border:1px solid rgba(255,255,255,.95);border-radius:23px;background:var(--paper);color:var(--ink);text-align:left;cursor:pointer;box-shadow:0 7px 0 var(--forest),0 13px 25px rgba(64,77,57,.1),inset 0 0 0 1px rgba(120,150,120,.12);transition:transform .25s var(--ease),box-shadow .25s;opacity:0;animation:set-card-in .5s var(--ease) forwards}
   .set-card::before{content:"";position:absolute;inset:8px;border:1px solid rgba(120,150,120,.15);border-radius:16px;pointer-events:none}
@@ -780,6 +792,15 @@
         <button class="note-quiet-button mic-help-button" id="check-microphone" type="button">Check microphone</button>
         <p class="setting-help" id="mic-help-status" aria-live="polite"></p>
       </section>
+      <section class="setting-section">
+        <h3>Install app</h3>
+        <button class="note-quiet-button" id="install-app" type="button" hidden>Install app</button>
+        <p class="pwa-install-status" id="install-status" aria-live="polite"></p>
+        <p class="setting-help" id="ios-install-help" hidden>On iPhone or iPad: tap the Share button, then “Add to Home Screen.”</p>
+        <p class="setting-help" id="ios-data-help" hidden>The installed app keeps its own saved answers. Use Download backup and Restore from backup to move them between the website and the app.</p>
+        <button class="note-quiet-button" id="check-updates" type="button">Check for updates</button>
+        <p class="setting-help" id="update-status" aria-live="polite"></p>
+      </section>
       <section class="setting-section setting-reset">
         <button class="reset-settings" id="reset-settings" type="button">Reset to default</button>
         <p class="setting-help">This resets settings only. Your answers stay safe.</p>
@@ -787,6 +808,11 @@
       </section>
     </div>
   </aside>
+</div>
+<div class="pwa-update-bar" id="pwa-update-bar" role="status" aria-live="polite" hidden>
+  <span>A new version is ready.</span>
+  <button id="pwa-reload" type="button">Reload</button>
+  <button id="pwa-later" type="button">Later</button>
 </div>
 <div class="modal-backdrop" id="mic-permission-backdrop" hidden>
   <section class="leave-dialog" role="dialog" aria-modal="true" aria-labelledby="mic-permission-title" aria-describedby="mic-permission-description">
@@ -847,7 +873,8 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.0.0";
+  const APP_VERSION = "1.1.0";
+  const VERSION_DATE = "Oct 30, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
   const WORD_GOAL_MIN = 0;
   const WORD_GOAL_MAX = 500;
@@ -1623,7 +1650,7 @@
     document.querySelectorAll("[data-setting-toggle]").forEach(input=>{input.checked=settings[input.dataset.settingToggle];});
     document.querySelectorAll("[data-voice-mode]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.voiceMode===settings.voiceMode)));
     $("voice-test-panel").hidden=!settings.showVoiceTest;
-    $("version-line").textContent="Version "+APP_VERSION+", Oct 30, 2026";
+    $("version-line").textContent="Version "+APP_VERSION+", "+VERSION_DATE;
     if($("mic-permission-state"))setMicPermissionState(micPermissionState);
     refreshNotesStatus();
     const range=$("word-range"),number=$("word-number");
@@ -3219,6 +3246,93 @@
   $("settings-open").addEventListener("click",openSettings);
   $("settings-close").addEventListener("click",closeSettings);
   $("settings-backdrop").addEventListener("click",event=>{if(event.target===$("settings-backdrop"))closeSettings();});
+  let deferredInstallPrompt=null;
+  let pwaRegistration=null;
+  let pwaReloadRequested=false;
+  let updateStatusTimer=null;
+  const isStandalone=()=>window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;
+  const isAppleTouchDevice=()=>/iPad|iPhone|iPod/.test(navigator.userAgent)||(/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1);
+  function updateInstallUI(){
+    const installButton=$("install-app"),status=$("install-status"),iosHelp=$("ios-install-help"),iosData=$("ios-data-help");
+    const installed=isStandalone();
+    installButton.hidden=installed||!deferredInstallPrompt;
+    iosHelp.hidden=installed||!isAppleTouchDevice()||!!deferredInstallPrompt;
+    iosData.hidden=installed||!isAppleTouchDevice();
+    status.textContent=installed?"App installed":"";
+  }
+  function showUpdateBar(){
+    const bar=$("pwa-update-bar");
+    bar.hidden=false;
+    requestAnimationFrame(()=>bar.classList.add("visible"));
+  }
+  function hideUpdateBar(){
+    const bar=$("pwa-update-bar");
+    bar.classList.remove("visible");
+    setTimeout(()=>{if(!bar.classList.contains("visible"))bar.hidden=true;},280);
+  }
+  function showWaitingUpdate(){
+    if(pwaRegistration?.waiting)showUpdateBar();
+  }
+  async function registerProgressiveWebApp(){
+    updateInstallUI();
+    if(!("serviceWorker" in navigator)||!["https:","http:"].includes(location.protocol)||location.hostname==="")return;
+    if(location.protocol==="http:"&&!["localhost","127.0.0.1","[::1]"].includes(location.hostname))return;
+    try{
+      pwaRegistration=await navigator.serviceWorker.register("./sw.js",{scope:"./"});
+      if(pwaRegistration.waiting&&navigator.serviceWorker.controller)showWaitingUpdate();
+      pwaRegistration.addEventListener("updatefound",()=>{
+        const worker=pwaRegistration.installing;
+        if(!worker)return;
+        worker.addEventListener("statechange",()=>{
+          if(worker.state==="installed"&&navigator.serviceWorker.controller)showWaitingUpdate();
+        });
+      });
+      if(navigator.storage?.persist)navigator.storage.persist().catch(()=>{});
+    }catch(_){
+      $("update-status").textContent="Offline support is unavailable in this browser.";
+    }
+  }
+  $("install-app").addEventListener("click",async()=>{
+    if(!deferredInstallPrompt)return;
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice;
+    deferredInstallPrompt=null;
+    updateInstallUI();
+  });
+  $("check-updates").addEventListener("click",async()=>{
+    const status=$("update-status");
+    if(!pwaRegistration){status.textContent="Updates are checked automatically on the online version.";return;}
+    status.textContent="Checking for updates...";
+    try{
+      await pwaRegistration.update();
+      clearTimeout(updateStatusTimer);
+      updateStatusTimer=setTimeout(()=>{
+        if(pwaRegistration?.waiting)showWaitingUpdate();
+        else status.textContent="You're up to date.";
+      },900);
+    }catch(_){status.textContent="Could not check right now. Try again when online.";}
+  });
+  $("pwa-reload").addEventListener("click",()=>{
+    if(!pwaRegistration?.waiting)return;
+    pwaReloadRequested=true;
+    pwaRegistration.waiting.postMessage({type:"SKIP_WAITING"});
+    $("pwa-reload").disabled=true;
+  });
+  $("pwa-later").addEventListener("click",hideUpdateBar);
+  addEventListener("beforeinstallprompt",event=>{
+    event.preventDefault();
+    deferredInstallPrompt=event;
+    updateInstallUI();
+  });
+  addEventListener("appinstalled",()=>{
+    deferredInstallPrompt=null;
+    updateInstallUI();
+  });
+  if("serviceWorker" in navigator)navigator.serviceWorker.addEventListener("controllerchange",()=>{
+    if(pwaReloadRequested)location.reload();
+  });
+  if("matchMedia" in window)window.matchMedia("(display-mode: standalone)").addEventListener?.("change",updateInstallUI);
+  registerProgressiveWebApp();
   $("mic-permission-continue").addEventListener("click",()=>{
     rememberMicExplanation();
     hideMicPermissionExplanation();
