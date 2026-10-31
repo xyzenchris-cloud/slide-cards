@@ -347,6 +347,44 @@
   .word-list-item button{padding:3px 6px;border:0;border-radius:999px;background:transparent;color:var(--forest);font-size:.68rem;cursor:pointer}
   .word-list-empty{margin:8px 0 0;color:var(--muted);font-size:.72rem}
   .tips-list{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:.72rem;line-height:1.5}
+  .manuscript-open{display:inline-flex;align-items:center;gap:6px;min-height:39px;padding:8px 13px;border:1px solid rgba(69,102,78,.15);border-radius:999px;background:rgba(255,254,250,.78);color:var(--forest);font-size:.76rem;font-weight:700;cursor:pointer;box-shadow:0 3px 0 rgba(69,102,78,.1);transition:transform .2s,background .2s}
+  .manuscript-open:hover{transform:translateY(-1px);background:var(--paper)}
+  .manuscript-open svg{width:15px;height:15px}
+  .manuscript-status{min-height:1.3em;margin:8px 0 0;color:var(--muted);font-size:.72rem;line-height:1.45}
+  .manuscript-drop{display:grid;place-items:center;min-height:84px;margin-top:10px;padding:14px;border:1px dashed rgba(69,102,78,.25);border-radius:16px;background:rgba(120,150,120,.05);color:var(--muted);font-size:.75rem;text-align:center}
+  .manuscript-drop.dragging{border-color:var(--sage);background:rgba(120,150,120,.12)}
+  .manuscript-meta{margin:0;color:var(--muted);font-size:.72rem;line-height:1.45}
+  .manuscript-backdrop{position:fixed;inset:0;z-index:35;background:rgba(30,43,35,.18);backdrop-filter:blur(2px)}
+  .manuscript-drawer{position:absolute;top:0;right:0;bottom:0;width:min(45vw,760px);min-width:340px;display:flex;flex-direction:column;background:var(--paper);color:var(--ink);box-shadow:-10px 0 0 rgba(69,102,78,.12),-26px 0 60px rgba(35,47,37,.22);animation:manuscript-in .38s var(--ease) both}
+  @keyframes manuscript-in{from{opacity:.7;transform:translateX(32px)}to{opacity:1;transform:translateX(0)}}
+  .manuscript-head{display:flex;align-items:center;gap:8px;padding:max(15px,env(safe-area-inset-top)) 16px 10px;border-bottom:1px solid rgba(69,102,78,.12)}
+  .manuscript-title{min-width:0;flex:1}
+  .manuscript-title strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.8rem}
+  .manuscript-title small{display:block;color:var(--muted);font-size:.66rem}
+  .manuscript-controls{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:9px 16px;border-bottom:1px solid rgba(69,102,78,.1)}
+  .manuscript-controls button,.manuscript-controls input{min-height:31px;padding:5px 8px;border:1px solid rgba(69,102,78,.14);border-radius:999px;background:var(--cream);color:var(--forest);font-size:.68rem;font-weight:700}
+  .manuscript-controls input{width:58px;text-align:center;font-weight:600}
+  .manuscript-pages{position:relative;flex:1;overflow:auto;overscroll-behavior:contain;padding:14px;background:rgba(120,150,120,.05)}
+  .manuscript-page{width:min(100%,760px);min-height:180px;margin:0 auto 16px;display:grid;place-items:center;background:rgba(120,150,120,.09);border-radius:8px;box-shadow:0 5px 0 rgba(69,102,78,.1);contain:layout paint}
+  .manuscript-page canvas{display:block;width:100%;height:auto;border-radius:8px;background:#fff;box-shadow:0 2px 12px rgba(35,47,37,.16)}
+  .manuscript-page canvas.manuscript-dark-page{filter:invert(.88) hue-rotate(180deg)}
+  .manuscript-page.loading::after{content:"Loading page…";color:var(--muted);font-size:.72rem}
+  .manuscript-page[data-rendered="true"]{background:transparent;min-height:0}
+  .manuscript-links{display:flex;gap:5px;flex-wrap:wrap;padding:7px 16px;border-bottom:1px solid rgba(69,102,78,.1)}
+  .manuscript-link-chip{display:inline-flex;align-items:center;gap:3px;padding:4px 8px;border:0;border-radius:999px;background:rgba(120,150,120,.12);color:var(--forest);font-size:.65rem;font-weight:700;cursor:pointer}
+  .manuscript-search{display:flex;gap:5px;padding:7px 16px;border-bottom:1px solid rgba(69,102,78,.1)}
+  .manuscript-search input{flex:1;min-width:0;padding:7px 9px;border:1px solid rgba(69,102,78,.15);border-radius:10px;background:var(--cream);color:var(--ink);font-size:.72rem}
+  .manuscript-search span{align-self:center;color:var(--muted);font-size:.68rem}
+  .manuscript-message{min-height:1.35em;margin:0;padding:6px 16px;color:var(--muted);font-size:.7rem;line-height:1.4}
+  [data-theme="dark"] .manuscript-open{background:#35443a;color:#dfe8da}
+  [data-theme="dark"] .manuscript-drawer{background:#26372d}
+  [data-theme="dark"] .manuscript-controls button,[data-theme="dark"] .manuscript-controls input,[data-theme="dark"] .manuscript-search input{background:#202c26;color:#e3eadc}
+  [data-theme="dark"] .manuscript-page{background:#35443a}
+  @media(max-width:720px){
+    .manuscript-drawer{top:8%;width:100%;min-width:0;border-radius:24px 24px 0 0;animation:manuscript-sheet .38s var(--ease) both}
+    @keyframes manuscript-sheet{from{opacity:.7;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
+    .manuscript-pages{padding:10px}
+  }
   @media(max-width:520px){.voice-fix-box,.word-list-form{grid-template-columns:1fr 1fr}.voice-fix-box button,.word-list-form button{grid-column:1/-1}.word-list-item{grid-template-columns:1fr auto 1fr auto auto;font-size:.68rem}}
   .set-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px;width:100%;margin-top:13px}
   .set-card{position:relative;isolation:isolate;overflow:hidden;min-height:150px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;padding:22px;border:1px solid rgba(255,255,255,.95);border-radius:23px;background:var(--paper);color:var(--ink);text-align:left;cursor:pointer;box-shadow:0 7px 0 var(--forest),0 13px 25px rgba(64,77,57,.1),inset 0 0 0 1px rgba(120,150,120,.12);transition:transform .25s var(--ease),box-shadow .25s;opacity:0;animation:set-card-in .5s var(--ease) forwards}
@@ -717,6 +755,9 @@
 </div>
 <main class="stage">
 <div class="corner-controls">
+  <button class="manuscript-open" id="manuscript-open-corner" type="button" aria-label="Open manuscript" title="Open manuscript">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4.5h8.5A3.5 3.5 0 0 1 17 8v11.5H8a3 3 0 0 0-3 3V4.5Z"/><path d="M19 4.5h-2V19h2a2 2 0 0 1 2 2H8a3 3 0 0 0-3 3"/></svg><span>Manuscript</span>
+  </button>
   <button class="settings-gear" id="settings-open" type="button" aria-label="Open settings" aria-controls="settings-panel" aria-expanded="false" title="Settings">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><circle cx="12" cy="12" r="7.5" stroke-dasharray="2.2 2.5"/><path d="M12 1.7v2.2M12 20.1v2.2M1.7 12h2.2M20.1 12h2.2M4.7 4.7l1.6 1.6m11.4 11.4 1.6 1.6M19.3 4.7l-1.6 1.6M6.3 17.7l-1.6 1.6"/></svg>
   </button>
@@ -730,6 +771,7 @@
     </div>
     <p class="start-notice" id="start-notice" role="status" hidden></p>
     <div class="set-grid" id="set-grid"></div>
+    <button class="manuscript-open" id="manuscript-open-start" type="button">Open manuscript</button>
   </section>
   <div class="game-view" id="game-view" hidden>
     <div class="topline">
@@ -771,6 +813,30 @@
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3.5h12a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5H9l-4.5 3v-3H4A1.5 1.5 0 0 1 2.5 13V5A1.5 1.5 0 0 1 4 3.5z"/><path d="m7 11 5.8-5.8 2 2L9 13H7z"/></svg><span id="my-answer-chip-label">My Answers</span>
       </button>
       <button class="chip pass-chip" id="pass" type="button" aria-disabled="false"><span id="pass-label">Pass</span></button>
+      <button class="chip manuscript-chip" id="manuscript-open-chip" type="button" aria-label="Open manuscript">
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 3.5h6a3 3 0 0 1 3 3V17h-6a3 3 0 0 0-3 3V3.5Z"/><path d="M16.5 3.5h-4V17h4a2 2 0 0 1 2 2H6.5"/></svg><span id="manuscript-chip-label">Manuscript</span></button>
+    </div>
+    <div class="manuscript-backdrop" id="manuscript-backdrop" hidden>
+      <aside class="manuscript-drawer" id="manuscript-drawer" role="dialog" aria-modal="true" aria-labelledby="manuscript-title">
+        <header class="manuscript-head">
+          <div class="manuscript-title"><strong id="manuscript-title">Manuscript</strong><small id="manuscript-page-label">No PDF loaded</small></div>
+          <button class="settings-close" id="manuscript-close" type="button" aria-label="Close manuscript">×</button>
+        </header>
+        <div class="manuscript-controls">
+          <button id="manuscript-prev" type="button" aria-label="Previous page">‹</button>
+          <input id="manuscript-page-input" type="number" min="1" value="1" aria-label="Manuscript page number">
+          <button id="manuscript-next" type="button" aria-label="Next page">›</button>
+          <button id="manuscript-zoom-out" type="button" aria-label="Zoom out">−</button>
+          <button id="manuscript-zoom-in" type="button" aria-label="Zoom in">+</button>
+          <button id="manuscript-fit" type="button">Fit width</button>
+          <button id="manuscript-search-toggle" type="button">Search</button>
+          <button id="manuscript-link-page" type="button">Link this page</button>
+        </div>
+        <div class="manuscript-search" id="manuscript-search" hidden><input id="manuscript-search-input" type="search" placeholder="Search manuscript" aria-label="Search manuscript"><button id="manuscript-search-prev" type="button">‹</button><button id="manuscript-search-next" type="button">›</button><span id="manuscript-search-status"></span></div>
+        <div class="manuscript-links" id="manuscript-links"></div>
+        <p class="manuscript-message" id="manuscript-message" aria-live="polite"></p>
+        <div class="manuscript-pages" id="manuscript-pages" tabindex="0"></div>
+      </aside>
     </div>
     <p class="pass-message" id="pass-message" aria-live="polite"></p>
     <div class="nav" id="nav">
@@ -864,6 +930,19 @@
         <p class="notes-backup-status" id="notes-backup-status" aria-live="polite"></p>
         <button class="notes-clear" id="answers-clear-open" type="button">Clear all my answers</button>
         <p class="setting-help">Reset to default changes settings only and never deletes saved answers.</p>
+      </section>
+      <section class="setting-section">
+        <h3>Manuscript</h3>
+        <p class="manuscript-meta" id="manuscript-settings-meta">No manuscript saved.</p>
+        <div class="notes-backup-actions">
+          <button class="note-quiet-button" id="manuscript-choose" type="button">Choose PDF</button>
+          <button class="note-quiet-button" id="manuscript-remove" type="button" hidden>Remove PDF</button>
+          <input id="manuscript-file-input" type="file" accept="application/pdf,.pdf" hidden>
+        </div>
+        <div class="manuscript-drop" id="manuscript-drop">Drag a PDF here. Your PDF stays on this device and is never uploaded anywhere.</div>
+        <label class="setting-toggle"><span><strong>Dark manuscript pages</strong><small>Softly invert page colors while reading.</small></span><input type="checkbox" data-setting-toggle="manuscriptDarkPages"><i aria-hidden="true"></i></label>
+        <label class="setting-toggle"><span><strong>Jump to linked pages</strong><small>Open a question at its first linked manuscript page.</small></span><input type="checkbox" data-setting-toggle="manuscriptJumpLinks"><i aria-hidden="true"></i></label>
+        <p class="setting-help">Saved only in this browser on this device. The PDF is not included in backups; choose it again on a new device.</p>
       </section>
       <section class="setting-section">
         <h3>Voice typing</h3>
@@ -989,6 +1068,7 @@
     <div class="note-list-content" id="answers-set-list"></div>
   </section>
 </div>
+<script src="./vendor/pdfjs/pdf.min.js"></script>
 <script>
   // QUEST SETTINGS, SETS, AND REWARDS — make all question and goal edits here.
   // Change APP_VERSION when you publish a new copy; it appears at the bottom of Settings.
@@ -1001,6 +1081,8 @@
   const APP_VERSION = "1.2.0";
   const VERSION_DATE = "Oct 30, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
+  // Optional: set a same-folder filename to publish a PDF with the site. This makes it public to anyone with the link.
+  const bundledPdf = "";
   const WORD_GOAL_MIN = 0;
   const WORD_GOAL_MAX = 500;
   const MAX_ANSWERS_PER_QUESTION = 30; // Keep only the newest 30 answers for each question.
@@ -1028,6 +1110,8 @@
     removeVoiceFillers: false,  // Remove a short safe list of fillers
     keepMicBetweenQuestions: true, // Keep voice typing active while moving between questions
     showVoiceTest: false,       // Show temporary voice diagnostics in Settings
+    manuscriptDarkPages: false,
+    manuscriptJumpLinks: true,
     shuffleQuestions: true,    // Mix question order when a set starts
     reshuffleOnReplay: true,   // Give Play again a new shuffled order
     animations: "full"        // "full", "lite", or "off"; Full is the default even with reduced-motion enabled
@@ -1183,6 +1267,8 @@
     textSize: ["small","medium","large","xlarge"],
     voiceLanguage: ["en","tl","taglish"],
     voiceMode: ["auto","continuous","phrase"],
+    manuscriptDarkPages: [true,false],
+    manuscriptJumpLinks: [true,false],
     smartCleanup: [true,false],
     spokenPunctuation: [true,false],
     removeVoiceFillers: [true,false],
@@ -1193,7 +1279,7 @@
   let wordList=loadWordList();
   let activeSet=null, activeQuestions=[], activeWasShuffled=false, index=0, points=0, streak=0, busy=false, notePanelOpen=false;
   let answers=[], furthestIndex=0, selectedLanguage=settings.voiceLanguage, recognition=null, voiceSession=null, listening=false, restartTimer=null;
-  let voiceTextarea=null, notePanelAnimation=null, noteOpenId=null, pendingRestoreNotes=null, pendingRestoreWordList=null;
+  let voiceTextarea=null, notePanelAnimation=null, noteOpenId=null, pendingRestoreNotes=null, pendingRestoreWordList=null, pendingRestoreManuscript=null;
   let downloadedBackup=(()=>{try{return localStorage.getItem(NOTES_STORAGE_KEY+"-backup")==="1";}catch(_){return false;}})();
   let notesStorageAvailable=noteStorageWorks();
   let historyNeedsMigration=false;
@@ -1213,6 +1299,17 @@
   let micPermissionState="unknown", micPermissionPromptPending=false, micPermissionRequestCount=0, micPermissionTipShown=false;
   let voiceTransitioning=false;
   let hiddenVoiceWasOn=false, hiddenVoiceUntil=0;
+  const MANUSCRIPT_DB_NAME=STORAGE_PREFIX+"manuscript-db";
+  const MANUSCRIPT_DB_VERSION=1;
+  const MANUSCRIPT_META_KEY=STORAGE_PREFIX+"manuscript-meta";
+  const MANUSCRIPT_LINKS_KEY=STORAGE_PREFIX+"manuscript-links";
+  let manuscriptRecord=null, manuscriptDoc=null, manuscriptObjectUrl="", manuscriptPage=1, manuscriptZoom=1;
+  let manuscriptPinned=false, manuscriptSearchResults=[], manuscriptSearchIndex=-1, manuscriptRenderObserver=null;
+  let manuscriptDbPromise=null, manuscriptOpen=false, manuscriptPreviousFocus=null;
+  let manuscriptLinks=(()=>{try{const value=JSON.parse(localStorage.getItem(MANUSCRIPT_LINKS_KEY)||"{}");return value&&typeof value==="object"?value:{};}catch(_){return {};}})();
+  const manuscriptViewState=(()=>{try{const value=JSON.parse(localStorage.getItem(MANUSCRIPT_META_KEY)||"{}");return value&&typeof value==="object"?value:{};}catch(_){return {};}})();
+  if(Number.isFinite(Number(manuscriptViewState.page)))manuscriptPage=Math.max(1,Number(manuscriptViewState.page));
+  if(Number.isFinite(Number(manuscriptViewState.zoom)))manuscriptZoom=Math.max(.6,Math.min(2.5,Number(manuscriptViewState.zoom)));
   let wasReady=false;
   const completedSets = new Set();
   const lastOrderBySet = new Map();
@@ -1535,7 +1632,7 @@
     }catch(_){return result;}
   }
   function serializeNotes(){
-    return JSON.stringify({format:"little-quest-answer-history",version:2,exportedAt:new Date().toISOString(),answers:notesById,wordList});
+    return JSON.stringify({format:"little-quest-answer-history",version:3,exportedAt:new Date().toISOString(),answers:notesById,wordList,manuscript:{links:manuscriptLinks,settings:{page:manuscriptPage,zoom:manuscriptZoom,pinned:manuscriptPinned}}});
   }
   function persistNotes(){
     if(!settings.saveAnswersOnDevice||!notesStorageAvailable)return false;
@@ -1762,11 +1859,11 @@
     $("notes-backup-status").textContent="Backup downloaded.";
   }
   function normalizeBackupData(parsed){
-    if(parsed?.format==="little-quest-answer-history"&&(parsed.version===1||parsed.version===2)&&parsed.answers&&typeof parsed.answers==="object"&&!Array.isArray(parsed.answers)){
-      return {answers:cleanHistoryMap(parsed.answers),wordList:cleanWordList(parsed.wordList)};
+    if(parsed?.format==="little-quest-answer-history"&&(parsed.version===1||parsed.version===2||parsed.version===3)&&parsed.answers&&typeof parsed.answers==="object"&&!Array.isArray(parsed.answers)){
+      return {answers:cleanHistoryMap(parsed.answers),wordList:cleanWordList(parsed.wordList),manuscript:parsed.manuscript||null};
     }
     if(parsed?.format==="little-quest-notes"&&parsed.version===1&&parsed.notes&&typeof parsed.notes==="object"&&!Array.isArray(parsed.notes)){
-      return {answers:cleanHistoryMap(parsed.notes,true),wordList:[]};
+      return {answers:cleanHistoryMap(parsed.notes,true),wordList:[],manuscript:null};
     }
     throw new Error("invalid");
   }
@@ -1777,6 +1874,7 @@
       const restored=normalizeBackupData(parsed);
       pendingRestoreNotes=restored.answers;
       pendingRestoreWordList=restored.wordList;
+      pendingRestoreManuscript=restored.manuscript;
       const count=Object.values(pendingRestoreNotes).reduce((sum,entries)=>sum+entries.length,0);
       $("notes-restore-description").textContent=count+" answer"+(count===1?"":"s")+" found. Choose how to restore them.";
       $("notes-restore-backdrop").hidden=false;
@@ -1807,8 +1905,18 @@
       renderWordList();
       ensureAnswerColumnVisible();
     }
+    if(pendingRestoreManuscript?.links&&typeof pendingRestoreManuscript.links==="object"){
+      manuscriptLinks=mode==="replace"?pendingRestoreManuscript.links:{...manuscriptLinks,...pendingRestoreManuscript.links};
+      persistManuscriptLinks();
+      const restoredSettings=pendingRestoreManuscript.settings;
+      if(restoredSettings&&Number.isFinite(Number(restoredSettings.page)))manuscriptPage=Math.max(1,Number(restoredSettings.page));
+      if(restoredSettings&&Number.isFinite(Number(restoredSettings.zoom)))manuscriptZoom=Math.max(.6,Math.min(2.5,Number(restoredSettings.zoom)));
+      if(restoredSettings&&typeof restoredSettings.pinned==="boolean")manuscriptPinned=restoredSettings.pinned;
+      persistManuscriptViewState();
+    }
     pendingRestoreNotes=null;
     pendingRestoreWordList=null;
+    pendingRestoreManuscript=null;
     $("notes-restore-backdrop").hidden=true;
     persistNotes();
     refreshNotesStatus();
@@ -1891,6 +1999,9 @@
     settings.voiceLanguage="taglish";
     document.querySelectorAll(".language-choice").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.language===selectedLanguage)));
     if($("answer-input"))updateWordUI();
+    updateManuscriptSettings();
+    document.querySelectorAll(".manuscript-page canvas").forEach(canvas=>canvas.classList.toggle("manuscript-dark-page",Boolean(settings.manuscriptDarkPages)));
+    if(activeSet&&manuscriptOpen)renderManuscriptLinks();
     if(activeSet)requestAnimationFrame(fitVisibleQuestion);
     if(!activeSet)updateSetCardMetadata();
     if(settings.animations==="off"){
@@ -1953,9 +2064,259 @@
     $("my-answer-chip").hidden=!settings.myAnswerChip||!hasQuestion;
     updateNoteDot();
     $("pass").hidden=!canPass;
-    $("chips").hidden=!(hasQuestion&&(settings.myAnswerChip||canPass));
+    const manuscriptChip=$("manuscript-open-chip");
+    const hasManuscript=Boolean(manuscriptRecord||bundledPdf);
+    if(manuscriptChip)manuscriptChip.hidden=!hasQuestion;
+    const linkedPages=hasQuestion&&typeof currentNoteId==="function"?(manuscriptLinks[currentNoteId()]||[]):[];
+    if($("manuscript-chip-label"))$("manuscript-chip-label").textContent="Manuscript"+(linkedPages.length?" · "+linkedPages.length:"");
+    $("chips").hidden=!(hasQuestion&&(settings.myAnswerChip||canPass||manuscriptChip));
     $("pass").setAttribute("aria-disabled",String(limitReached));
     $("pass-label").textContent=settings.passLimit==="unlimited"?"Pass":"Pass ("+passesRemaining()+" left)";
+  }
+  function manuscriptDb(){
+    if(manuscriptDbPromise)return manuscriptDbPromise;
+    manuscriptDbPromise=new Promise((resolve,reject)=>{
+      if(!window.indexedDB){reject(new Error("storage-unavailable"));return;}
+      const request=indexedDB.open(MANUSCRIPT_DB_NAME,MANUSCRIPT_DB_VERSION);
+      request.onupgradeneeded=()=>request.result.createObjectStore("files");
+      request.onsuccess=()=>resolve(request.result);
+      request.onerror=()=>reject(request.error||new Error("storage-unavailable"));
+    });
+    return manuscriptDbPromise;
+  }
+  async function manuscriptDbGet(){
+    const db=await manuscriptDb();
+    return new Promise((resolve,reject)=>{
+      const request=db.transaction("files","readonly").objectStore("files").get("active");
+      request.onsuccess=()=>resolve(request.result||null);
+      request.onerror=()=>reject(request.error||new Error("read-failed"));
+    });
+  }
+  async function manuscriptDbPut(value){
+    const db=await manuscriptDb();
+    return new Promise((resolve,reject)=>{
+      const request=db.transaction("files","readwrite").objectStore("files").put(value,"active");
+      request.onsuccess=()=>resolve();
+      request.onerror=()=>reject(request.error||new Error("write-failed"));
+    });
+  }
+  async function manuscriptDbDelete(){
+    const db=await manuscriptDb();
+    return new Promise((resolve,reject)=>{
+      const request=db.transaction("files","readwrite").objectStore("files").delete("active");
+      request.onsuccess=()=>resolve();
+      request.onerror=()=>reject(request.error||new Error("delete-failed"));
+    });
+  }
+  function persistManuscriptLinks(){
+    try{localStorage.setItem(MANUSCRIPT_LINKS_KEY,JSON.stringify(manuscriptLinks));}catch(_){}
+    updateChips();
+  }
+  function persistManuscriptViewState(){
+    try{localStorage.setItem(MANUSCRIPT_META_KEY,JSON.stringify({page:manuscriptPage,zoom:manuscriptZoom,pinned:manuscriptPinned}));}catch(_){}
+  }
+  function formatManuscriptSize(bytes){
+    if(bytes<1024*1024)return Math.max(1,Math.round(bytes/1024))+" KB";
+    return (bytes/(1024*1024)).toFixed(1)+" MB";
+  }
+  function setManuscriptMessage(text){
+    const message=$("manuscript-message");
+    if(message)message.textContent=text||"";
+  }
+  function updateManuscriptSettings(){
+    const meta=$("manuscript-settings-meta"),remove=$("manuscript-remove");
+    if(!meta)return;
+    if(manuscriptRecord){
+      meta.textContent=manuscriptRecord.name+" · "+(manuscriptRecord.pages||"?")+" pages · "+formatManuscriptSize(manuscriptRecord.size||0);
+      remove.hidden=false;
+    }else if(bundledPdf){
+      meta.textContent="Bundled manuscript: "+bundledPdf;
+      remove.hidden=true;
+    }else{
+      meta.textContent="No manuscript saved.";
+      remove.hidden=true;
+    }
+  }
+  function destroyManuscriptDocument(){
+    manuscriptDoc=null;
+    if(manuscriptRenderObserver){manuscriptRenderObserver.disconnect();manuscriptRenderObserver=null;}
+    if(manuscriptObjectUrl){URL.revokeObjectURL(manuscriptObjectUrl);manuscriptObjectUrl="";}
+    $("manuscript-pages")?.replaceChildren();
+  }
+  function manuscriptPageForQuestion(){
+    const links=typeof currentNoteId==="function"?(manuscriptLinks[currentNoteId()]||[]):[];
+    return settings.manuscriptJumpLinks&&links.length?Number(links[0]):1;
+  }
+  async function renderManuscriptPage(pageNumber){
+    if(!manuscriptDoc)return;
+    const pageEl=$(".manuscript-page[data-page='"+pageNumber+"']");
+    if(!pageEl||pageEl.dataset.rendered==="true")return;
+    pageEl.classList.add("loading");
+    try{
+      const page=await manuscriptDoc.getPage(pageNumber);
+      const base=page.getViewport({scale:1});
+      const containerWidth=Math.max(280,($("manuscript-pages")?.clientWidth||base.width)-4);
+      const scale=(containerWidth/base.width)*manuscriptZoom;
+      const viewport=page.getViewport({scale});
+      const canvas=document.createElement("canvas");
+      const ratio=Math.min(2,window.devicePixelRatio||1);
+      canvas.width=Math.ceil(viewport.width*ratio);canvas.height=Math.ceil(viewport.height*ratio);
+      canvas.style.width=viewport.width+"px";canvas.style.height=viewport.height+"px";
+      const context=canvas.getContext("2d",{alpha:false});
+      await page.render({canvasContext:context,viewport,transform:ratio!==1?[ratio,0,0,ratio,0,0]:null}).promise;
+      pageEl.replaceChildren(canvas);
+      pageEl.dataset.rendered="true";
+      pageEl.classList.remove("loading");
+      if(settings.manuscriptDarkPages)canvas.classList.add("manuscript-dark-page");
+    }catch(_){
+      pageEl.classList.remove("loading");
+      pageEl.textContent="This page could not be rendered.";
+    }
+  }
+  function buildManuscriptPages(){
+    const pages=$("manuscript-pages");
+    pages.replaceChildren();
+    if(!manuscriptDoc)return;
+    for(let n=1;n<=manuscriptDoc.numPages;n++){
+      const page=document.createElement("div");
+      page.className="manuscript-page loading";
+      page.dataset.page=String(n);
+      page.setAttribute("aria-label","Manuscript page "+n);
+      pages.appendChild(page);
+    }
+    manuscriptRenderObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
+      if(entry.isIntersecting)renderManuscriptPage(Number(entry.target.dataset.page));
+    }),{root:pages,rootMargin:"900px 0px"});
+    pages.querySelectorAll(".manuscript-page").forEach(page=>manuscriptRenderObserver.observe(page));
+    renderManuscriptPage(manuscriptPage);
+    requestAnimationFrame(()=>scrollManuscriptToPage(manuscriptPage));
+  }
+  function scrollManuscriptToPage(pageNumber){
+    const page=$(".manuscript-page[data-page='"+pageNumber+"']");
+    page?.scrollIntoView({block:"start",behavior:settings.animations==="off"?"auto":"smooth"});
+    manuscriptPage=pageNumber;
+    persistManuscriptViewState();
+    $("manuscript-page-input").value=String(pageNumber);
+    $("manuscript-page-label").textContent=manuscriptDoc?("Page "+pageNumber+" of "+manuscriptDoc.numPages):"No PDF loaded";
+  }
+  async function loadManuscriptDocument(source){
+    destroyManuscriptDocument();
+    if(!source)return;
+    manuscriptObjectUrl=URL.createObjectURL(source);
+    if(!window.pdfjsLib){setManuscriptMessage("The PDF viewer is unavailable in this copy.");return;}
+    pdfjsLib.GlobalWorkerOptions.workerSrc="./vendor/pdfjs/pdf.worker.min.js";
+    try{
+      manuscriptDoc=await pdfjsLib.getDocument({url:manuscriptObjectUrl}).promise;
+      manuscriptRecord=Object.assign({},manuscriptRecord||{},{
+        name:manuscriptRecord?.name||"Manuscript.pdf",size:manuscriptRecord?.size||source.size,pages:manuscriptDoc.numPages
+      });
+      updateManuscriptSettings();
+      if(manuscriptOpen){
+        buildManuscriptPages();
+        renderManuscriptLinks();
+      }
+    }catch(error){
+      destroyManuscriptDocument();
+      setManuscriptMessage(error?.name==="PasswordException"?"This PDF is password protected.":"This PDF could not be opened.");
+    }
+  }
+  async function importManuscript(file){
+    if(!file)return;
+    if(file.type!=="application/pdf"&&!/\.pdf$/iu.test(file.name)){updateManuscriptSettings();$("manuscript-settings-meta").textContent="Please choose a valid PDF file.";return;}
+    setManuscriptMessage("Saving "+file.name+"…");
+    const nextRecord={name:file.name,size:file.size,lastModified:file.lastModified,pages:0,updatedAt:Date.now(),blob:file};
+    try{
+      await manuscriptDbPut(nextRecord);
+      manuscriptRecord=nextRecord;
+      try{navigator.storage?.persist?.().catch(()=>{});}catch(_){}
+      await loadManuscriptDocument(file);
+      setManuscriptMessage("Your manuscript is saved on this device.");
+      updateManuscriptSettings();
+    }catch(_){
+      manuscriptRecord=nextRecord;
+      await loadManuscriptDocument(file);
+      setManuscriptMessage("It can be read now, but browser storage is unavailable or full.");
+      updateManuscriptSettings();
+    }
+  }
+  async function loadManuscriptState(){
+    try{
+      manuscriptRecord=await manuscriptDbGet();
+      if(manuscriptRecord?.blob)await loadManuscriptDocument(manuscriptRecord.blob);
+      else if(!manuscriptRecord&&bundledPdf){
+        const response=await fetch("./"+bundledPdf);
+        if(response.ok){
+          const blob=await response.blob();
+          manuscriptRecord={name:bundledPdf,size:blob.size,pages:0,blob,bundled:true};
+          await loadManuscriptDocument(blob);
+        }
+      }
+    }catch(_){
+      manuscriptRecord=null;
+      if(bundledPdf)try{const response=await fetch("./"+bundledPdf);if(response.ok)await loadManuscriptDocument(await response.blob());}catch(__){}
+    }
+    updateManuscriptSettings();
+    updateChips();
+  }
+  function renderManuscriptLinks(){
+    const target=$("manuscript-links");target.replaceChildren();
+    const links=typeof currentNoteId==="function"?(manuscriptLinks[currentNoteId()]||[]):[];
+    links.slice(0,8).forEach(pageNumber=>{
+      const chip=document.createElement("button");chip.className="manuscript-link-chip";chip.type="button";chip.textContent="p. "+pageNumber;
+      chip.addEventListener("click",()=>scrollManuscriptToPage(Number(pageNumber)));
+      target.appendChild(chip);
+    });
+  }
+  function openManuscript(){
+    manuscriptPreviousFocus=document.activeElement;
+    manuscriptOpen=true;
+    $("manuscript-backdrop").hidden=false;
+    $("manuscript-close").focus({preventScroll:true});
+    updateManuscriptSettings();
+    if(!manuscriptDoc){
+      const message=$("manuscript-message");
+      message.replaceChildren(document.createTextNode("Choose a PDF to begin reading. "));
+      const choose=document.createElement("button");
+      choose.type="button";choose.className="note-quiet-button";choose.textContent="Choose PDF";
+      choose.addEventListener("click",()=>$("manuscript-file-input").click());
+      message.appendChild(choose);
+      return;
+    }
+    manuscriptPage=manuscriptPageForQuestion();
+    buildManuscriptPages();
+    renderManuscriptLinks();
+  }
+  function closeManuscript(){
+    manuscriptOpen=false;
+    $("manuscript-backdrop").hidden=true;
+    manuscriptPreviousFocus?.focus?.({preventScroll:true});
+    manuscriptPreviousFocus=null;
+  }
+  function linkCurrentManuscriptPage(){
+    if(!manuscriptDoc||typeof currentNoteId!=="function")return;
+    const id=currentNoteId(),pages=manuscriptLinks[id]||[];
+    if(!pages.includes(manuscriptPage))pages.push(manuscriptPage);
+    manuscriptLinks[id]=pages.slice(-8);
+    persistManuscriptLinks();
+    renderManuscriptLinks();
+    setManuscriptMessage("Linked page "+manuscriptPage+" to this question.");
+  }
+  async function searchManuscript(){
+    const query=$("manuscript-search-input").value.trim().toLocaleLowerCase();
+    if(!query||!manuscriptDoc)return;
+    manuscriptSearchResults=[];
+    $("manuscript-search-status").textContent="Searching…";
+    for(let n=1;n<=manuscriptDoc.numPages;n++){
+      try{
+        const content=await manuscriptDoc.getPage(n).then(page=>page.getTextContent());
+        const text=content.items.map(item=>item.str).join(" ").toLocaleLowerCase();
+        if(text.includes(query))manuscriptSearchResults.push(n);
+      }catch(_){}
+    }
+    manuscriptSearchIndex=manuscriptSearchResults.length?0:-1;
+    $("manuscript-search-status").textContent=manuscriptSearchResults.length?("1 of "+manuscriptSearchResults.length):"No matches";
+    if(manuscriptSearchIndex>=0)scrollManuscriptToPage(manuscriptSearchResults[0]);
+    if(!manuscriptSearchResults.length)setManuscriptMessage("This PDF has no searchable text or no matching words.");
   }
   function clearPassToast(){
     if(passToastTimer)clearDelay(passToastTimer);
@@ -3580,7 +3941,7 @@
   });
   $("notes-merge").addEventListener("click",()=>restoreNotes("merge"));
   $("notes-replace").addEventListener("click",()=>restoreNotes("replace"));
-  $("notes-restore-cancel").addEventListener("click",()=>{pendingRestoreNotes=null;$("notes-restore-backdrop").hidden=true;});
+  $("notes-restore-cancel").addEventListener("click",()=>{pendingRestoreNotes=null;pendingRestoreWordList=null;pendingRestoreManuscript=null;$("notes-restore-backdrop").hidden=true;});
   $("answers-clear-open").addEventListener("click",()=>$("notes-clear-backdrop").hidden=false);
   $("notes-clear-cancel").addEventListener("click",()=>$("notes-clear-backdrop").hidden=true);
   $("notes-clear-download").addEventListener("click",downloadNotesBackup);
@@ -3636,6 +3997,35 @@
   $("settings-open").addEventListener("click",openSettings);
   $("settings-close").addEventListener("click",closeSettings);
   $("settings-backdrop").addEventListener("click",event=>{if(event.target===$("settings-backdrop"))closeSettings();});
+  $("manuscript-open-corner").addEventListener("click",openManuscript);
+  $("manuscript-open-start").addEventListener("click",openManuscript);
+  $("manuscript-open-chip").addEventListener("click",openManuscript);
+  $("manuscript-close").addEventListener("click",closeManuscript);
+  $("manuscript-backdrop").addEventListener("click",event=>{if(event.target===$("manuscript-backdrop"))closeManuscript();});
+  $("manuscript-choose").addEventListener("click",()=>$("manuscript-file-input").click());
+  $("manuscript-file-input").addEventListener("change",event=>{
+    const file=event.target.files?.[0];if(file)importManuscript(file);event.target.value="";
+  });
+  $("manuscript-remove").addEventListener("click",async()=>{
+    if(!manuscriptRecord||!confirm("Remove the saved manuscript from this device?"))return;
+    try{await manuscriptDbDelete();}catch(_){}
+    manuscriptRecord=null;destroyManuscriptDocument();updateManuscriptSettings();updateChips();setManuscriptMessage("Manuscript removed.");
+  });
+  const manuscriptDrop=$("manuscript-drop");
+  ["dragenter","dragover"].forEach(type=>manuscriptDrop.addEventListener(type,event=>{event.preventDefault();manuscriptDrop.classList.add("dragging");}));
+  ["dragleave","drop"].forEach(type=>manuscriptDrop.addEventListener(type,event=>{event.preventDefault();manuscriptDrop.classList.remove("dragging");}));
+  manuscriptDrop.addEventListener("drop",event=>importManuscript(event.dataTransfer?.files?.[0]));
+  $("manuscript-prev").addEventListener("click",()=>scrollManuscriptToPage(Math.max(1,manuscriptPage-1)));
+  $("manuscript-next").addEventListener("click",()=>scrollManuscriptToPage(Math.min(manuscriptDoc?.numPages||1,manuscriptPage+1)));
+  $("manuscript-page-input").addEventListener("change",event=>scrollManuscriptToPage(Math.max(1,Math.min(manuscriptDoc?.numPages||1,Number(event.target.value)||1))));
+  $("manuscript-zoom-out").addEventListener("click",()=>{manuscriptZoom=Math.max(.6,manuscriptZoom-.1);persistManuscriptViewState();buildManuscriptPages();});
+  $("manuscript-zoom-in").addEventListener("click",()=>{manuscriptZoom=Math.min(2.5,manuscriptZoom+.1);persistManuscriptViewState();buildManuscriptPages();});
+  $("manuscript-fit").addEventListener("click",()=>{manuscriptZoom=1;persistManuscriptViewState();buildManuscriptPages();});
+  $("manuscript-link-page").addEventListener("click",linkCurrentManuscriptPage);
+  $("manuscript-search-toggle").addEventListener("click",()=>{$("manuscript-search").hidden=!$("manuscript-search").hidden;if(!$("manuscript-search").hidden)$("manuscript-search-input").focus();});
+  $("manuscript-search-input").addEventListener("keydown",event=>{if(event.key==="Enter")searchManuscript();});
+  $("manuscript-search-prev").addEventListener("click",()=>{if(!manuscriptSearchResults.length)return;manuscriptSearchIndex=(manuscriptSearchIndex-1+manuscriptSearchResults.length)%manuscriptSearchResults.length;scrollManuscriptToPage(manuscriptSearchResults[manuscriptSearchIndex]);$("manuscript-search-status").textContent=(manuscriptSearchIndex+1)+" of "+manuscriptSearchResults.length;});
+  $("manuscript-search-next").addEventListener("click",()=>{if(!manuscriptSearchResults.length)return;manuscriptSearchIndex=(manuscriptSearchIndex+1)%manuscriptSearchResults.length;scrollManuscriptToPage(manuscriptSearchResults[manuscriptSearchIndex]);$("manuscript-search-status").textContent=(manuscriptSearchIndex+1)+" of "+manuscriptSearchResults.length;});
   let deferredInstallPrompt=null;
   let pwaRegistration=null;
   let pwaReloadRequested=false;
@@ -3845,6 +4235,13 @@
         else closeSettings();
         return;
       }
+      const target=event.target;
+      const editing=target instanceof Element&&target.matches("textarea,input,[contenteditable='true']");
+      if(!$("manuscript-backdrop").hidden){
+        if(event.key==="Escape"){event.preventDefault();closeManuscript();return;}
+        if(event.key==="m"&&!editing){event.preventDefault();closeManuscript();return;}
+        return;
+      }
       if(event.key==="Tab"&&$("reset-backdrop").hidden){
         const focusable=[...$("settings-panel").querySelectorAll('button:not(:disabled),input:not(:disabled)')].filter(el=>el.offsetParent!==null);
         const first=focusable[0],last=focusable[focusable.length-1];
@@ -3869,8 +4266,6 @@
       if(event.key==="Escape")$("stay-button").click();
       return;
     }
-    const target=event.target;
-    const editing=target instanceof Element&&target.matches("textarea,input,[contenteditable='true']");
     if(editing){
       if(target.matches("#answer-input")&&event.key==="Enter"&&(event.ctrlKey||event.metaKey)){
         event.preventDefault();
@@ -3879,6 +4274,7 @@
       }
       return;
     }
+    if(event.key.toLowerCase()==="m"&&activeSet){event.preventDefault();openManuscript();return;}
     if(event.altKey&&event.key.toLowerCase()==="p"){
       event.preventDefault();
       passQuestion();
@@ -3969,6 +4365,7 @@
   applySettings();
   renderSetCards();
   scheduleStartCardShines();
+  loadManuscriptState();
 </script>
 </body>
 </html>

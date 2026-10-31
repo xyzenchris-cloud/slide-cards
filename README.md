@@ -21,6 +21,12 @@ The service worker is scoped to this repository folder only. It checks for a new
 
 Open `index.html` in a text editor. Near the top of the script, update `APP_VERSION` when publishing a new copy, and edit the `QUEST_SETS` section to change questions and hints. The comments there also identify the storage prefix, animation speed, and starting settings.
 
+## Manuscript viewer
+
+The Manuscript button opens a local PDF viewer. Choose a PDF from the device, or drag it into the Manuscript section in Settings. The selected PDF is stored in this browser's IndexedDB and is never uploaded, sent to a server, or included in answer backups. A new browser profile or device will require choosing the PDF again; clearing site data, private browsing, storage quota limits, or browser cleanup can also remove it.
+
+The viewer supports lazy page rendering, page navigation, zoom, fit width, local text search, dark-page reading, and links from a question to manuscript pages. The PDF itself is not cached by the service worker. PDF.js `3.11.174` is bundled locally so the viewer works offline after the app assets have been cached. If you configure a bundled PDF in `index.html`, that file becomes public with the site and is not private.
+
 ## Notes
 
 Answer history and settings stay in the browser's local storage. Use the Settings panel's backup and restore controls before changing devices or clearing browser data. Voice typing depends on browser support and microphone permission; Chrome and Edge generally provide the best support. The online GitHub Pages version uses HTTPS, which gives browsers the best chance to remember microphone permission after **Allow** is selected. Safari and some mobile browsers may not offer speech recognition or an install prompt.
