@@ -846,6 +846,7 @@
         <h2 id="manuscript-add-title">Add your manuscript</h2>
         <p>Choose your PDF once and it stays on this device. It is never uploaded or included in backups.</p>
         <div class="dialog-actions"><button class="stay-button" id="manuscript-add-cancel" type="button">Not now</button><button class="leave-button" id="manuscript-add-choose" type="button">Choose PDF</button></div>
+        <button class="note-quiet-button manuscript-share" id="manuscript-share" type="button" hidden>Open in another app / Share PDF</button>
         <p class="manuscript-fallback" id="manuscript-fallback" hidden></p>
       </section>
     </div>
@@ -2840,6 +2841,7 @@
       if(choose)choose.textContent="Choose PDF";
       remove.hidden=true;
     }
+    updateManuscriptShare();
   }
   async function importManuscript(file){
     if(!file)return;
@@ -2884,7 +2886,35 @@
     link.href=url;link.target="_blank";link.rel="noopener";link.textContent="Tap to open your PDF.";
     fallback.append(link);
   }
+  function manuscriptPublicUrl(){
+    if(!bundledPdf)return "";
+    return new URL("./"+bundledPdf,location.href).href;
+  }
+  function updateManuscriptShare(){
+    const share=$("manuscript-share");
+    if(!share)return;
+    share.hidden=!bundledPdf;
+    share.textContent=navigator.share?"Open in another app / Share PDF":"Open PDF link";
+  }
+  async function shareManuscript(){
+    const url=manuscriptPublicUrl();
+    if(!url)return;
+    if(navigator.share){
+      try{
+        await navigator.share({title:"Little Quest manuscript",text:"Open the manuscript PDF",url});
+        return;
+      }catch(error){
+        if(error?.name==="AbortError")return;
+      }
+    }
+    window.open(url,"_blank","noopener");
+  }
   async function openManuscript(){
+    const mobileDevice=Boolean(navigator.userAgentData?.mobile||/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(matchMedia("(pointer: coarse)").matches&&navigator.maxTouchPoints>0));
+    if(mobileDevice&&bundledPdf&&navigator.share&&/^https?:$/i.test(location.protocol)){
+      await shareManuscript();
+      return;
+    }
     const opened=window.open("about:blank","_blank");
     if(opened){
       opened.document.title="Opening manuscript…";
@@ -4683,6 +4713,7 @@
   $("manuscript-add-cancel").addEventListener("click",closeManuscript);
   $("manuscript-add-backdrop").addEventListener("click",event=>{if(event.target===$("manuscript-add-backdrop"))closeManuscript();});
   $("manuscript-add-choose").addEventListener("click",()=>$("manuscript-file-input").click());
+  $("manuscript-share").addEventListener("click",shareManuscript);
   $("manuscript-choose").addEventListener("click",()=>$("manuscript-file-input").click());
   $("manuscript-file-input").addEventListener("change",event=>{
     const file=event.target.files?.[0];if(file)importManuscript(file);event.target.value="";
