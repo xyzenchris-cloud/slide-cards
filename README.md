@@ -27,6 +27,10 @@ The Manuscript button opens a local PDF viewer. Choose a PDF from the device, or
 
 The viewer supports lazy page rendering, page navigation, zoom, fit width, local text search, dark-page reading, and links from a question to manuscript pages. The PDF itself is not cached by the service worker. PDF.js `3.11.174` is bundled locally so the viewer works offline after the app assets have been cached. If you configure a bundled PDF in `index.html`, that file becomes public with the site and is not private.
 
+## Reference hints
+
+The Hint chip shows the prepared reference answers stored in the `HINT_ANSWERS` block near the top of `index.html`. Hints are local page content, not a server feature; anyone who can view the page source can read them. Settings can hide hints, blur them until tapped, or charge a small configurable XP cost once per question.
+
 ## Notes
 
 Answer history and settings stay in the browser's local storage. Use the Settings panel's backup and restore controls before changing devices or clearing browser data. Voice typing depends on browser support and microphone permission; Chrome and Edge generally provide the best support. The online GitHub Pages version uses HTTPS, which gives browsers the best chance to remember microphone permission after **Allow** is selected. Safari and some mobile browsers may not offer speech recognition or an install prompt.

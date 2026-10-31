@@ -165,6 +165,27 @@
   .history-empty,.history-storage-warning,.history-undo{margin:9px 0 0;color:var(--muted);font-size:.69rem;line-height:1.45}
   .history-storage-warning{color:#8a6c35}
   .history-undo button{padding:0 3px;border:0;background:none;color:var(--forest);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer}
+  .hint-panel{padding:14px;border:1px solid rgba(216,170,85,.22);border-radius:16px;background:rgba(255,251,238,.88);text-align:left}
+  .hint-panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+  .hint-writing-link,.hint-reveal-all{padding:0;border:0;background:none;color:var(--forest);font-size:.72rem;font-weight:800;text-decoration:underline;cursor:pointer}
+  .hint-reveal-all{color:var(--sage);text-decoration:none}
+  .hint-list{display:grid;gap:9px;max-height:100%;overflow:auto;padding:1px 3px 1px 1px;overscroll-behavior:contain}
+  .hint-entry{min-width:0;padding:10px;border:1px solid rgba(216,170,85,.2);border-radius:13px;background:rgba(255,255,255,.62)}
+  .hint-entry-label{margin:0 0 6px;color:var(--gold);font-size:.68rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
+  .hint-answer{margin:0;color:var(--ink);font-size:.78rem;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
+  .hint-answer.collapsed{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:6;overflow:hidden}
+  .hint-entry-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .hint-action{padding:4px 8px;border:0;border-radius:999px;background:rgba(120,150,120,.12);color:var(--forest);font-size:.67rem;font-weight:800;cursor:pointer}
+  .hint-page-chip{padding:4px 8px;border:0;border-radius:999px;background:rgba(216,170,85,.15);color:#805e27;font-size:.67rem;font-weight:800;cursor:pointer}
+  .hint-answer.is-hidden{filter:blur(5px);user-select:none}
+  .hint-reveal{position:relative}
+  .hint-reveal-label{position:absolute;inset:0;display:grid;place-items:center;color:var(--forest);font-size:.7rem;font-weight:800;pointer-events:none}
+  .hint-footnote{margin:10px 0 0;color:var(--muted);font-size:.68rem;line-height:1.4}
+  [data-theme="dark"] .hint-panel{background:rgba(41,52,44,.94);border-color:rgba(216,170,85,.3)}
+  [data-theme="dark"] .hint-entry{background:rgba(28,39,33,.58);border-color:rgba(216,170,85,.25)}
+  [data-theme="dark"] .hint-answer{color:#e3e9df}
+  [data-theme="dark"] .hint-writing-link,[data-theme="dark"] .hint-reveal-all,[data-theme="dark"] .hint-action{color:#d9e3d4}
+  [data-theme="dark"] .hint-page-chip{color:#f2d89e}
   .history-list-dialog{max-height:58dvh;overflow:auto}
   .note-list-item[role="button"]{cursor:pointer}
   .note-list-item[role="button"]:hover,.note-list-item[role="button"]:focus-visible{background:rgba(120,150,120,.07);outline:2px solid rgba(120,150,120,.24);outline-offset:2px}
@@ -706,7 +727,9 @@
     .note-panel-slot{position:absolute;top:18px;right:42px;bottom:18px;width:calc(50% - 52px);max-width:none;margin:0;z-index:3;display:block;transform:translateY(12px);pointer-events:none;opacity:0;transition:opacity .3s ease,transform .3s var(--ease)}
     .note-panel-slot.open{display:block;margin:0;transform:translateY(0);pointer-events:auto;opacity:1}
     .note-panel-slot .my-answer-panel{height:100%;padding:18px;background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(8px);border-radius:18px}
+    .note-panel-slot .hint-panel{height:100%;padding:18px;background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(8px);border-radius:18px}
     .note-panel-slot .history-list{max-height:none;height:calc(100% - 34px)}
+    .note-panel-slot .hint-list{max-height:none;height:calc(100% - 38px)}
   }
   @media(max-width:720px){
     .card{min-height:clamp(430px,68vh,650px);padding:36px 22px}
@@ -736,7 +759,9 @@
     .note-panel-slot{position:absolute;inset:auto 22px 18px;z-index:3;display:block;transform:translateY(12px);pointer-events:none;opacity:0;transition:opacity .3s ease,transform .3s var(--ease)}
     .note-panel-slot.open{display:block;margin:0;transform:translateY(0);pointer-events:auto;opacity:1}
     .note-panel-slot .my-answer-panel{height:calc(66% - 10px);padding:14px;background:color-mix(in srgb,var(--paper) 95%,transparent);backdrop-filter:blur(8px);border-radius:18px}
+    .note-panel-slot .hint-panel{height:calc(66% - 10px);padding:14px;background:color-mix(in srgb,var(--paper) 95%,transparent);backdrop-filter:blur(8px);border-radius:18px}
     .note-panel-slot .history-list{max-height:none;height:calc(100% - 34px)}
+    .note-panel-slot .hint-list{max-height:none;height:calc(100% - 38px)}
   }
   @media(max-width:520px){
     .question-column{flex-basis:31%;padding-bottom:14px}
@@ -805,6 +830,11 @@
             <p class="history-storage-warning" id="history-storage-warning" hidden>Answers can't be saved in this window, so they'll be gone when you close it. You can still download a backup before leaving.</p>
             <p class="history-undo" id="history-undo" hidden>Deleted. <button id="history-undo-button" type="button">Undo</button></p>
           </section>
+          <section class="hint-panel" id="hint-panel" aria-label="Reference answers" aria-hidden="true" inert hidden>
+            <div class="hint-panel-head"><button class="hint-writing-link" id="hint-writing-link" type="button">Back to writing</button><button class="hint-reveal-all" id="hint-reveal-all" type="button">Reveal all</button></div>
+            <div class="hint-list" id="hint-list"></div>
+            <p class="hint-footnote">Reference answers. Use them to check your own.</p>
+          </section>
         </div>
       </section>
     </div>
@@ -813,6 +843,9 @@
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3.5h12a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5H9l-4.5 3v-3H4A1.5 1.5 0 0 1 2.5 13V5A1.5 1.5 0 0 1 4 3.5z"/><path d="m7 11 5.8-5.8 2 2L9 13H7z"/></svg><span id="my-answer-chip-label">My Answers</span>
       </button>
       <button class="chip pass-chip" id="pass" type="button" aria-disabled="false"><span id="pass-label">Pass</span></button>
+      <button class="chip hint-chip" id="hint-chip" type="button" aria-expanded="false" aria-controls="hint-panel" aria-label="Open reference answers" hidden>
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.2 14.5h5.6M7.7 17h4.6M6.3 11.6a5.4 5.4 0 1 1 7.4 0c-.8.6-1.2 1.4-1.3 2.2H7.6c-.1-.8-.5-1.6-1.3-2.2Z"/><path d="M10 2v1.2M3.3 4.7l.9.9M16.7 4.7l-.9.9"/></svg><span id="hint-chip-label">Hint</span>
+      </button>
       <button class="chip manuscript-chip" id="manuscript-open-chip" type="button" aria-label="Open manuscript">
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 3.5h6a3 3 0 0 1 3 3V17h-6a3 3 0 0 0-3 3V3.5Z"/><path d="M16.5 3.5h-4V17h4a2 2 0 0 1 2 2H6.5"/></svg><span id="manuscript-chip-label">Manuscript</span></button>
     </div>
@@ -892,6 +925,13 @@
         <div class="pill-choice animation-choice" role="group" aria-label="Animation level">
           <button type="button" data-animation-choice="full">Full</button><button type="button" data-animation-choice="lite">Lite</button><button type="button" data-animation-choice="off">Off</button>
         </div>
+      </section>
+      <section class="setting-section">
+        <h3>Hints</h3>
+        <label class="setting-toggle"><span><strong>Allow hints</strong><small>Show reference answers when a question has them.</small></span><input type="checkbox" data-setting-toggle="allowHints"><i aria-hidden="true"></i></label>
+        <label class="setting-toggle"><span><strong>Hide answers until tapped</strong><small>Blur each reference answer until you reveal it.</small></span><input type="checkbox" data-setting-toggle="hideHintsUntilTapped"><i aria-hidden="true"></i></label>
+        <label class="setting-toggle"><span><strong>Hints cost points</strong><small>Opening hints once on a question costs the amount below.</small></span><input type="checkbox" data-setting-toggle="hintsCostPoints"><i aria-hidden="true"></i></label>
+        <div class="range-row"><label for="hint-cost"><span class="setting-help">Points per question</span></label><input id="hint-cost" type="number" min="1" max="20" step="1" aria-label="Hint point cost"></div>
       </section>
       <section class="setting-section">
         <h3>Comfort and play</h3>
@@ -1078,8 +1118,8 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.2.0";
-  const VERSION_DATE = "Oct 30, 2026";
+  const APP_VERSION = "1.3.0";
+  const VERSION_DATE = "Oct 31, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
   // Optional: set a same-folder filename to publish a PDF with the site. This makes it public to anyone with the link.
   const bundledPdf = "";
@@ -1095,6 +1135,10 @@
     requiredWords: 100,         // 0 means no minimum; range is set above
     textSize: "medium",         // "small", "medium", "large", or "xlarge"
     myAnswerChip: true,         // Show the answer history chip during questions
+    allowHints: true,           // Show reference-answer hints when available
+    hideHintsUntilTapped: true, // Blur each reference answer until it is revealed
+    hintsCostPoints: false,     // Charge hintCost XP once per question when opened
+    hintCost: 5,                // XP cost for opening hints, from 1 to 20
     saveAnswersOnDevice: true,  // Keep answer history in this browser between visits
     streak: true,               // Show the streak counter
     background: true,           // Show floating glows and sparkles
@@ -1131,6 +1175,475 @@
   ];
   // Change POINTS_PER_NEXT to set XP earned each time a completed answer advances.
   const POINTS_PER_NEXT = 10;
+  // HINT ANSWERS ? answers are attached to permanent question IDs.
+  // Add an answer: append {label:"Answer 2",text:"..."} to that question ID.
+  // Edit/remove an answer by changing or deleting one object in its answers array.
+  // Add a new question block with its real ID; do not attach hints by array position.
+  // Manuscript page links can be written as [p. 23], (page 23), or p.23 in answer text.
+  const HINT_ANSWERS = {
+  "s1-q1": [
+    {
+      "label": "Answer 1",
+      "text": "Our system is a centralized web platform that manages HappYness's volunteers, activities, donations, inventory, and reports in one place, with a real-time dashboard and automatic certificates. Sheets, Messenger, and Canva are separate tools that do not talk to each other. Our fishbone diagrams showed the real problems: paper logbooks, chat-based communication, and no multi-site ledger. One database with role-based access makes the records consistent and traceable."
+    }
+  ],
+  "s1-q2": [
+    {
+      "label": "Answer 1",
+      "text": "The admin and staff benefit most directly, because they carry the heaviest manual work of recording, tallying, and reporting, and the system automates it. Beneficiaries benefit indirectly, since faster and more accurate records mean aid reaches them with fewer delays."
+    }
+  ],
+  "s1-q3": [
+    {
+      "label": "Answer 1",
+      "text": "We do not claim each feature is new. Our contribution is the integration. A page and a spreadsheet cannot give role-based access, per-site inventory, automatic certificates, a live dashboard, and one record linking a volunteer, an activity, and a donation. Our literature review also found no integrated platform combining education, livelihood, and donation distribution for grassroots Philippine projects."
+    }
+  ],
+  "s1-q4": [
+    {
+      "label": "Answer 1",
+      "text": "We built the system with [state the one true stack]. The other mentions are leftovers from earlier drafts when we were comparing options. We are correcting the paper so every section matches the deployed system."
+    }
+  ],
+  "s1-q5": [
+    {
+      "label": "Answer 1",
+      "text": "That is a documentation error on our part. Our adviser is [Ms. Donnalyn B. Montallana, confirm] and [Ms. Jovelyn Ocampo] is the Department Chairperson. We are correcting the title page. It does not Capstone Defense Prepared Answers (Sets 1-5) affect the system, but we understand why consistency matters."
+    }
+  ],
+  "s1-q6": [
+    {
+      "label": "Answer 1",
+      "text": "The system has four roles: Admin, Volunteer, Beneficiary, and Regular User. The Regular User can log in, view products, and submit feedback. The text listed only the three main stakeholder groups, so we are updating it."
+    }
+  ],
+  "s1-q7": [
+    {
+      "label": "Answer 1",
+      "text": "The Gantt chart shows the development schedule, while the Time and Place section described testing, feedback, and deployment with different months. We are merging them into one timeline. The schedule we actually followed is [state real dates]."
+    }
+  ],
+  "s1-q8": [
+    {
+      "label": "Answer 1",
+      "text": "These are two different features. The donation portal supports GCash only, which is the limitation we declared. The e-commerce and fundraising module supports bank transfer and donation slip upload. We will reword the paper so they are not confused. [Confirm this matches what is built.]"
+    }
+  ],
+  "s1-q9": [
+    {
+      "label": "Answer 1",
+      "text": "We did not build a native app. The system is a responsive website that resizes to phones, tablets, and laptops, so it works on Android and iOS through the browser. A downloadable mobile app is future work."
+    }
+  ],
+  "s1-q10": [
+    {
+      "label": "Answer 1",
+      "text": "ISO 25010 is the international standard for software product quality, with eight characteristics. Our main focus was Functional Suitability and Usability, but we evaluated all eight for a complete picture. Our objective wording was too narrow, and we are updating it to match."
+    }
+  ],
+  "s1-q11": [
+    {
+      "label": "Answer 1",
+      "text": "We reviewed Philippine and foreign studies on NGO and volunteer systems, such as SmartNGO and Volunteer Connect, through [list real sources]. Most focused on volunteer matching or donation tracking, not a combined platform. So our claim is to the best of our knowledge, based on the studies we reviewed."
+    }
+  ],
+  "s1-q12": [
+    {
+      "label": "Answer 1",
+      "text": "Stakeholders prioritized volunteer tracking, a calendar, donation tracking, messaging, a forum, and transparency reports, and those became our modules. During testing, we also [one real change a user asked for]."
+    }
+  ],
+  "s2-q1": [
+    {
+      "label": "Answer 1",
+      "text": "The browser sends the request to the server, which checks the user is logged in and is a Volunteer. It confirms the event exists, is open, and the volunteer is not already registered. Then it saves a registration record Capstone Defense Prepared Answers (Sets 1-5) linking the volunteer to the event with a status of [Pending or Approved]. The admin approves it, attendance is recorded on the day, and that feeds certificates and the dashboard."
+    }
+  ],
+  "s2-q2": [
+    {
+      "label": "Answer 1",
+      "text": "We should be honest: 1,000 users was a design target, not something we proved. SQLite suits HappYness's current scale and weak internet at some sites, and in practice only a few staff write at the same time while most users only read. We declared possible slowdown as a limitation. If HappYness grows, the database can be migrated to MySQL or PostgreSQL."
+    }
+  ],
+  "s2-q3": [
+    {
+      "label": "Answer 1",
+      "text": "SQLite allows one write at a time, so the second write waits a few milliseconds and then proceeds. It does not corrupt data because SQLite is ACID-compliant: each approval is saved completely or not at all. At HappYness's size, admins would not notice."
+    }
+  ],
+  "s2-q4": [
+    {
+      "label": "Answer 1",
+      "text": "Since SQLite stores everything in one file, a backup is a dated copy of that file, kept in a separate location. Currently it is manual, and we plan to automate it with a scheduled task. If the server fails, we redeploy the code and restore the latest backup. The most we would lose is data entered since that backup."
+    }
+  ],
+  "s2-q5": [
+    {
+      "label": "Answer 1",
+      "text": "Passwords are never stored as plain text; they are stored as salted hashes [confirm your framework's hashing]. Data in transit is protected by HTTPS [confirm on your deployed site]. We also use role-based access and auto-logout. [State exactly which sensitive fields are encrypted, if any.] We do not have paid enterprise-level security, and we say so."
+    }
+  ],
+  "s2-q6": [
+    {
+      "label": "Answer 1",
+      "text": "Every protected page is checked on the server, not just hidden from the menu. When a URL is opened, the server verifies the login and role, and refuses access if the role is wrong. Typing the URL does not bypass the check. [Test this yourself before defense.]"
+    }
+  ],
+  "s2-q7": [
+    {
+      "label": "Answer 1",
+      "text": "An admin has full access, so we cannot remove the risk completely, but we reduce it. Beneficiaries must be verified before approval, and approvals are [logged with who and when, confirm]. Organizationally, admin accounts should be limited to trusted staff and reviewed regularly. A second approver is a future improvement."
+    }
+  ],
+  "s2-q8": [
+    {
+      "label": "Answer 1",
+      "text": "Hours are tied to digital attendance for an event the admin created and approved, and the admin confirms attendance before hours count. It cannot stop a determined cheat, such as someone checking in for a friend, but it leaves a traceable record, which paper logbooks do not. QR check-in is a future improvement. Capstone Defense Prepared Answers (Sets 1-5)"
+    }
+  ],
+  "s2-q9": [
+    {
+      "label": "Answer 1",
+      "text": "Certificates are generated only from verified attendance and hour records, so they are tied to real data. [If built: each carries a unique ID checked against our records. If not: verification is currently done by contacting HappYness, and a public verification page is future work.]"
+    }
+  ],
+  "s2-q10": [
+    {
+      "label": "Answer 1",
+      "text": "A unit test checks one function alone, for example [computing total volunteer hours]. An integration test checks modules together, for example [volunteer signs up, admin approves, and the record appears in the dashboard]. A system test runs the whole system end to end as each role, from login to report generation."
+    }
+  ],
+  "s2-q11": [
+    {
+      "label": "Answer 1",
+      "text": "The 45% belongs to SmartNGO (Joshi), and we cite it only as supporting evidence. We did not measure our own percentage. Our evidence is that evaluators rated the system Very Good overall and that it replaces the manual tasks shown in our fishbone diagrams. A before-and-after time study is a natural next step."
+    }
+  ],
+  "s2-q12": [
+    {
+      "label": "Answer 1",
+      "text": "The 17-question survey gathered stakeholder needs, answered by [number]. For evaluation we had three groups: Beneficiaries, Admin/Staff, and IT Professionals, with [counts]. [State truthfully whether Happy-Nanays took part, or that training for them is part of the implementation plan.]"
+    }
+  ],
+  "s3-q1": [
+    {
+      "label": "Answer 1",
+      "text": "The Data Privacy Act of 2012 (RA 10173) requires consent, collecting only what is necessary, and protecting the data. For minors, consent should come from a parent or guardian [state how your system handles this]. We collect only needed fields, and access is limited by role. A privacy notice and consent step are part of our recommendations."
+    }
+  ],
+  "s3-q2": [
+    {
+      "label": "Answer 1",
+      "text": "We collect only what is needed to verify and serve beneficiaries: [list fields and why]. Testing used [dummy data, or real data with consent, state which]."
+    }
+  ],
+  "s3-q3": [
+    {
+      "label": "Answer 1",
+      "text": "The data belongs to HappYness, which operates the system. We are accountable for the security we built and for handing over clear guidelines. After handover, HappYness's system admin is responsible for access control, backups, and updates. Capstone Defense Prepared Answers (Sets 1-5)"
+    }
+  ],
+  "s3-q4": [
+    {
+      "label": "Answer 1",
+      "text": "Hosting is currently [plan and cost], and HappYness decides whether to continue or upgrade. The system admin is [role or name]. Login credentials should be documented and held by at least two trusted people so one departure does not lock the organization out."
+    }
+  ],
+  "s3-q5": [
+    {
+      "label": "Answer 1",
+      "text": "Our team gives hands-on sessions at implementation [duration], using a simple guide in Filipino and English. Training is practical and step by step, and a maintenance guide supports staff afterward."
+    }
+  ],
+  "s3-q6": [
+    {
+      "label": "Answer 1",
+      "text": "The code is modular and kept in a repository, with a maintenance guide for HappYness. Future students or developers can maintain it, and frameworks should be updated periodically."
+    }
+  ],
+  "s3-q7": [
+    {
+      "label": "Answer 1",
+      "text": "A staff member checks the GCash transaction record and reference number before marking a donation as confirmed. A claim without proof stays pending."
+    }
+  ],
+  "s3-q8": [
+    {
+      "label": "Answer 1",
+      "text": "No. Running both during a transition is normal and expected. Paper should be phased out after training and a trial period. This is also why Replaceability was one of our lowest scores."
+    }
+  ],
+  "s3-q9": [
+    {
+      "label": "Answer 1",
+      "text": "The system helps by giving all three sites one shared record, as long as there is internet. We have no offline mode, so paper remains the backup during outages. In a surge, the database write limit would break first, and the fix is migrating to MySQL or PostgreSQL."
+    }
+  ],
+  "s3-q10": [
+    {
+      "label": "Answer 1",
+      "text": "Stay calm and switch to the backup: a recorded demo and screenshots prepared beforehand, plus a local copy of the system. We would keep explaining the flow while it loads."
+    }
+  ],
+  "s3-q11": [
+    {
+      "label": "Answer 1",
+      "text": "These limitations come from time and budget, so we prioritized the core features HappYness needs. The system is responsive, works on any device, and needs internet, with offline support planned. We built basic security without paid enterprise tools. The evaluation rated the system Very Good, and we know where to improve."
+    }
+  ],
+  "s3-q12": [
+    {
+      "label": "Answer 1",
+      "text": "It is like one shared notebook on the computer or phone where everyone writes in the same place. So we know who helped, what was donated, and what happened. In Taglay: parang iisang notebook po na pwedeng buksan ng lahat, para hindi nawawala ang records. Capstone Defense Prepared Answers (Sets 1-5)"
+    }
+  ],
+  "s3-q13": [
+    {
+      "label": "Answer 1",
+      "text": "We are proudest that the modules work together as one system that solves a real problem for HappYness. We are most aware of two weaknesses: our backups are still manual, and the paper had inconsistencies we are correcting."
+    }
+  ],
+  "s3-q14": [
+    {
+      "label": "Answer 1",
+      "text": "Yes. We are aligning the tech stack, the timeline, the ISO 25010 scope in the objectives, the user roles and payment wording, the adviser name and spelling, and the references. These do not change how the system works, but we want the paper to be accurate."
+    }
+  ],
+  "s3-q15": [
+    {
+      "label": "Answer 1",
+      "text": "HappYness ran everything on paper across three sites, causing delays and lost records. We built one centralized system for volunteers, donations, inventory, and reports. Evaluators rated it Very Good, we are honest about our limitations, and we have a plan for training, backups, and maintenance, so it is ready for HappYness to use."
+    }
+  ],
+  "s4-q1": [
+    {
+      "label": "Answer 1",
+      "text": "Functional Suitability scored highest. We built the system around what stakeholders asked for in the interviews and survey, so the functions matched their actual tasks, and users could see the features working."
+    }
+  ],
+  "s4-q2": [
+    {
+      "label": "Answer 1",
+      "text": "Portability scored lowest, though still Very Good. Replacing paper takes training and old records, and we have no mobile app or offline mode, so the system depends on a browser and internet."
+    }
+  ],
+  "s4-q3": [
+    {
+      "label": "Answer 1",
+      "text": "We built basic protections, such as login, roles, and auto-logout, but not paid enterprise tools, and admins, who use the sensitive features most, rated it stricter. We would add detailed audit logs, stronger admin authentication, HTTPS, and regular backups."
+    }
+  ],
+  "s4-q4": [
+    {
+      "label": "Answer 1",
+      "text": "A web system works across devices, but portability also covers adapting to environments like weak connections and replacing the old process. Those are where we lost points."
+    }
+  ],
+  "s4-q5": [
+    {
+      "label": "Answer 1",
+      "text": "Our backups are manual and the data sits in one file, so recovery depends on the latest copy. If the system fails, we restore the latest backup and lose only data entered since then. We plan automatic scheduled backups to a separate location. Capstone Defense Prepared Answers (Sets 1-5)"
+    }
+  ],
+  "s4-q6": [
+    {
+      "label": "Answer 1",
+      "text": "Our logins tie actions to users, which supports accountability, but proving an action cannot be denied needs detailed audit logs of who did what and when. We would strengthen those logs."
+    }
+  ],
+  "s4-q7": [
+    {
+      "label": "Answer 1",
+      "text": "Because the modules came directly from stakeholder needs: volunteers, activities, donations, inventory, reports, and certificates. Users found their tasks covered."
+    }
+  ],
+  "s4-q8": [
+    {
+      "label": "Answer 1",
+      "text": "The system is divided into separate modules, so a change in one has limited effect on others, and components like registration and reports can be reused. [Name one real example from your code.]"
+    }
+  ],
+  "s4-q9": [
+    {
+      "label": "Answer 1",
+      "text": "Evaluators judged it under the normal usage HappYness has now, which is small. We still list heavy concurrent use as a limitation, and scaling means moving to a larger database."
+    }
+  ],
+  "s4-q10": [
+    {
+      "label": "Answer 1",
+      "text": "Some mistakes are still possible, such as [wrong entries, missing confirmations, or incomplete validation]. We would add confirmation prompts, stricter form validation, and clearer error messages."
+    }
+  ],
+  "s4-q11": [
+    {
+      "label": "Answer 1",
+      "text": "The system is easy to operate once learned, but new users still need guidance, especially those with less digital experience. That is why training and a simple guide are part of our plan."
+    }
+  ],
+  "s4-q12": [
+    {
+      "label": "Answer 1",
+      "text": "Replacing paper takes more than software: staff training, entering important old records, and a trial period with both running side by side. Admins felt this most because they are the ones giving up paper. Reliable backups and a responsible person are also needed."
+    }
+  ],
+  "s4-q13": [
+    {
+      "label": "Answer 1",
+      "text": "Beneficiaries mostly use the front end, while admins run the system daily and see its gaps in approvals, data, and security. We value admin feedback most because they are the main operators."
+    }
+  ],
+  "s4-q14": [
+    {
+      "label": "Answer 1",
+      "text": "Admins handle the sensitive data, so they judge security more strictly. For interoperability, they work with outside tools like GCash records and spreadsheets, so they notice limits in exporting and importing. We would add Excel and CSV export and better import."
+    }
+  ],
+  "s4-q15": [
+    {
+      "label": "Answer 1",
+      "text": "They look at the technical side: error handling, testing, recovery, and replacement effort. Their ratings tell us where to improve the engineering. Capstone Defense Prepared Answers (Sets 1-5)"
+    }
+  ],
+  "s4-q16": [
+    {
+      "label": "Answer 1",
+      "text": "We are proudest of Functional Suitability, since it shows the system fits HappYness's work. We are most concerned about Portability and Recoverability, which tie to offline support and backups."
+    }
+  ],
+  "s4-q17": [
+    {
+      "label": "Answer 1",
+      "text": "Very Good is a wide band, and within it some items were clearly lower, such as Recoverability and Replaceability. The biggest weakness we know of is that backups are still manual, and we plan to automate them."
+    }
+  ],
+  "s4-q18": [
+    {
+      "label": "Answer 1",
+      "text": "Backups. We would automate a scheduled backup of the database and uploaded files to a separate location, test restoring from it, and include the steps in the maintenance guide."
+    }
+  ],
+  "s4-q19": [
+    {
+      "label": "Answer 1",
+      "text": "Yes, for a guided rollout. Before full daily use it needs staff training, a trial period alongside paper, and automatic backups."
+    }
+  ],
+  "s4-q20": [
+    {
+      "label": "Answer 1",
+      "text": "The fishbone problems were paper records, scattered chats, no central database, and manual tallying. The system replaces these with one database, and evaluators rated its functions and usability Very Good. We did not measure time saved, which is a next step."
+    }
+  ],
+  "s5-q1": [
+    {
+      "label": "Answer 1",
+      "text": "The project ran from proposal drafting in early 2025 through system design, development, testing, evaluation, and implementation, ending with the defense and manuscript review in late 2026. Manuscript preparation ran throughout."
+    }
+  ],
+  "s5-q2": [
+    {
+      "label": "Answer 1",
+      "text": "We started early design and exploration after the topic was approved by our adviser and after initial talks with HappYness [confirm]. The formal proposal defense came later, and the system was refined afterward based on panel feedback."
+    }
+  ],
+  "s5-q3": [
+    {
+      "label": "Answer 1",
+      "text": "The drafting was one concentrated period, then [revisions, adviser review, scheduling, or scope changes, state what truly happened] before the defense date."
+    }
+  ],
+  "s5-q4": [
+    {
+      "label": "Answer 1",
+      "text": "Design was iterative: database structure, interface, and modules were refined with stakeholder feedback, so it overlapped development rather than being a single early phase. Capstone Defense Prepared Answers (Sets 1-5)"
+    }
+  ],
+  "s5-q5": [
+    {
+      "label": "Answer 1",
+      "text": "Yes, because we used Agile. We designed and built in cycles, adding features step by step based on feedback."
+    }
+  ],
+  "s5-q6": [
+    {
+      "label": "Answer 1",
+      "text": "We tested small parts during each development cycle, and the later period shown is the formal testing: unit, integration, and system."
+    }
+  ],
+  "s5-q7": [
+    {
+      "label": "Answer 1",
+      "text": "Formal testing found [issues] that we fixed, and earlier cycle testing covered the rest. Longer real-world testing is future work."
+    }
+  ],
+  "s5-q8": [
+    {
+      "label": "Answer 1",
+      "text": "Evaluation came first, with evaluators using the system and answering the form. Implementation and training followed [confirm the real order]."
+    }
+  ],
+  "s5-q9": [
+    {
+      "label": "Answer 1",
+      "text": "It covers the initial training, and a maintenance guide supports continued learning. Short, hands-on sessions work better for users with less digital experience."
+    }
+  ],
+  "s5-q10": [
+    {
+      "label": "Answer 1",
+      "text": "The interview and survey were done early, during proposal drafting and early design. The chart does not show it as its own row, and we will add it."
+    }
+  ],
+  "s5-q11": [
+    {
+      "label": "Answer 1",
+      "text": "The chart reflects the actual schedule. The Time and Place section has outdated months, and we are updating it to match."
+    }
+  ],
+  "s5-q12": [
+    {
+      "label": "Answer 1",
+      "text": "Those months in the paper are outdated. The chart shows testing in the later months, then evaluation and implementation, and we are correcting the paper."
+    }
+  ],
+  "s5-q13": [
+    {
+      "label": "Answer 1",
+      "text": "It was written and updated continuously, phase by phase, with the final editing at the end."
+    }
+  ],
+  "s5-q14": [
+    {
+      "label": "Answer 1",
+      "text": "They are upcoming. After the defense, we will revise based on the panel's feedback, then complete the manuscript review."
+    }
+  ],
+  "s5-q15": [
+    {
+      "label": "Answer 1",
+      "text": "Development extended longer because [real reason, such as added features or feedback changes], so testing was scheduled after it."
+    }
+  ],
+  "s5-q16": [
+    {
+      "label": "Answer 1",
+      "text": "We first spoke with HappYness around [date] through [interview or meeting]. The formal proposal letter to the client is dated February 10, 2026 [confirm]. Capstone Defense Prepared Answers (Sets 1-5)"
+    }
+  ],
+  "s5-q17": [
+    {
+      "label": "Answer 1",
+      "text": "We would gather requirements earlier, test after each cycle, automate backups sooner, and keep one timeline consistent across the paper."
+    }
+  ],
+  "s5-q18": [
+    {
+      "label": "Answer 1",
+      "text": "The core system was delivered and evaluated within the schedule, although some phases ran longer than planned and we adjusted the later ones. [Confirm.]"
+    }
+  ]
+};
   // QUEST SETS — make all set and question edits in this section.
   // Add a set: copy one whole { number, name, keepOrder, questions } block and give it a unique number.
   // Remove a set: delete its whole block, including its comma where needed.
@@ -1143,6 +1656,7 @@
   // Set keepOrder: true for a story or step-by-step quest that should never be shuffled.
   // Leave keepOrder false to let the Shuffle questions setting control that set.
   // Set allowPass: false on a set to hide Pass there; omit it or use true to follow the Allow Pass setting.
+  // Set allowHints: false on a set to hide Hint for a real test set.
   const QUEST_SETS = [
     {
       number: 1,
@@ -1267,6 +1781,9 @@
     textSize: ["small","medium","large","xlarge"],
     voiceLanguage: ["en","tl","taglish"],
     voiceMode: ["auto","continuous","phrase"],
+    allowHints: [true,false],
+    hideHintsUntilTapped: [true,false],
+    hintsCostPoints: [true,false],
     manuscriptDarkPages: [true,false],
     manuscriptJumpLinks: [true,false],
     smartCleanup: [true,false],
@@ -1277,7 +1794,7 @@
   };
   const settings = loadSettings();
   let wordList=loadWordList();
-  let activeSet=null, activeQuestions=[], activeWasShuffled=false, index=0, points=0, streak=0, busy=false, notePanelOpen=false;
+  let activeSet=null, activeQuestions=[], activeWasShuffled=false, index=0, points=0, streak=0, busy=false, notePanelOpen=false, hintPanelOpen=false;
   let answers=[], furthestIndex=0, selectedLanguage=settings.voiceLanguage, recognition=null, voiceSession=null, listening=false, restartTimer=null;
   let voiceTextarea=null, notePanelAnimation=null, noteOpenId=null, pendingRestoreNotes=null, pendingRestoreWordList=null, pendingRestoreManuscript=null;
   let downloadedBackup=(()=>{try{return localStorage.getItem(NOTES_STORAGE_KEY+"-backup")==="1";}catch(_){return false;}})();
@@ -1287,6 +1804,7 @@
   if(historyNeedsMigration&&settings.saveAnswersOnDevice)persistNotes();
   let sessionAnswerEntries=new Map();
   let historyUndo=null, historyUndoTimer=null, pendingHistoryEntry=null;
+  let hintRevealedByQuestion=new Map(), hintsUsed=new Set(), hintCostApplied=new Set();
   let passedQuestions=[],passesUsed=0,reviewMode=false,reviewQuestions=[],reviewIndex=0,reviewOffered=false;
   let passToastTimer=null,passMessageTimer=null,gateMessageTimer=null,lastPass=null;
   let speechInterim="", applyingSpeech=false, silenceTimer=null, micInactivityTimer=null, voiceUndoTimer=null, lastVoiceUndo=null;
@@ -1428,6 +1946,7 @@
   }
   function clearGameArtifacts(){
     if(notePanelOpen)closeMyAnswerPanel({restoreFocus:false});
+    if(hintPanelOpen)closeHintPanel({restoreFocus:false});
     resetEntrance();
     stopVoice();
     clearVoiceUndo();
@@ -1459,6 +1978,7 @@
     activeSet=null;activeQuestions=[];activeWasShuffled=false;
     answers=[];index=0;furthestIndex=0;points=0;streak=0;
     passedQuestions=[];passesUsed=0;reviewMode=false;reviewQuestions=[];reviewIndex=0;reviewOffered=false;
+    hintRevealedByQuestion=new Map();hintsUsed=new Set();hintCostApplied=new Set();
     notePanelOpen=false;busy=false;pendingReturn=false;orderSettingChanged=false;
     $("leave-modal").hidden=true;
     $("settings-backdrop").hidden=true;
@@ -1492,9 +2012,11 @@
     Object.keys(allowedSettings).forEach(key=>{
       if(allowedSettings[key].includes(saved[key]))result[key]=saved[key];
     });
-    ["streak","background","confetti","sound","shuffleQuestions","reshuffleOnReplay","myAnswerChip","saveAnswersOnDevice","showVoiceTest","smartCleanup","spokenPunctuation","removeVoiceFillers"].forEach(key=>{
+    ["streak","background","confetti","sound","shuffleQuestions","reshuffleOnReplay","myAnswerChip","saveAnswersOnDevice","showVoiceTest","smartCleanup","spokenPunctuation","removeVoiceFillers","allowHints","hideHintsUntilTapped","hintsCostPoints"].forEach(key=>{
       if(typeof saved[key]==="boolean")result[key]=saved[key];
     });
+    const hintCost=Number(saved.hintCost);
+    if(Number.isFinite(hintCost))result.hintCost=Math.max(1,Math.min(20,Math.round(hintCost)));
     if(typeof saved.saveAnswersOnDevice!=="boolean"&&typeof saved.saveNotesOnDevice==="boolean")result.saveAnswersOnDevice=saved.saveNotesOnDevice;
     ["allowPass","offerPassed"].forEach(key=>{if(typeof saved[key]==="boolean")result[key]=saved[key];});
     if(allowedSettings.passLimit.includes(saved.passLimit))result.passLimit=saved.passLimit;
@@ -1809,6 +2331,7 @@
   }
   function openMyAnswerPanel(id=currentNoteId()){
     if(!id||!activeSet)return;
+    if(hintPanelOpen)closeHintPanel({restoreFocus:false});
     if(notePanelOpen&&noteOpenId!==id)closeMyAnswerPanel({restoreFocus:false});
     const question=activeQuestions.find(item=>item.id===id);
     if(!question)return;
@@ -1818,6 +2341,89 @@
     renderHistoryList(id);
     setNotePanelExpanded(true);
   }
+  function setHintPanelExpanded(open){
+    const panel=$("hint-panel"),panelSlot=$("note-panel-slot");
+    if(panelSlot.classList.contains("open")===open&&panel.hidden===!open)return Promise.resolve();
+    if(notePanelAnimation){notePanelAnimation.cancel();notePanelAnimation=null;}
+    panel.hidden=!open;
+    panel.setAttribute("aria-hidden",String(!open));
+    panel.inert=!open;
+    panelSlot.style.setProperty("--note-panel-duration",motionDuration(400,220)+"ms");
+    panelSlot.classList.toggle("open",open);
+    if(!open)ensureAnswerColumnVisible();
+    const duration=motionDuration(400,220);
+    if(duration===0)return Promise.resolve();
+    return new Promise(resolve=>{
+      requestAnimationFrame(()=>{
+        const animation=panelSlot.animate(open?[{opacity:0,transform:"translateY(12px)"},{opacity:1,transform:"translateY(0)"}]:[{opacity:1,transform:"translateY(0)"},{opacity:0,transform:"translateY(12px)"}],{duration,easing:"ease-in-out"});
+        notePanelAnimation=animation;
+        animation.finished.catch(()=>{}).finally(()=>{if(notePanelAnimation===animation)notePanelAnimation=null;resolve();});
+      });
+    });
+  }
+  function renderHintText(container,text){
+    const parts=[];let last=0;
+    const pattern=/(\[(?:pp?\.?\s*)?(\d+)(?:\s*[-–]\s*\d+)?\]|\((?:page|p\.)\s*(\d+)(?:\s*[-–]\s*\d+)?\)|\bpp?\.?\s*(\d+)(?:\s*[-–]\s*\d+)?)/giu;
+    let match;
+    while((match=pattern.exec(text))){
+      if(match.index>last)parts.push(document.createTextNode(text.slice(last,match.index)));
+      const page=Number(match[2]||match[3]||match[4]);
+      const button=document.createElement("button");button.type="button";button.className="hint-page-chip";button.textContent="p. "+page;button.title="Open manuscript page "+page;
+      button.addEventListener("click",()=>openManuscriptAtPage(page));
+      parts.push(button);last=match.index+match[0].length;
+    }
+    if(last<text.length)parts.push(document.createTextNode(text.slice(last)));
+    container.replaceChildren(...parts);
+  }
+  function renderHintPanel(id=currentNoteId()){
+    const list=$("hint-list"),entries=hintAnswersFor(id),revealed=hintRevealedByQuestion.get(id)||new Set();
+    list.replaceChildren();
+    entries.forEach((entry,n)=>{
+      const card=document.createElement("article");card.className="hint-entry";
+      const label=document.createElement("p");label.className="hint-entry-label";label.textContent=entry.label||"Answer "+(n+1);
+      const reveal=document.createElement("div");reveal.className="hint-reveal";
+      const answer=document.createElement("p");answer.className="hint-answer";
+      renderHintText(answer,entry.text);
+      const isRevealed=!settings.hideHintsUntilTapped||revealed.has(n);
+      answer.classList.toggle("is-hidden",!isRevealed);
+      if(entry.text.split(/\r?\n/u).length>6)answer.classList.add("collapsed");
+      reveal.appendChild(answer);
+      if(!isRevealed){
+        const cover=document.createElement("span");cover.className="hint-reveal-label";cover.textContent="Tap to reveal";
+        reveal.appendChild(cover);reveal.addEventListener("click",()=>{const set=hintRevealedByQuestion.get(id)||new Set();set.add(n);hintRevealedByQuestion.set(id,set);renderHintPanel(id);});
+      }
+      const actions=document.createElement("div");actions.className="hint-entry-actions";
+      const copy=document.createElement("button");copy.type="button";copy.className="hint-action";copy.textContent="Copy";
+      copy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(entry.text);}catch(_){const temp=document.createElement("textarea");temp.value=entry.text;document.body.appendChild(temp);temp.select();document.execCommand("copy");temp.remove();}copy.textContent="Copied!";setTimeout(()=>{copy.textContent="Copy";},1200);});
+      actions.appendChild(copy);
+      if(entry.text.split(/\r?\n/u).length>6){const more=document.createElement("button");more.type="button";more.className="hint-action";more.textContent="Show more";more.addEventListener("click",()=>{answer.classList.toggle("collapsed");more.textContent=answer.classList.contains("collapsed")?"Show more":"Show less";});actions.appendChild(more);}
+      card.append(label,reveal,actions);list.appendChild(card);
+    });
+  }
+  function closeHintPanel({restoreFocus=true}={}){
+    if(!hintPanelOpen)return Promise.resolve();
+    hintPanelOpen=false;
+    $("hint-chip").setAttribute("aria-expanded","false");
+    if(restoreFocus)$("hint-chip").focus({preventScroll:true});
+    return setHintPanelExpanded(false);
+  }
+  function openHintPanel(id=currentNoteId()){
+    const entries=hintAnswersFor(id);
+    if(!id||!activeSet||!hintsAllowed()||!entries.length)return;
+    if(notePanelOpen)closeMyAnswerPanel({restoreFocus:false});
+    hintPanelOpen=true;
+    hintsUsed.add(id);
+    if(settings.hintsCostPoints&&!hintCostApplied.has(id)){
+      hintCostApplied.add(id);
+      points=Math.max(0,points-Math.max(1,Math.min(20,Number(settings.hintCost)||5)));
+      updatePoints(points);
+      showLevelToast("-"+Math.max(1,Math.min(20,Number(settings.hintCost)||5))+" XP");
+    }
+    renderHintPanel(id);
+    $("hint-chip").setAttribute("aria-expanded","true");
+    setHintPanelExpanded(true);
+  }
+  function toggleHintPanel(){if(hintPanelOpen)closeHintPanel();else openHintPanel();}
   function useHistoryEntry(entry){
     const textarea=$("answer-input");
     if(!textarea)return;
@@ -1983,6 +2589,7 @@
     document.querySelectorAll("[data-pass-limit]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.passLimit===settings.passLimit)));
     document.querySelectorAll("[data-voice-choice]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.voiceChoice===settings.voiceLanguage)));
     document.querySelectorAll("[data-setting-toggle]").forEach(input=>{input.checked=settings[input.dataset.settingToggle];});
+    if($("hint-cost"))$("hint-cost").value=settings.hintCost;
     document.querySelectorAll("[data-voice-mode]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.voiceMode===settings.voiceMode)));
     $("voice-test-panel").hidden=!settings.showVoiceTest;
     renderWordList();
@@ -2024,7 +2631,9 @@
         return line;
       }));
     }
+    if(key==="hintCost")value=Math.max(1,Math.min(20,Number(value)||DEFAULT_SETTINGS.hintCost));
     settings[key]=value;
+    if(key==="allowHints"&&!value&&hintPanelOpen)closeHintPanel({restoreFocus:false});
     if(activeSet&&(key==="shuffleQuestions"||key==="reshuffleOnReplay"))orderSettingChanged=true;
     if(key==="saveAnswersOnDevice"){
       if(value)persistNotes();
@@ -2057,6 +2666,13 @@
   const isPassed = question => passedQuestions.includes(question);
   const passLimit = () => settings.passLimit==="unlimited"?Infinity:Number(settings.passLimit);
   const passesRemaining = () => Math.max(0,passLimit()-passesUsed);
+  function hintAnswersFor(id=currentNoteId()){
+    const answersForId=HINT_ANSWERS?.[id];
+    return Array.isArray(answersForId)?answersForId.filter(item=>item&&typeof item.text==="string"&&item.text.trim()):[];
+  }
+  function hintsAllowed(){
+    return Boolean(settings.allowHints&&activeSet?.allowHints!==false);
+  }
   function updateChips(){
     const hasQuestion=Boolean(activeSet&&slot.querySelector(".question"));
     const canPass=hasQuestion&&activeSet.allowPass!==false&&settings.allowPass;
@@ -2064,12 +2680,17 @@
     $("my-answer-chip").hidden=!settings.myAnswerChip||!hasQuestion;
     updateNoteDot();
     $("pass").hidden=!canPass;
+    const hintAnswers=hasQuestion?hintAnswersFor() : [];
+    const canHint=hasQuestion&&hintsAllowed()&&hintAnswers.length>0;
+    $("hint-chip").hidden=!canHint;
+    $("hint-chip").setAttribute("aria-expanded",String(hintPanelOpen));
+    $("hint-chip-label").textContent="Hint · "+hintAnswers.length+(settings.hintsCostPoints&&!hintCostApplied.has(currentNoteId())?" · Costs "+settings.hintCost+" XP":"");
     const manuscriptChip=$("manuscript-open-chip");
     const hasManuscript=Boolean(manuscriptRecord||bundledPdf);
     if(manuscriptChip)manuscriptChip.hidden=!hasQuestion;
     const linkedPages=hasQuestion&&typeof currentNoteId==="function"?(manuscriptLinks[currentNoteId()]||[]):[];
     if($("manuscript-chip-label"))$("manuscript-chip-label").textContent="Manuscript"+(linkedPages.length?" · "+linkedPages.length:"");
-    $("chips").hidden=!(hasQuestion&&(settings.myAnswerChip||canPass||manuscriptChip));
+    $("chips").hidden=!(hasQuestion&&(settings.myAnswerChip||canPass||canHint||hasManuscript));
     $("pass").setAttribute("aria-disabled",String(limitReached));
     $("pass-label").textContent=settings.passLimit==="unlimited"?"Pass":"Pass ("+passesRemaining()+" left)";
   }
@@ -2286,6 +2907,12 @@
     buildManuscriptPages();
     renderManuscriptLinks();
   }
+  function openManuscriptAtPage(pageNumber){
+    if(!manuscriptDoc){openManuscript();setManuscriptMessage("Choose a PDF in Settings to open manuscript page "+pageNumber+".");return;}
+    openManuscript();
+    manuscriptPage=Math.max(1,Math.min(manuscriptDoc.numPages,Number(pageNumber)||1));
+    buildManuscriptPages();
+  }
   function closeManuscript(){
     manuscriptOpen=false;
     $("manuscript-backdrop").hidden=true;
@@ -2387,7 +3014,7 @@
   const validateQuestSets = () => {
     const numbers = new Set(), questions = new Set(), ids = new Set();
     QUEST_SETS.forEach(set => {
-      if(!Number.isInteger(set.number)||set.number<1||numbers.has(set.number)||!set.name.trim()||!set.questions.length||(set.keepOrder!==undefined&&typeof set.keepOrder!=="boolean")||(set.allowPass!==undefined&&typeof set.allowPass!=="boolean")) throw new Error("Each quest set needs a unique positive number, a name, and at least one question.");
+      if(!Number.isInteger(set.number)||set.number<1||numbers.has(set.number)||!set.name.trim()||!set.questions.length||(set.keepOrder!==undefined&&typeof set.keepOrder!=="boolean")||(set.allowPass!==undefined&&typeof set.allowPass!=="boolean")||(set.allowHints!==undefined&&typeof set.allowHints!=="boolean")) throw new Error("Each quest set needs a unique positive number, a name, and at least one question.");
       numbers.add(set.number);
       set.questions.forEach((item,index) => {
         if(!item.id)item.id="s"+set.number+"-q"+(index+1);
@@ -2513,6 +3140,7 @@
     const total = questionTotal();
     if(reviewMode&&reviewIndex>=reviewQuestions.length){reviewMode=false;index=total;}
     if(notePanelOpen&&noteOpenId!==activeQuestions[index]?.id)closeMyAnswerPanel({restoreFocus:false});
+    if(hintPanelOpen&&currentNoteId()!==activeQuestions[index]?.id)closeHintPanel({restoreFocus:false});
     if(index>=total&&!reviewMode){
       currentRenderedQuestionShineId=null;
       pendingQuestionShineId=null;
@@ -2564,6 +3192,7 @@
     wasReady=false;
     updateWordUI();
     updateChips();
+    if(hintPanelOpen)renderHintPanel(currentNoteId());
     refreshHud();
   }
   function renderPassOffer(){
@@ -2580,12 +3209,13 @@
   }
   function renderFinishScreen(){
     completedSets.add(activeSet.number);
-    slot.innerHTML = '<div class="finish-content"><p class="quest-label">A little adventure, well traveled</p><h1>Quest Complete!</h1><p class="finish-set-name"></p><p class="finish-order-note"></p><p class="finish-summary"></p><p class="total-words"></p><div class="finish-stars" aria-label="Three stars earned"></div><div class="finish-stats"><span class="finish-stat gold">✦ <span id="final-points"></span> XP</span><span class="finish-stat" id="final-streak-stat">♨ Streak <span id="final-streak"></span></span></div><button class="finish-notes-button" id="finish-notes-button" type="button">See my answers</button><button class="copy-answers" id="copy-answers" type="button">Copy my answers</button><label class="include-notes-option"><input id="include-answer-history" type="checkbox"> Include answer history</label><p class="copy-status" id="copy-status" aria-live="polite"></p><div class="finish-actions"><button class="play-again" id="play-again" type="button">Play again <span aria-hidden="true">↻</span></button><button class="choose-again" id="choose-again" type="button">Choose another set</button></div></div>';
+    slot.innerHTML = '<div class="finish-content"><p class="quest-label">A little adventure, well traveled</p><h1>Quest Complete!</h1><p class="finish-set-name"></p><p class="finish-order-note"></p><p class="finish-summary"></p><p class="total-words"></p><p class="finish-order-note" id="finish-hints-used"></p><div class="finish-stars" aria-label="Three stars earned"></div><div class="finish-stats"><span class="finish-stat gold">✦ <span id="final-points"></span> XP</span><span class="finish-stat" id="final-streak-stat">♨ Streak <span id="final-streak"></span></span></div><button class="finish-notes-button" id="finish-notes-button" type="button">See my answers</button><button class="copy-answers" id="copy-answers" type="button">Copy my answers</button><label class="include-notes-option"><input id="include-answer-history" type="checkbox"> Include answer history</label><p class="copy-status" id="copy-status" aria-live="polite"></p><div class="finish-actions"><button class="play-again" id="play-again" type="button">Play again <span aria-hidden="true">↻</span></button><button class="choose-again" id="choose-again" type="button">Choose another set</button></div></div>';
     slot.querySelector(".finish-set-name").textContent = "You finished Set " + activeSet.number + ": " + activeSet.name + ".";
     slot.querySelector(".finish-order-note").textContent=activeWasShuffled?"Shuffled order":"Original order";
     const answered=activeQuestions.length-passedQuestions.length;
     slot.querySelector(".finish-summary").textContent=answered+" answered, "+passedQuestions.length+" passed.";
     slot.querySelector(".total-words").textContent = "You wrote " + answers.reduce((sum,text)=>sum+countWords(text),0) + " words!";
+    slot.querySelector("#finish-hints-used").textContent = hintsUsed.size ? "Hints used on " + hintsUsed.size + " question" + (hintsUsed.size===1?"":"s") + "." : "";
     const finishStars = slot.querySelector(".finish-stars");
     for(let n=0;n<3;n++) finishStars.appendChild(makeStar("star lit"));
     $("final-points").textContent = points;
@@ -3691,6 +4321,14 @@
     }
     pointsFrame=requestAnimationFrame(tick);
   }
+  function showLevelToast(text){
+    const toast=$("level-toast");
+    if(!toast)return;
+    toast.textContent=text;
+    toast.classList.remove("visible");
+    void toast.offsetWidth;
+    toast.classList.add("visible");
+  }
   function reward(){
     updatePoints(points+POINTS_PER_NEXT);
     playSoftTone("reward");
@@ -3922,11 +4560,22 @@
   $("pass-undo").addEventListener("click",undoPass);
   function toggleMyAnswerPanel(){
     if(busy||!activeSet||index>=questionTotal())return;
+    if(hintPanelOpen){closeHintPanel();return;}
     if(notePanelOpen)closeMyAnswerPanel();
     else openMyAnswerPanel();
   }
+  function toggleHintFromChip(){
+    if(busy||!activeSet||index>=questionTotal())return;
+    toggleHintPanel();
+  }
   $("my-answer-chip").addEventListener("click",toggleMyAnswerPanel);
+  $("hint-chip").addEventListener("click",toggleHintFromChip);
   $("history-writing-link").addEventListener("click",()=>closeMyAnswerPanel());
+  $("hint-writing-link").addEventListener("click",()=>closeHintPanel());
+  $("hint-reveal-all").addEventListener("click",()=>{
+    const id=currentNoteId(),set=new Set(hintAnswersFor(id).map((_,n)=>n));
+    hintRevealedByQuestion.set(id,set);renderHintPanel(id);
+  });
   $("history-undo-button").addEventListener("click",undoDeleteHistoryEntry);
   $("history-use-replace").addEventListener("click",()=>applyHistoryEntry("replace"));
   $("history-use-add").addEventListener("click",()=>applyHistoryEntry("append"));
@@ -3961,10 +4610,12 @@
   $("answers-list-backdrop").addEventListener("click",event=>{if(event.target===$("answers-list-backdrop"))$("answers-list-backdrop").hidden=true;});
   document.addEventListener("click",event=>{
     if(notePanelOpen&&!event.composedPath().includes($("note-panel-slot"))&&event.target!==$("my-answer-chip"))closeMyAnswerPanel({restoreFocus:false});
+    if(hintPanelOpen&&!event.composedPath().includes($("note-panel-slot"))&&event.target!==$("hint-chip"))closeHintPanel({restoreFocus:false});
   });
   function openSettings(){
     if(busy||!SHOW_SETTINGS_BUTTON||!$("settings-backdrop").hidden)return;
     if(notePanelOpen)closeMyAnswerPanel({restoreFocus:false});
+    if(hintPanelOpen)closeHintPanel({restoreFocus:false});
     $("settings-backdrop").hidden=false;
     readMicPermission();
     $("settings-open").setAttribute("aria-expanded","true");
@@ -4159,6 +4810,7 @@
   document.querySelectorAll("[data-setting-toggle]").forEach(input=>{
     input.addEventListener("change",()=>setSetting(input.dataset.settingToggle,input.checked));
   });
+  $("hint-cost").addEventListener("change",event=>setSetting("hintCost",event.target.value));
   $("word-list-form").addEventListener("submit",event=>{
     event.preventDefault();
     const form=event.currentTarget,hear=$("word-list-hear").value.trim(),write=$("word-list-write").value.trim();
@@ -4228,6 +4880,8 @@
       event.stopImmediatePropagation();
       return;
     }
+    const target=event.target;
+    const editing=target instanceof Element&&target.matches("textarea,input,[contenteditable='true']");
     if(!$("settings-backdrop").hidden){
       if(event.key==="Escape"){
         event.preventDefault();
@@ -4235,8 +4889,6 @@
         else closeSettings();
         return;
       }
-      const target=event.target;
-      const editing=target instanceof Element&&target.matches("textarea,input,[contenteditable='true']");
       if(!$("manuscript-backdrop").hidden){
         if(event.key==="Escape"){event.preventDefault();closeManuscript();return;}
         if(event.key==="m"&&!editing){event.preventDefault();closeManuscript();return;}
@@ -4260,8 +4912,10 @@
       if(!$("history-use-backdrop").hidden){$("history-use-cancel").click();return;}
       if(!$("answers-list-backdrop").hidden){$("answers-list-backdrop").hidden=true;return;}
       if(notePanelOpen){closeMyAnswerPanel();return;}
+      if(hintPanelOpen){closeHintPanel();return;}
     }
     if(!$("notes-clear-backdrop").hidden||!$("notes-restore-backdrop").hidden||!$("history-use-backdrop").hidden||!$("answers-list-backdrop").hidden)return;
+    if(notePanelOpen||hintPanelOpen)return;
     if(!$("leave-modal").hidden){
       if(event.key==="Escape")$("stay-button").click();
       return;
@@ -4275,6 +4929,7 @@
       return;
     }
     if(event.key.toLowerCase()==="m"&&activeSet){event.preventDefault();openManuscript();return;}
+    if(event.key.toLowerCase()==="h"&&activeSet&&index<questionTotal()){event.preventDefault();toggleHintPanel();return;}
     if(event.altKey&&event.key.toLowerCase()==="p"){
       event.preventDefault();
       passQuestion();
@@ -4300,7 +4955,7 @@
     if(!touchStart)return;
     const t=event.changedTouches[0],dx=t.clientX-touchStart.x,dy=t.clientY-touchStart.y;touchStart=null;
     if(Math.abs(dx)<55||Math.abs(dx)<Math.abs(dy)*1.4)return;
-    if(busy||entranceActive||!activeSet||!$("settings-backdrop").hidden||!$("leave-modal").hidden)return;
+    if(busy||entranceActive||!activeSet||notePanelOpen||hintPanelOpen||!$("settings-backdrop").hidden||!$("leave-modal").hidden)return;
     if(dx<0&&index<questionTotal())handleNext();
     else if(dx>0)handleBack();
   },{passive:true});
