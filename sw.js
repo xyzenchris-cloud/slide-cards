@@ -5,6 +5,7 @@ const APP_FILES = [
   "./index.html",
   "./404.html",
   "./manifest.webmanifest",
+  "./manuscript.pdf",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
