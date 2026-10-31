@@ -285,6 +285,21 @@
   .manuscript-add-dialog p{margin:0 0 16px;color:var(--muted);font-size:.82rem;line-height:1.5}
   .manuscript-fallback{margin:12px 0 0;padding:10px;border-radius:12px;background:rgba(216,170,85,.12);font-size:.76rem;line-height:1.4}
   .manuscript-fallback a{color:var(--forest);font-weight:700}
+  .performance-meter{position:fixed;right:12px;bottom:12px;z-index:80;padding:6px 9px;border:1px solid rgba(69,102,78,.16);border-radius:10px;background:var(--paper);color:var(--muted);font-size:.68rem;box-shadow:0 3px 10px rgba(46,60,48,.12);pointer-events:none}
+  .performance-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;color:var(--muted);font-size:.72rem}
+  .performance-grid strong{display:block;color:var(--ink);font-size:.82rem}
+  .performance-switches{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin-top:9px}
+  .performance-switches label{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:.7rem}
+  .performance-switches input{accent-color:var(--sage)}
+  .performance-result{min-height:1.4em;margin:9px 0 0;color:var(--forest);font-size:.72rem;line-height:1.45}
+  [data-perf="off"] .atmosphere,[data-perf="off"] .card-shine{animation-play-state:paused!important}
+  body[data-perf-floating="off"] .atmosphere,body[data-perf-sparkles="off"] .dust,
+  body[data-perf-sparkles="off"] .orb,body[data-perf-card-floating="off"] .float,
+  body[data-perf-shine="off"] .card-shine,body[data-perf-waves="off"] .voice-waves{display:none!important}
+  body[data-perf-confetti="off"] .confetti{display:none!important}
+  body[data-perf-shadows="off"] *{box-shadow:none!important;text-shadow:none!important;filter:none!important}
+  body[data-perf-word-effects="off"] .word{animation:none!important;opacity:1!important;transform:none!important}
+  body[data-perf-backdrop="off"] .modal-backdrop,body[data-perf-backdrop="off"] .hint-modal-backdrop{background:transparent!important;backdrop-filter:none!important}
   .language-info:hover,.language-info:focus-visible{background:var(--sage);color:#fff}
   .language-note[hidden]{display:none}
   .history-writing-link{display:block;margin:0 0 10px;padding:0;border:0;background:transparent;color:var(--sage);font-size:.7rem;font-weight:700;cursor:pointer;text-align:left}
@@ -382,37 +397,7 @@
   .manuscript-drop{display:grid;place-items:center;min-height:84px;margin-top:10px;padding:14px;border:1px dashed rgba(69,102,78,.25);border-radius:16px;background:rgba(120,150,120,.05);color:var(--muted);font-size:.75rem;text-align:center}
   .manuscript-drop.dragging{border-color:var(--sage);background:rgba(120,150,120,.12)}
   .manuscript-meta{margin:0;color:var(--muted);font-size:.72rem;line-height:1.45}
-  .manuscript-backdrop{position:fixed;inset:0;z-index:35;background:rgba(30,43,35,.18);backdrop-filter:blur(2px)}
-  .manuscript-drawer{position:absolute;top:0;right:0;bottom:0;width:min(45vw,760px);min-width:340px;display:flex;flex-direction:column;background:var(--paper);color:var(--ink);box-shadow:-10px 0 0 rgba(69,102,78,.12),-26px 0 60px rgba(35,47,37,.22);animation:manuscript-in .38s var(--ease) both}
-  @keyframes manuscript-in{from{opacity:.7;transform:translateX(32px)}to{opacity:1;transform:translateX(0)}}
-  .manuscript-head{display:flex;align-items:center;gap:8px;padding:max(15px,env(safe-area-inset-top)) 16px 10px;border-bottom:1px solid rgba(69,102,78,.12)}
-  .manuscript-title{min-width:0;flex:1}
-  .manuscript-title strong{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.8rem}
-  .manuscript-title small{display:block;color:var(--muted);font-size:.66rem}
-  .manuscript-controls{display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:9px 16px;border-bottom:1px solid rgba(69,102,78,.1)}
-  .manuscript-controls button,.manuscript-controls input{min-height:31px;padding:5px 8px;border:1px solid rgba(69,102,78,.14);border-radius:999px;background:var(--cream);color:var(--forest);font-size:.68rem;font-weight:700}
-  .manuscript-controls input{width:58px;text-align:center;font-weight:600}
-  .manuscript-pages{position:relative;flex:1;overflow:auto;overscroll-behavior:contain;padding:14px;background:rgba(120,150,120,.05)}
-  .manuscript-page{width:min(100%,760px);min-height:180px;margin:0 auto 16px;display:grid;place-items:center;background:rgba(120,150,120,.09);border-radius:8px;box-shadow:0 5px 0 rgba(69,102,78,.1);contain:layout paint}
-  .manuscript-page canvas{display:block;width:100%;height:auto;border-radius:8px;background:#fff;box-shadow:0 2px 12px rgba(35,47,37,.16)}
-  .manuscript-page canvas.manuscript-dark-page{filter:invert(.88) hue-rotate(180deg)}
-  .manuscript-page.loading::after{content:"Loading page…";color:var(--muted);font-size:.72rem}
-  .manuscript-page[data-rendered="true"]{background:transparent;min-height:0}
-  .manuscript-links{display:flex;gap:5px;flex-wrap:wrap;padding:7px 16px;border-bottom:1px solid rgba(69,102,78,.1)}
-  .manuscript-link-chip{display:inline-flex;align-items:center;gap:3px;padding:4px 8px;border:0;border-radius:999px;background:rgba(120,150,120,.12);color:var(--forest);font-size:.65rem;font-weight:700;cursor:pointer}
-  .manuscript-search{display:flex;gap:5px;padding:7px 16px;border-bottom:1px solid rgba(69,102,78,.1)}
-  .manuscript-search input{flex:1;min-width:0;padding:7px 9px;border:1px solid rgba(69,102,78,.15);border-radius:10px;background:var(--cream);color:var(--ink);font-size:.72rem}
-  .manuscript-search span{align-self:center;color:var(--muted);font-size:.68rem}
-  .manuscript-message{min-height:1.35em;margin:0;padding:6px 16px;color:var(--muted);font-size:.7rem;line-height:1.4}
   [data-theme="dark"] .manuscript-open{background:#35443a;color:#dfe8da}
-  [data-theme="dark"] .manuscript-drawer{background:#26372d}
-  [data-theme="dark"] .manuscript-controls button,[data-theme="dark"] .manuscript-controls input,[data-theme="dark"] .manuscript-search input{background:#202c26;color:#e3eadc}
-  [data-theme="dark"] .manuscript-page{background:#35443a}
-  @media(max-width:720px){
-    .manuscript-drawer{top:8%;width:100%;min-width:0;border-radius:24px 24px 0 0;animation:manuscript-sheet .38s var(--ease) both}
-    @keyframes manuscript-sheet{from{opacity:.7;transform:translateY(32px)}to{opacity:1;transform:translateY(0)}}
-    .manuscript-pages{padding:10px}
-  }
   @media(max-width:520px){.voice-fix-box,.word-list-form{grid-template-columns:1fr 1fr}.voice-fix-box button,.word-list-form button{grid-column:1/-1}.word-list-item{grid-template-columns:1fr auto 1fr auto auto;font-size:.68rem}}
   .set-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:16px;width:100%;margin-top:13px}
   .set-card{position:relative;isolation:isolate;overflow:hidden;min-height:150px;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:8px;padding:22px;border:1px solid rgba(255,255,255,.95);border-radius:23px;background:var(--paper);color:var(--ink);text-align:left;cursor:pointer;box-shadow:0 7px 0 var(--forest),0 13px 25px rgba(64,77,57,.1),inset 0 0 0 1px rgba(120,150,120,.12);transition:transform .25s var(--ease),box-shadow .25s;opacity:0;animation:set-card-in .5s var(--ease) forwards}
@@ -1015,6 +1000,42 @@
         </div>
       </section>
       <section class="setting-section">
+        <h3>Performance check</h3>
+        <label class="setting-toggle"><span><strong>Show performance tools</strong><small>Temporarily measure frames, slow moments, and page work. Nothing here is saved.</small></span><input id="performance-enabled" type="checkbox"><i aria-hidden="true"></i></label>
+        <div id="performance-tools" hidden>
+          <div class="performance-grid">
+            <div>Frames per second<strong id="perf-fps">—</strong></div>
+            <div>Slow moments<strong id="perf-slow">0</strong></div>
+            <div>Elements<strong id="perf-elements">—</strong></div>
+            <div>Animations<strong id="perf-animations">—</strong></div>
+            <div>Timers<strong id="perf-timers">—</strong></div>
+            <div>Listeners<strong id="perf-listeners">—</strong></div>
+            <div>Memory<strong id="perf-memory">—</strong></div>
+            <div>Saved data<strong id="perf-storage">—</strong></div>
+          </div>
+          <div class="performance-switches">
+            <label><input type="checkbox" data-perf-toggle="floating" checked>Floating background</label>
+            <label><input type="checkbox" data-perf-toggle="sparkles" checked>Sparkles</label>
+            <label><input type="checkbox" data-perf-toggle="shine" checked>Shine</label>
+            <label><input type="checkbox" data-perf-toggle="cardFloating" checked>Card floating</label>
+            <label><input type="checkbox" data-perf-toggle="confetti" checked>Confetti</label>
+            <label><input type="checkbox" data-perf-toggle="backdrop" checked>Backdrop dimming</label>
+            <label><input type="checkbox" data-perf-toggle="shadows" checked>Shadows and glows</label>
+            <label><input type="checkbox" data-perf-toggle="waves" checked>Sound-wave bars</label>
+            <label><input type="checkbox" data-perf-toggle="wordEffects" checked>Word-by-word effects</label>
+            <label><input type="checkbox" data-perf-toggle="smartCleanup" checked>Smart cleanup</label>
+            <label><input type="checkbox" data-perf-toggle="rememberPlace" checked>Remembering my place</label>
+            <label><input type="checkbox" data-perf-toggle="textGuard" checked>Text Guard</label>
+            <label><input type="checkbox" data-perf-toggle="voiceLogging" checked>Voice test logging</label>
+          </div>
+          <div class="notes-backup-actions">
+            <button class="note-quiet-button" id="performance-start" type="button">Start 10-second test</button>
+            <button class="note-quiet-button" id="performance-copy" type="button">Copy performance report</button>
+          </div>
+          <p class="performance-result" id="performance-result" aria-live="polite"></p>
+        </div>
+      </section>
+      <section class="setting-section">
         <h3>Microphone help</h3>
         <p class="mic-help-state">Current state: <strong id="mic-permission-state">Checking...</strong></p>
         <ol class="mic-help-list">
@@ -1049,6 +1070,7 @@
   <button id="pwa-reload" type="button">Reload</button>
   <button id="pwa-later" type="button">Later</button>
 </div>
+<div class="performance-meter" id="performance-meter" hidden>FPS — · slow 0</div>
 <div class="modal-backdrop" id="mic-permission-backdrop" hidden>
   <section class="leave-dialog" role="dialog" aria-modal="true" aria-labelledby="mic-permission-title" aria-describedby="mic-permission-description">
     <h2 id="mic-permission-title">A quick microphone check</h2>
@@ -1114,7 +1136,7 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.5.0";
+  const APP_VERSION = "1.6.0";
   const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
   // Optional: set a same-folder filename to publish a PDF with the site. This makes it public to anyone with the link.
@@ -1790,7 +1812,7 @@
   let wordList=loadWordList();
   let activeSet=null, activeQuestions=[], activeWasShuffled=false, index=0, points=0, streak=0, busy=false, notePanelOpen=false, hintPanelOpen=false;
   let answers=[], furthestIndex=0, selectedLanguage=settings.voiceLanguage, recognition=null, voiceSession=null, listening=false, restartTimer=null;
-  let voiceTextarea=null, notePanelAnimation=null, noteOpenId=null, pendingRestoreNotes=null, pendingRestoreWordList=null, pendingRestoreManuscript=null;
+  let voiceTextarea=null, notePanelAnimation=null, noteOpenId=null, pendingRestoreNotes=null, pendingRestoreWordList=null;
   let downloadedBackup=(()=>{try{return localStorage.getItem(NOTES_STORAGE_KEY+"-backup")==="1";}catch(_){return false;}})();
   let notesStorageAvailable=noteStorageWorks();
   let historyNeedsMigration=false;
@@ -1812,16 +1834,12 @@
   let voiceTransitioning=false;
   let hiddenVoiceWasOn=false, hiddenVoiceUntil=0;
   const MANUSCRIPT_DB_NAME=STORAGE_PREFIX+"manuscript-db";
-  const MANUSCRIPT_DB_VERSION=1;
-  const MANUSCRIPT_META_KEY=STORAGE_PREFIX+"manuscript-meta";
-  const MANUSCRIPT_LINKS_KEY=STORAGE_PREFIX+"manuscript-links";
-  let manuscriptRecord=null, manuscriptDoc=null, manuscriptObjectUrl="", manuscriptPage=1, manuscriptZoom=1;
-  let manuscriptPinned=false, manuscriptSearchResults=[], manuscriptSearchIndex=-1, manuscriptRenderObserver=null;
-  let manuscriptDbPromise=null, manuscriptOpen=false, manuscriptPreviousFocus=null;
-  let manuscriptLinks=(()=>{try{const value=JSON.parse(localStorage.getItem(MANUSCRIPT_LINKS_KEY)||"{}");return value&&typeof value==="object"?value:{};}catch(_){return {};}})();
-  const manuscriptViewState=(()=>{try{const value=JSON.parse(localStorage.getItem(MANUSCRIPT_META_KEY)||"{}");return value&&typeof value==="object"?value:{};}catch(_){return {};}})();
-  if(Number.isFinite(Number(manuscriptViewState.page)))manuscriptPage=Math.max(1,Number(manuscriptViewState.page));
-  if(Number.isFinite(Number(manuscriptViewState.zoom)))manuscriptZoom=Math.max(.6,Math.min(2.5,Number(manuscriptViewState.zoom)));
+  const MANUSCRIPT_DB_VERSION=2;
+  const MANUSCRIPT_META_STORE="metadata";
+  const MANUSCRIPT_FILES_STORE="files";
+  const MANUSCRIPT_LEGACY_KEYS=[STORAGE_PREFIX+"manuscript-meta",STORAGE_PREFIX+"manuscript-links",STORAGE_PREFIX+"manuscript-view-state"];
+  let manuscriptRecord=null, manuscriptDbPromise=null;
+  const performanceTools={enabled:false,switches:{},raf:0,lastFrame:0,frames:0,slow:0,lowest:Infinity,started:0,test:null,testTimer:0,report:""};
   let wasReady=false;
   const completedSets = new Set();
   const lastOrderBySet = new Map();
@@ -1849,6 +1867,122 @@
   }
   function motionDuration(full,lite=full){
     return settings.animations==="off"?0:settings.animations==="lite"?lite:full;
+  }
+  const performanceSwitchNames=["floating","sparkles","shine","cardFloating","confetti","backdrop","shadows","waves","wordEffects","smartCleanup","rememberPlace","textGuard","voiceLogging"];
+  function performanceFeatureOn(name){
+    return !performanceTools.enabled||performanceTools.switches[name]!==false;
+  }
+  function performanceStorageBytes(){
+    const sizes={settings:0,answers:0,place:0,hints:0,pdf:manuscriptRecord?.size||0};
+    try{
+      sizes.settings=(localStorage.getItem(SETTINGS_STORAGE_KEY)||"").length*2;
+      sizes.answers=(localStorage.getItem(NOTES_STORAGE_KEY)||"").length*2;
+      sizes.place=(localStorage.getItem(PLACE_STORAGE_KEY)||"").length*2;
+    }catch(_){}
+    sizes.hints=JSON.stringify(HINT_ANSWERS).length*2;
+    return sizes;
+  }
+  function formatBytes(bytes){
+    if(!Number.isFinite(bytes))return "—";
+    if(bytes<1024)return Math.round(bytes)+" B";
+    if(bytes<1024*1024)return Math.round(bytes/1024)+" KB";
+    return (bytes/(1024*1024)).toFixed(1)+" MB";
+  }
+  function performanceSnapshot(){
+    const saved=performanceStorageBytes(),memory=performance.memory?.usedJSHeapSize;
+    return {
+      fps:performanceTools.frames?Math.round(performanceTools.frames/Math.max(.001,(performance.now()-performanceTools.started)/1000)):"—",
+      slow:performanceTools.slow,
+      elements:document.querySelectorAll("*").length,
+      animations:document.getAnimations().length,
+      timers:managedTimers.size+(placeSaveTimer?1:0)+(performanceTools.raf?1:0)+(performanceTools.testTimer?1:0),
+      listeners:"n/a",
+      memory:memory?formatBytes(memory):"unavailable",
+      storage:Object.values(saved).reduce((sum,value)=>sum+value,0),
+      saved
+    };
+  }
+  function updatePerformanceUI(){
+    if(!performanceTools.enabled)return;
+    const snapshot=performanceSnapshot();
+    $("perf-fps").textContent=performanceTools.frames?String(snapshot.fps):"—";
+    $("perf-slow").textContent=String(performanceTools.slow);
+    $("perf-elements").textContent=String(snapshot.elements);
+    $("perf-animations").textContent=String(snapshot.animations);
+    $("perf-timers").textContent=String(snapshot.timers);
+    $("perf-listeners").textContent=snapshot.listeners;
+    $("perf-memory").textContent=snapshot.memory;
+    $("perf-storage").textContent=formatBytes(snapshot.storage);
+    $("performance-meter").textContent="FPS "+(performanceTools.frames?snapshot.fps:"—")+" · slow "+performanceTools.slow;
+  }
+  function performanceFrame(timestamp){
+    if(!performanceTools.enabled){performanceTools.raf=0;return;}
+    if(performanceTools.lastFrame){
+      const delta=timestamp-performanceTools.lastFrame;
+      if(delta>50)performanceTools.slow++;
+      if(delta>0){performanceTools.frames++;performanceTools.lowest=Math.min(performanceTools.lowest,1000/delta);}
+    }else performanceTools.started=timestamp;
+    performanceTools.lastFrame=timestamp;
+    updatePerformanceUI();
+    performanceTools.raf=requestAnimationFrame(performanceFrame);
+  }
+  function setPerformanceEnabled(enabled){
+    performanceTools.enabled=Boolean(enabled);
+    $("performance-tools").hidden=!performanceTools.enabled;
+    $("performance-meter").hidden=!performanceTools.enabled;
+    if(performanceTools.enabled){
+      performanceTools.lastFrame=0;performanceTools.frames=0;performanceTools.slow=0;performanceTools.lowest=Infinity;
+      performanceTools.started=performance.now();
+      performanceTools.raf=requestAnimationFrame(performanceFrame);
+      performanceSwitchNames.forEach(name=>{performanceTools.switches[name]=true;});
+      document.querySelectorAll("[data-perf-toggle]").forEach(input=>input.checked=true);
+      applyPerformanceSwitches();
+      updatePerformanceUI();
+    }else{
+      if(performanceTools.raf){cancelAnimationFrame(performanceTools.raf);performanceTools.raf=0;}
+      if(performanceTools.testTimer){clearDelay(performanceTools.testTimer);performanceTools.testTimer=0;}
+      performanceTools.test=null;
+    }
+  }
+  function applyPerformanceSwitches(){
+    performanceSwitchNames.forEach(name=>document.body.dataset["perf"+name.charAt(0).toUpperCase()+name.slice(1)]=performanceFeatureOn(name)?"on":"off");
+    if(!performanceFeatureOn("shine")){cancelStartCardShines();cancelQuestionCardShine();}
+    if(!performanceFeatureOn("confetti"))removeConfetti();
+    if(!performanceFeatureOn("textGuard"))stopTextGuard();
+    if(!performanceFeatureOn("rememberPlace")&&placeSaveTimer){clearTimeout(placeSaveTimer);placeSaveTimer=0;}
+  }
+  function performanceReport(){
+    const snapshot=performanceSnapshot();
+    const active=performanceSwitchNames.filter(name=>performanceFeatureOn(name)).join(", ");
+    return [
+      "Little Quest performance report",
+      "FPS average: "+snapshot.fps,
+      "FPS lowest: "+(Number.isFinite(performanceTools.lowest)?performanceTools.lowest.toFixed(1):"—"),
+      "Slow moments (>50 ms): "+snapshot.slow,
+      "Elements: "+snapshot.elements,
+      "Animations: "+snapshot.animations,
+      "Timers: "+snapshot.timers,
+      "Listeners: "+snapshot.listeners,
+      "Memory: "+snapshot.memory,
+      "Saved data: "+formatBytes(snapshot.storage),
+      "Saved breakdown: settings "+formatBytes(snapshot.saved.settings)+", answers "+formatBytes(snapshot.saved.answers)+", place "+formatBytes(snapshot.saved.place)+", hints "+formatBytes(snapshot.saved.hints)+", PDF "+formatBytes(snapshot.saved.pdf),
+      "Features running: "+active
+    ].join("\n");
+  }
+  function startPerformanceTest(){
+    if(!performanceTools.enabled||performanceTools.test)return;
+    performanceTools.test={start:performance.now(),previousEnabled:true};
+    performanceTools.lastFrame=0;performanceTools.frames=0;performanceTools.slow=0;performanceTools.lowest=Infinity;
+    $("performance-result").textContent="Testing for 10 seconds…";
+    performanceTools.testTimer=delay(()=>{
+      performanceTools.testTimer=0;
+      if(!performanceTools.enabled)return;
+      performanceTools.test=null;
+      performanceTools.report=performanceReport();
+      const average=performanceTools.frames?Math.round(performanceTools.frames/10):"—";
+      const lowest=Number.isFinite(performanceTools.lowest)?performanceTools.lowest.toFixed(1):"—";
+      $("performance-result").textContent="Average "+average+" FPS · lowest "+lowest+" FPS · "+performanceTools.slow+" slow moments.";
+    },10000);
   }
   function transitionDuration(multiplier=1){
     return settings.animations==="off"?0:settings.animations==="lite"?Math.round(300*multiplier):Math.round(transitionSpeed*multiplier);
@@ -1879,7 +2013,7 @@
   }
   function scheduleStartCardShines(){
     cancelStartCardShines();
-    if(settings.animations==="off")return;
+    if(settings.animations==="off"||!performanceFeatureOn("shine"))return;
     const generation=startShineGeneration;
     const cards=[...$("set-grid").querySelectorAll(".set-card")];
     if(!cards.length)return;
@@ -1888,7 +2022,7 @@
     const entranceWait=Math.max(480,entranceDuration+(cards.length-1)*90)+40;
     startShineTimer=setTimeout(()=>{
       startShineTimer=0;
-      if(generation!==startShineGeneration||currentScreen!=="start"||settings.animations==="off")return;
+      if(generation!==startShineGeneration||currentScreen!=="start"||settings.animations==="off"||!performanceFeatureOn("shine"))return;
       cards.forEach((card,n)=>{
         const animation=sweepCardShine(card.querySelector(".card-shine"),duration,n*250);
         if(!animation)return;
@@ -1906,7 +2040,7 @@
     pendingQuestionShineId=null;
     if(!questionId)return;
     if(questionShineAnimation){questionShineAnimation.cancel();questionShineAnimation=null;}
-    if(settings.animations==="off")return;
+    if(settings.animations==="off"||!performanceFeatureOn("shine"))return;
     const duration=settings.animations==="lite"?800:1400;
     questionShineAnimation=sweepCardShine(card.querySelector(".card-shine"),duration);
     if(questionShineAnimation){
@@ -2437,7 +2571,6 @@
       const restored=normalizeBackupData(parsed);
       pendingRestoreNotes=restored.answers;
       pendingRestoreWordList=restored.wordList;
-      pendingRestoreManuscript=null;
       const count=Object.values(pendingRestoreNotes).reduce((sum,entries)=>sum+entries.length,0);
       $("notes-restore-description").textContent=count+" answer"+(count===1?"":"s")+" found. Choose how to restore them.";
       $("notes-restore-backdrop").hidden=false;
@@ -2470,7 +2603,6 @@
     }
     pendingRestoreNotes=null;
     pendingRestoreWordList=null;
-    pendingRestoreManuscript=null;
     $("notes-restore-backdrop").hidden=true;
     persistNotes();
     refreshNotesStatus();
@@ -2540,6 +2672,7 @@
     if($("hint-cost"))$("hint-cost").value=settings.hintCost;
     document.querySelectorAll("[data-voice-mode]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.voiceMode===settings.voiceMode)));
     $("voice-test-panel").hidden=!settings.showVoiceTest;
+    if($("performance-enabled"))$("performance-enabled").checked=performanceTools.enabled;
     renderWordList();
     $("version-line").textContent="Version "+APP_VERSION+", "+VERSION_DATE;
     if($("mic-permission-state"))setMicPermissionState(micPermissionState);
@@ -2555,14 +2688,13 @@
     document.querySelectorAll(".language-choice").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.language===selectedLanguage)));
     if($("answer-input"))updateWordUI();
     updateManuscriptSettings();
-    document.querySelectorAll(".manuscript-page canvas").forEach(canvas=>canvas.classList.toggle("manuscript-dark-page",Boolean(settings.manuscriptDarkPages)));
-    if(activeSet&&manuscriptOpen)renderManuscriptLinks();
     if(activeSet)requestAnimationFrame(fitVisibleQuestion);
     if(!activeSet)updateSetCardMetadata();
     if(settings.animations==="off"){
       cancelStartCardShines();
       cancelQuestionCardShine();
     }
+    if(performanceTools.enabled)applyPerformanceSwitches();
   }
   function setSetting(key,value){
     if(key==="voiceLanguage"){
@@ -2647,50 +2779,47 @@
     manuscriptDbPromise=new Promise((resolve,reject)=>{
       if(!window.indexedDB){reject(new Error("storage-unavailable"));return;}
       const request=indexedDB.open(MANUSCRIPT_DB_NAME,MANUSCRIPT_DB_VERSION);
-      request.onupgradeneeded=()=>request.result.createObjectStore("files");
+      request.onupgradeneeded=()=>{
+        const db=request.result;
+        if(!db.objectStoreNames.contains(MANUSCRIPT_FILES_STORE))db.createObjectStore(MANUSCRIPT_FILES_STORE);
+        if(!db.objectStoreNames.contains(MANUSCRIPT_META_STORE))db.createObjectStore(MANUSCRIPT_META_STORE);
+      };
       request.onsuccess=()=>resolve(request.result);
       request.onerror=()=>reject(request.error||new Error("storage-unavailable"));
     });
     return manuscriptDbPromise;
   }
-  async function manuscriptDbGet(){
-    const db=await manuscriptDb();
-    return new Promise((resolve,reject)=>{
-      const request=db.transaction("files","readonly").objectStore("files").get("active");
+  function manuscriptDbGet(store,key="active"){
+    return manuscriptDb().then(db=>new Promise((resolve,reject)=>{
+      const request=db.transaction(store,"readonly").objectStore(store).get(key);
       request.onsuccess=()=>resolve(request.result||null);
       request.onerror=()=>reject(request.error||new Error("read-failed"));
-    });
+    }));
   }
-  async function manuscriptDbPut(value){
-    const db=await manuscriptDb();
-    return new Promise((resolve,reject)=>{
-      const request=db.transaction("files","readwrite").objectStore("files").put(value,"active");
-      request.onsuccess=()=>resolve();
-      request.onerror=()=>reject(request.error||new Error("write-failed"));
-    });
+  function manuscriptDbPut(meta,blob){
+    return manuscriptDb().then(db=>new Promise((resolve,reject)=>{
+      const transaction=db.transaction([MANUSCRIPT_FILES_STORE,MANUSCRIPT_META_STORE],"readwrite");
+      transaction.objectStore(MANUSCRIPT_FILES_STORE).put(blob,"active");
+      transaction.objectStore(MANUSCRIPT_META_STORE).put(meta,"active");
+      transaction.oncomplete=resolve;
+      transaction.onerror=()=>reject(transaction.error||new Error("write-failed"));
+    }));
   }
-  async function manuscriptDbDelete(){
-    const db=await manuscriptDb();
-    return new Promise((resolve,reject)=>{
-      const request=db.transaction("files","readwrite").objectStore("files").delete("active");
-      request.onsuccess=()=>resolve();
-      request.onerror=()=>reject(request.error||new Error("delete-failed"));
-    });
+  function manuscriptDbDelete(){
+    return manuscriptDb().then(db=>new Promise((resolve,reject)=>{
+      const transaction=db.transaction([MANUSCRIPT_FILES_STORE,MANUSCRIPT_META_STORE],"readwrite");
+      transaction.objectStore(MANUSCRIPT_FILES_STORE).delete("active");
+      transaction.objectStore(MANUSCRIPT_META_STORE).delete("active");
+      transaction.oncomplete=resolve;
+      transaction.onerror=()=>reject(transaction.error||new Error("delete-failed"));
+    }));
   }
-  function persistManuscriptLinks(){
-    try{localStorage.setItem(MANUSCRIPT_LINKS_KEY,JSON.stringify(manuscriptLinks));}catch(_){}
-    updateChips();
-  }
-  function persistManuscriptViewState(){
-    try{localStorage.setItem(MANUSCRIPT_META_KEY,JSON.stringify({page:manuscriptPage,zoom:manuscriptZoom,pinned:manuscriptPinned}));}catch(_){}
+  function cleanupLegacyManuscriptStorage(){
+    MANUSCRIPT_LEGACY_KEYS.forEach(key=>{try{localStorage.removeItem(key);}catch(_){}});
   }
   function formatManuscriptSize(bytes){
     if(bytes<1024*1024)return Math.max(1,Math.round(bytes/1024))+" KB";
     return (bytes/(1024*1024)).toFixed(1)+" MB";
-  }
-  function setManuscriptMessage(text){
-    const message=$("manuscript-message");
-    if(message)message.textContent=text||"";
   }
   function updateManuscriptSettings(){
     const meta=$("manuscript-settings-meta"),remove=$("manuscript-remove");
@@ -2706,252 +2835,82 @@
       remove.hidden=true;
     }
   }
-  function destroyManuscriptDocument(){
-    manuscriptDoc=null;
-    if(manuscriptRenderObserver){manuscriptRenderObserver.disconnect();manuscriptRenderObserver=null;}
-    if(manuscriptObjectUrl){URL.revokeObjectURL(manuscriptObjectUrl);manuscriptObjectUrl="";}
-    $("manuscript-pages")?.replaceChildren();
-  }
-  function manuscriptPageForQuestion(){
-    const links=typeof currentNoteId==="function"?(manuscriptLinks[currentNoteId()]||[]):[];
-    return settings.manuscriptJumpLinks&&links.length?Number(links[0]):1;
-  }
-  async function renderManuscriptPage(pageNumber){
-    if(!manuscriptDoc)return;
-    const pageEl=$(".manuscript-page[data-page='"+pageNumber+"']");
-    if(!pageEl||pageEl.dataset.rendered==="true")return;
-    pageEl.classList.add("loading");
-    try{
-      const page=await manuscriptDoc.getPage(pageNumber);
-      const base=page.getViewport({scale:1});
-      const containerWidth=Math.max(280,($("manuscript-pages")?.clientWidth||base.width)-4);
-      const scale=(containerWidth/base.width)*manuscriptZoom;
-      const viewport=page.getViewport({scale});
-      const canvas=document.createElement("canvas");
-      const ratio=Math.min(2,window.devicePixelRatio||1);
-      canvas.width=Math.ceil(viewport.width*ratio);canvas.height=Math.ceil(viewport.height*ratio);
-      canvas.style.width=viewport.width+"px";canvas.style.height=viewport.height+"px";
-      const context=canvas.getContext("2d",{alpha:false});
-      await page.render({canvasContext:context,viewport,transform:ratio!==1?[ratio,0,0,ratio,0,0]:null}).promise;
-      pageEl.replaceChildren(canvas);
-      pageEl.dataset.rendered="true";
-      pageEl.classList.remove("loading");
-      if(settings.manuscriptDarkPages)canvas.classList.add("manuscript-dark-page");
-    }catch(_){
-      pageEl.classList.remove("loading");
-      pageEl.textContent="This page could not be rendered.";
-    }
-  }
-  function buildManuscriptPages(){
-    const pages=$("manuscript-pages");
-    pages.replaceChildren();
-    if(!manuscriptDoc)return;
-    for(let n=1;n<=manuscriptDoc.numPages;n++){
-      const page=document.createElement("div");
-      page.className="manuscript-page loading";
-      page.dataset.page=String(n);
-      page.setAttribute("aria-label","Manuscript page "+n);
-      pages.appendChild(page);
-    }
-    manuscriptRenderObserver=new IntersectionObserver(entries=>entries.forEach(entry=>{
-      if(entry.isIntersecting)renderManuscriptPage(Number(entry.target.dataset.page));
-    }),{root:pages,rootMargin:"900px 0px"});
-    pages.querySelectorAll(".manuscript-page").forEach(page=>manuscriptRenderObserver.observe(page));
-    renderManuscriptPage(manuscriptPage);
-    requestAnimationFrame(()=>scrollManuscriptToPage(manuscriptPage));
-  }
-  function scrollManuscriptToPage(pageNumber){
-    const page=$(".manuscript-page[data-page='"+pageNumber+"']");
-    page?.scrollIntoView({block:"start",behavior:settings.animations==="off"?"auto":"smooth"});
-    manuscriptPage=pageNumber;
-    persistManuscriptViewState();
-    $("manuscript-page-input").value=String(pageNumber);
-    $("manuscript-page-label").textContent=manuscriptDoc?("Page "+pageNumber+" of "+manuscriptDoc.numPages):"No PDF loaded";
-  }
-  async function loadManuscriptDocument(source){
-    destroyManuscriptDocument();
-    if(!source)return;
-    manuscriptObjectUrl=URL.createObjectURL(source);
-    if(!window.pdfjsLib){setManuscriptMessage("The PDF viewer is unavailable in this copy.");return;}
-    pdfjsLib.GlobalWorkerOptions.workerSrc="./vendor/pdfjs/pdf.worker.min.js";
-    try{
-      manuscriptDoc=await pdfjsLib.getDocument({url:manuscriptObjectUrl}).promise;
-      manuscriptRecord=Object.assign({},manuscriptRecord||{},{
-        name:manuscriptRecord?.name||"Manuscript.pdf",size:manuscriptRecord?.size||source.size,pages:manuscriptDoc.numPages
-      });
-      updateManuscriptSettings();
-      if(manuscriptOpen){
-        buildManuscriptPages();
-        renderManuscriptLinks();
-      }
-    }catch(error){
-      destroyManuscriptDocument();
-      setManuscriptMessage(error?.name==="PasswordException"?"This PDF is password protected.":"This PDF could not be opened.");
-    }
-  }
-  async function importManuscript(file){
-    if(!file)return;
-    if(file.type!=="application/pdf"&&!/\.pdf$/iu.test(file.name)){updateManuscriptSettings();$("manuscript-settings-meta").textContent="Please choose a valid PDF file.";return;}
-    setManuscriptMessage("Saving "+file.name+"…");
-    const nextRecord={name:file.name,size:file.size,lastModified:file.lastModified,pages:0,updatedAt:Date.now(),blob:file};
-    try{
-      await manuscriptDbPut(nextRecord);
-      manuscriptRecord=nextRecord;
-      try{navigator.storage?.persist?.().catch(()=>{});}catch(_){}
-      await loadManuscriptDocument(file);
-      setManuscriptMessage("Your manuscript is saved on this device.");
-      updateManuscriptSettings();
-    }catch(_){
-      manuscriptRecord=nextRecord;
-      await loadManuscriptDocument(file);
-      setManuscriptMessage("It can be read now, but browser storage is unavailable or full.");
-      updateManuscriptSettings();
-    }
-  }
-  async function loadManuscriptState(){
-    try{
-      manuscriptRecord=await manuscriptDbGet();
-      if(manuscriptRecord?.blob)await loadManuscriptDocument(manuscriptRecord.blob);
-      else if(!manuscriptRecord&&bundledPdf){
-        const response=await fetch("./"+bundledPdf);
-        if(response.ok){
-          const blob=await response.blob();
-          manuscriptRecord={name:bundledPdf,size:blob.size,pages:0,blob,bundled:true};
-          await loadManuscriptDocument(blob);
-        }
-      }
-    }catch(_){
-      manuscriptRecord=null;
-      if(bundledPdf)try{const response=await fetch("./"+bundledPdf);if(response.ok)await loadManuscriptDocument(await response.blob());}catch(__){}
-    }
-    updateManuscriptSettings();
-    updateChips();
-  }
-  function renderManuscriptLinks(){
-    const target=$("manuscript-links");
-    if(!target)return;
-    target.replaceChildren();
-    const links=typeof currentNoteId==="function"?(manuscriptLinks[currentNoteId()]||[]):[];
-    links.slice(0,8).forEach(pageNumber=>{
-      const chip=document.createElement("button");chip.className="manuscript-link-chip";chip.type="button";chip.textContent="p. "+pageNumber;
-      chip.addEventListener("click",()=>scrollManuscriptToPage(Number(pageNumber)));
-      target.appendChild(chip);
-    });
-  }
-  function openManuscript(){
-    manuscriptPreviousFocus=document.activeElement;
-    manuscriptOpen=true;
-    $("manuscript-backdrop").hidden=false;
-    $("manuscript-close").focus({preventScroll:true});
-    updateManuscriptSettings();
-    if(!manuscriptDoc){
-      const message=$("manuscript-message");
-      message.replaceChildren(document.createTextNode("Choose a PDF to begin reading. "));
-      const choose=document.createElement("button");
-      choose.type="button";choose.className="note-quiet-button";choose.textContent="Choose PDF";
-      choose.addEventListener("click",()=>$("manuscript-file-input").click());
-      message.appendChild(choose);
-      return;
-    }
-    manuscriptPage=manuscriptPageForQuestion();
-    buildManuscriptPages();
-    renderManuscriptLinks();
-  }
-  function openManuscriptAtPage(pageNumber){
-    if(!manuscriptDoc){openManuscript();setManuscriptMessage("Choose a PDF in Settings to open manuscript page "+pageNumber+".");return;}
-    openManuscript();
-    manuscriptPage=Math.max(1,Math.min(manuscriptDoc.numPages,Number(pageNumber)||1));
-    buildManuscriptPages();
-  }
-  function closeManuscript(){
-    manuscriptOpen=false;
-    $("manuscript-backdrop").hidden=true;
-    manuscriptPreviousFocus?.focus?.({preventScroll:true});
-    manuscriptPreviousFocus=null;
-  }
-  function linkCurrentManuscriptPage(){
-    if(!manuscriptDoc||typeof currentNoteId!=="function")return;
-    const id=currentNoteId(),pages=manuscriptLinks[id]||[];
-    if(!pages.includes(manuscriptPage))pages.push(manuscriptPage);
-    manuscriptLinks[id]=pages.slice(-8);
-    persistManuscriptLinks();
-    renderManuscriptLinks();
-    setManuscriptMessage("Linked page "+manuscriptPage+" to this question.");
-  }
-  async function searchManuscript(){
-    const query=$("manuscript-search-input").value.trim().toLocaleLowerCase();
-    if(!query||!manuscriptDoc)return;
-    manuscriptSearchResults=[];
-    $("manuscript-search-status").textContent="Searching…";
-    for(let n=1;n<=manuscriptDoc.numPages;n++){
-      try{
-        const content=await manuscriptDoc.getPage(n).then(page=>page.getTextContent());
-        const text=content.items.map(item=>item.str).join(" ").toLocaleLowerCase();
-        if(text.includes(query))manuscriptSearchResults.push(n);
-      }catch(_){}
-    }
-    manuscriptSearchIndex=manuscriptSearchResults.length?0:-1;
-    $("manuscript-search-status").textContent=manuscriptSearchResults.length?("1 of "+manuscriptSearchResults.length):"No matches";
-    if(manuscriptSearchIndex>=0)scrollManuscriptToPage(manuscriptSearchResults[0]);
-    if(!manuscriptSearchResults.length)setManuscriptMessage("This PDF has no searchable text or no matching words.");
-  }
-  // The manuscript now uses the browser's native PDF tab instead of an in-app viewer.
-  function prepareManuscriptUrl(blob){
-    if(manuscriptObjectUrl){URL.revokeObjectURL(manuscriptObjectUrl);manuscriptObjectUrl="";}
-    if(blob)manuscriptObjectUrl=URL.createObjectURL(blob);
-  }
-  function manuscriptUrl(){
-    return manuscriptObjectUrl|| (bundledPdf?"./"+bundledPdf:"");
-  }
-  function showManuscriptFallback(url){
-    const fallback=$("manuscript-fallback");
-    if(!fallback)return;
-    fallback.hidden=false;
-    fallback.innerHTML="";
-    fallback.append("Your browser blocked the new tab. ");
-    const link=document.createElement("a");
-    link.href=url;link.target="_blank";link.rel="noopener";link.textContent="Open the PDF here";
-    fallback.append(link);
-  }
   async function importManuscript(file){
     if(!file)return;
     if(file.type!=="application/pdf"&&!/\.pdf$/iu.test(file.name)){
       $("manuscript-settings-meta").textContent="Please choose a valid PDF file.";
       return;
     }
-    const nextRecord={name:file.name,size:file.size,lastModified:file.lastModified,updatedAt:Date.now(),blob:file};
-    try{await manuscriptDbPut(nextRecord);}catch(_){}
-    manuscriptRecord=nextRecord;
-    prepareManuscriptUrl(file);
-    updateManuscriptSettings();
-    updateChips();
-    $("manuscript-add-backdrop").hidden=true;
-    openManuscript();
+    const meta={name:file.name,size:file.size,lastModified:file.lastModified,updatedAt:Date.now()};
+    try{
+      await manuscriptDbPut(meta,file);
+      manuscriptRecord=meta;
+      $("manuscript-add-backdrop").hidden=true;
+      updateManuscriptSettings();updateChips();
+    }catch(_){
+      $("manuscript-fallback").hidden=false;
+      $("manuscript-fallback").textContent="The PDF could not be saved on this device.";
+    }
   }
   async function loadManuscriptState(){
+    cleanupLegacyManuscriptStorage();
     try{
-      manuscriptRecord=await manuscriptDbGet();
-      if(manuscriptRecord?.blob)prepareManuscriptUrl(manuscriptRecord.blob);
+      manuscriptRecord=await manuscriptDbGet(MANUSCRIPT_META_STORE);
+      if(!manuscriptRecord){
+        const legacy=await manuscriptDbGet(MANUSCRIPT_FILES_STORE);
+        if(legacy?.blob){
+          manuscriptRecord={name:legacy.name||"Manuscript.pdf",size:legacy.size||legacy.blob.size||0,lastModified:legacy.lastModified||0,updatedAt:legacy.updatedAt||Date.now()};
+          await manuscriptDb().then(db=>new Promise(resolve=>{
+            const transaction=db.transaction(MANUSCRIPT_META_STORE,"readwrite");
+            transaction.objectStore(MANUSCRIPT_META_STORE).put(manuscriptRecord,"active");
+            transaction.oncomplete=resolve;transaction.onerror=resolve;
+          }));
+        }
+      }
     }catch(_){manuscriptRecord=null;}
-    updateManuscriptSettings();
-    updateChips();
+    updateManuscriptSettings();updateChips();
   }
-  function openManuscript(){
-    const url=manuscriptUrl();
-    if(!url){
-      $("manuscript-fallback").hidden=true;
-      $("manuscript-add-backdrop").hidden=false;
-      $("manuscript-add-choose").focus({preventScroll:true});
-      return;
+  function showManuscriptFallback(url){
+    const fallback=$("manuscript-fallback");
+    if(!fallback)return;
+    fallback.hidden=false;fallback.replaceChildren(document.createTextNode("Your browser blocked the new tab. "));
+    const link=document.createElement("a");
+    link.href=url;link.target="_blank";link.rel="noopener";link.textContent="Tap to open your PDF.";
+    fallback.append(link);
+  }
+  async function openManuscript(){
+    const opened=window.open("about:blank","_blank");
+    if(opened){
+      opened.document.title="Opening manuscript…";
+      opened.document.body.textContent="Opening…";
     }
-    const opened=window.open(url,"_blank");
-    if(!opened){
-      $("manuscript-fallback").hidden=true;
+    let url="";
+    try{
+      if(bundledPdf&&!manuscriptRecord)url="./"+bundledPdf;
+      else{
+        const blob=await manuscriptDbGet(MANUSCRIPT_FILES_STORE);
+        if(blob)url=URL.createObjectURL(blob);
+      }
+      if(!url){
+        if(opened)opened.close();
+        $("manuscript-fallback").hidden=true;$("manuscript-add-backdrop").hidden=false;
+        $("manuscript-add-choose").focus({preventScroll:true});
+        return;
+      }
+      if(opened){
+        opened.location.replace(url);
+        if(url.startsWith("blob:"))setTimeout(()=>URL.revokeObjectURL(url),60000);
+      }else{
+        $("manuscript-add-backdrop").hidden=false;
+        showManuscriptFallback(url);
+      }
+    }catch(_){
+      if(opened)opened.close();
       $("manuscript-add-backdrop").hidden=false;
-      showManuscriptFallback(url);
-    }else{try{opened.opener=null;}catch(_){}}
+      $("manuscript-fallback").textContent="The PDF could not be opened.";
+      $("manuscript-fallback").hidden=false;
+    }
   }
-  function openManuscriptAtPage(){openManuscript();}
   function closeManuscript(){
     $("manuscript-add-backdrop").hidden=true;
     $("manuscript-fallback").hidden=true;
@@ -3072,7 +3031,7 @@
   }
   function queuePlaceSave(immediate=false){
     if(placeSaveTimer){clearTimeout(placeSaveTimer);placeSaveTimer=0;}
-    if(!settings.rememberPlace||!activeSet)return;
+    if(!settings.rememberPlace||!activeSet||!performanceFeatureOn("rememberPlace"))return;
     const write=()=>{
       placeSaveTimer=0;
       const record={
@@ -3453,7 +3412,7 @@
     }
     function cleanupVoicePhrase(rawPhrase,base=""){
       const original=String(rawPhrase||"").trim();
-      if(!original||!settings.smartCleanup)return original;
+      if(!original||!settings.smartCleanup||!performanceFeatureOn("smartCleanup"))return original;
       try{
         let text=replaceWordListEntries(original);
         if(settings.removeVoiceFillers){
@@ -3492,7 +3451,7 @@
       return voiceAutoPhraseFallback||mobile?"phrase":"continuous";
     }
     function logVoiceTest(kind,detail=""){
-      if(!settings.showVoiceTest)return;
+      if(!settings.showVoiceTest||!performanceFeatureOn("voiceLogging"))return;
       voiceTestEntries.push({time:new Date().toLocaleTimeString(),kind,detail,mode:effectiveVoiceMode()});
       if(voiceTestEntries.length>50)voiceTestEntries.splice(0,voiceTestEntries.length-50);
       const list=$("voice-test-log");
@@ -3555,7 +3514,7 @@
     }
     function startTextGuard(){
       stopTextGuard();
-      if(!voiceTextarea)return;
+      if(!voiceTextarea||!performanceFeatureOn("textGuard"))return;
       textGuardSnapshot=voiceTextarea.value;
       textGuardTimer=setInterval(()=>{
         if(!listening||!voiceTextarea?.isConnected){stopTextGuard();return;}
@@ -4409,7 +4368,7 @@
     $("streak-pill").classList.add("bump");
   }
   function confettiBurst(){
-    if(settings.animations==="off"||!settings.confetti) return;
+    if(settings.animations==="off"||!settings.confetti||!performanceFeatureOn("confetti")) return;
     const styles=getComputedStyle(document.documentElement);
     const colors=[styles.getPropertyValue("--sage").trim(),"#d8aa55","#f1d58e",styles.getPropertyValue("--cream").trim(),styles.getPropertyValue("--sage-light").trim()];
     for(let n=0;n<28;n++){
@@ -4653,7 +4612,7 @@
   });
   $("notes-merge").addEventListener("click",()=>restoreNotes("merge"));
   $("notes-replace").addEventListener("click",()=>restoreNotes("replace"));
-  $("notes-restore-cancel").addEventListener("click",()=>{pendingRestoreNotes=null;pendingRestoreWordList=null;pendingRestoreManuscript=null;$("notes-restore-backdrop").hidden=true;});
+  $("notes-restore-cancel").addEventListener("click",()=>{pendingRestoreNotes=null;pendingRestoreWordList=null;$("notes-restore-backdrop").hidden=true;});
   $("answers-clear-open").addEventListener("click",()=>$("notes-clear-backdrop").hidden=false);
   $("notes-clear-cancel").addEventListener("click",()=>$("notes-clear-backdrop").hidden=true);
   $("notes-clear-download").addEventListener("click",downloadNotesBackup);
@@ -4724,7 +4683,7 @@
   $("manuscript-remove").addEventListener("click",async()=>{
     if(!manuscriptRecord||!confirm("Remove the saved manuscript from this device?"))return;
     try{await manuscriptDbDelete();}catch(_){}
-    manuscriptRecord=null;prepareManuscriptUrl(null);updateManuscriptSettings();updateChips();
+    manuscriptRecord=null;updateManuscriptSettings();updateChips();
   });
   const manuscriptDrop=$("manuscript-drop");
   ["dragenter","dragover"].forEach(type=>manuscriptDrop.addEventListener(type,event=>{event.preventDefault();manuscriptDrop.classList.add("dragging");}));
@@ -4862,6 +4821,27 @@
   choosePill("[data-pass-limit]","data-pass-limit","passLimit",allowedSettings.passLimit);
   document.querySelectorAll("[data-setting-toggle]").forEach(input=>{
     input.addEventListener("change",()=>setSetting(input.dataset.settingToggle,input.checked));
+  });
+  $("performance-enabled").addEventListener("change",event=>setPerformanceEnabled(event.target.checked));
+  document.querySelectorAll("[data-perf-toggle]").forEach(input=>{
+    input.addEventListener("change",event=>{
+      if(!performanceTools.enabled)return;
+      performanceTools.switches[event.target.dataset.perfToggle]=event.target.checked;
+      applyPerformanceSwitches();
+      updatePerformanceUI();
+    });
+  });
+  $("performance-start").addEventListener("click",startPerformanceTest);
+  $("performance-copy").addEventListener("click",async()=>{
+    const text=performanceTools.report||performanceReport();
+    performanceTools.report=text;
+    try{await navigator.clipboard.writeText(text);$("performance-result").textContent="Performance report copied.";}
+    catch(_){
+      const field=document.createElement("textarea");
+      field.value=text;field.style.position="fixed";field.style.opacity="0";document.body.append(field);
+      field.select();const copied=document.execCommand("copy");field.remove();
+      $("performance-result").textContent=copied?"Performance report copied.":"Could not copy the report.";
+    }
   });
   $("hint-cost").addEventListener("change",event=>setSetting("hintCost",event.target.value));
   $("word-list-form").addEventListener("submit",event=>{
@@ -5038,12 +5018,15 @@
   document.addEventListener("visibilitychange",()=>{
     if(document.hidden&&entranceActive)finishEntranceImmediately();
     if(document.hidden){
+      if(performanceTools.raf){cancelAnimationFrame(performanceTools.raf);performanceTools.raf=0;}
+      if(performanceTools.testTimer){clearDelay(performanceTools.testTimer);performanceTools.testTimer=0;performanceTools.test=null;}
       hiddenVoiceWasOn=listening;
       hiddenVoiceUntil=Date.now()+10000;
       document.body.dataset.pageHidden="true";
       if(listening)stopVoice();
     }else{
       document.body.dataset.pageHidden="false";
+      if(performanceTools.enabled&&!performanceTools.raf)performanceTools.raf=requestAnimationFrame(performanceFrame);
       if(hiddenVoiceWasOn&&Date.now()<=hiddenVoiceUntil&&activeSet&&$("answer-input"))startListening($("answer-input"));
       hiddenVoiceWasOn=false;
     }

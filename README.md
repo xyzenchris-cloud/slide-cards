@@ -25,11 +25,15 @@ Open `index.html` in a text editor. Near the top of the script, update `APP_VERS
 
 The Manuscript button opens the saved PDF in a new browser tab. Choose a PDF from the device, or drag it into the Manuscript section in Settings. The selected PDF is stored in this browser's IndexedDB and is never uploaded, sent to a server, or included in answer backups. A new browser profile or device will require choosing the PDF again; clearing site data, private browsing, storage quota limits, or browser cleanup can also remove it.
 
-The app does not bundle a PDF viewer or upload the selected file. If you configure a bundled PDF in `index.html`, that file becomes public with the site and is opened as a normal same-folder PDF.
+The app does not bundle PDF.js, render pages, search inside the PDF, or upload the selected file. If you configure a bundled PDF in `index.html`, that file becomes public with the site and is opened as a normal same-folder PDF. Version `1.6.0` removes the old viewer cache on service-worker activation; when replacing an older upload, also remove any obsolete `vendor/pdfjs/` files from the published folder.
+
+## Performance check
+
+Settings includes an opt-in **Performance check**. It can show approximate FPS, slow moments, DOM and animation counts, managed timers, available memory information, saved-data size, temporary feature switches, and a 10-second test with a copyable report. The diagnostics are not saved and are disabled by default. The page also pauses decorative effects while hidden and keeps the manuscript path lightweight: startup reads metadata only, while the PDF blob is loaded only after the Manuscript button is clicked.
 
 ## Reference hints
 
-The Hint chip opens a centered reference-answer modal showing the prepared answers stored in the `HINT_ANSWERS` block near the top of `index.html`. Hints are local page content, not a server feature; anyone who can view the page source can read them. Settings can blur answers until tapped or charge a small configurable XP cost once per question.
+The Hint chip opens a centered reference-answer modal showing the prepared answers stored in the `HINT_ANSWERS` block near the top of `index.html`. Hints are local page content, not a server feature; anyone who can view the page source can read them. Answers are plain text in a minimal, scrollable modal and are prepared only when opened. A small configurable XP cost can be enabled once per question.
 
 ## Resume place
 
