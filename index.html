@@ -2910,11 +2910,6 @@
     window.open(url,"_blank","noopener");
   }
   async function openManuscript(){
-    const mobileDevice=Boolean(navigator.userAgentData?.mobile||/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(matchMedia("(pointer: coarse)").matches&&navigator.maxTouchPoints>0));
-    if(mobileDevice&&bundledPdf&&navigator.share&&/^https?:$/i.test(location.protocol)){
-      await shareManuscript();
-      return;
-    }
     const opened=window.open("about:blank","_blank");
     if(opened){
       opened.document.title="Opening manuscript…";
