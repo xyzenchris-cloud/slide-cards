@@ -19,7 +19,7 @@ The service worker is scoped to this repository folder only. It checks for a new
 
 ## Update the page
 
-Open `index.html` in a text editor. Near the top of the script, update `APP_VERSION` when publishing a new copy, and edit the `QUEST_SETS` section to change questions and hints. The comments there also identify the storage prefix, animation speed, and starting settings.
+Open `index.html` in a text editor. Near the top of the script, update `APP_VERSION` when publishing a new copy, and edit the `QUEST_SETS` section to change questions and hints. The Hint action opens a lightweight, plain-text modal for the current question only; its contents are prepared lazily and are not saved in refresh-memory data. The comments there also identify the storage prefix, animation speed, and starting settings.
 
 ## Manuscript PDF
 

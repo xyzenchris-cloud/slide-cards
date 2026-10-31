@@ -165,27 +165,6 @@
   .history-empty,.history-storage-warning,.history-undo{margin:9px 0 0;color:var(--muted);font-size:.69rem;line-height:1.45}
   .history-storage-warning{color:#8a6c35}
   .history-undo button{padding:0 3px;border:0;background:none;color:var(--forest);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer}
-  .hint-panel{padding:14px;border:1px solid rgba(216,170,85,.22);border-radius:16px;background:rgba(255,251,238,.88);text-align:left}
-  .hint-panel-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
-  .hint-writing-link,.hint-reveal-all{padding:0;border:0;background:none;color:var(--forest);font-size:.72rem;font-weight:800;text-decoration:underline;cursor:pointer}
-  .hint-reveal-all{color:var(--sage);text-decoration:none}
-  .hint-list{display:grid;gap:9px;max-height:100%;overflow:auto;padding:1px 3px 1px 1px;overscroll-behavior:contain}
-  .hint-entry{min-width:0;padding:10px;border:1px solid rgba(216,170,85,.2);border-radius:13px;background:rgba(255,255,255,.62)}
-  .hint-entry-label{margin:0 0 6px;color:var(--gold);font-size:.68rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase}
-  .hint-answer{margin:0;color:var(--ink);font-size:.78rem;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
-  .hint-answer.collapsed{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:6;overflow:hidden}
-  .hint-entry-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}
-  .hint-action{padding:4px 8px;border:0;border-radius:999px;background:rgba(120,150,120,.12);color:var(--forest);font-size:.67rem;font-weight:800;cursor:pointer}
-  .hint-page-chip{padding:4px 8px;border:0;border-radius:999px;background:rgba(216,170,85,.15);color:#805e27;font-size:.67rem;font-weight:800;cursor:pointer}
-  .hint-answer.is-hidden{filter:blur(5px);user-select:none}
-  .hint-reveal{position:relative}
-  .hint-reveal-label{position:absolute;inset:0;display:grid;place-items:center;color:var(--forest);font-size:.7rem;font-weight:800;pointer-events:none}
-  .hint-footnote{margin:10px 0 0;color:var(--muted);font-size:.68rem;line-height:1.4}
-  [data-theme="dark"] .hint-panel{background:rgba(41,52,44,.94);border-color:rgba(216,170,85,.3)}
-  [data-theme="dark"] .hint-entry{background:rgba(28,39,33,.58);border-color:rgba(216,170,85,.25)}
-  [data-theme="dark"] .hint-answer{color:#e3e9df}
-  [data-theme="dark"] .hint-writing-link,[data-theme="dark"] .hint-reveal-all,[data-theme="dark"] .hint-action{color:#d9e3d4}
-  [data-theme="dark"] .hint-page-chip{color:#f2d89e}
   .history-list-dialog{max-height:58dvh;overflow:auto}
   .note-list-item[role="button"]{cursor:pointer}
   .note-list-item[role="button"]:hover,.note-list-item[role="button"]:focus-visible{background:rgba(120,150,120,.07);outline:2px solid rgba(120,150,120,.24);outline-offset:2px}
@@ -278,23 +257,27 @@
   .gate-message{min-height:1.45em;margin:0;color:#8a6c35;font-size:.82rem;text-align:right}
   .answer-column>.gate-message{margin:8px 4px 0;text-align:left}
   .language-info{display:none}
-  .hint-modal-backdrop{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:20px;background:rgba(38,48,40,.34);backdrop-filter:blur(7px)}
+  .hint-modal-backdrop{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:20px;background:rgba(28,38,31,.38);animation:hint-fade-in .2s ease both}
   .hint-modal-backdrop[hidden]{display:none}
-  .hint-modal{display:flex;flex-direction:column;width:min(680px,100%);max-height:min(78vh,720px);padding:22px;border:1px solid rgba(216,170,85,.3);border-radius:24px;background:var(--paper);color:var(--ink);box-shadow:0 20px 55px rgba(38,48,40,.22),0 0 0 1px rgba(255,255,255,.4) inset;overflow:hidden}
+  .hint-modal{position:relative;display:flex;flex-direction:column;width:min(560px,100%);max-height:min(70dvh,720px);padding:28px;border:1px solid rgba(69,102,78,.16);border-radius:20px;background:var(--paper);color:var(--ink);box-shadow:0 10px 28px rgba(38,48,40,.12);overflow:hidden;animation:hint-rise-in .2s ease both}
   .hint-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
-  .hint-modal-head h2{margin:0;font:400 1.65rem/1.1 var(--serif);color:var(--forest)}
-  .hint-modal-question{margin:10px 0 14px;color:var(--muted);font-size:.84rem;line-height:1.5}
-  .hint-modal-close{width:36px;height:36px;border:0;border-radius:50%;background:rgba(69,102,78,.08);color:var(--forest);font-size:1.4rem;cursor:pointer}
-  .hint-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-bottom:10px}
-  .hint-modal-actions button{border:0;border-radius:999px;padding:8px 12px;background:rgba(120,150,120,.12);color:var(--forest);font:700 .72rem var(--round);cursor:pointer}
-  .hint-modal-list{min-height:0;overflow:auto;padding:2px 3px 4px}
-  .hint-modal-answer{padding:13px 14px;margin:0 0 9px;border:1px solid rgba(216,170,85,.23);border-radius:15px;background:rgba(216,170,85,.07);color:var(--ink);font-size:.86rem;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
-  .hint-modal-answer.is-hidden{filter:blur(6px);user-select:none;cursor:pointer}
-  .hint-modal-answer small{display:block;margin-top:8px;color:var(--muted);font-size:.68rem}
-  .hint-modal-foot{margin:10px 0 0;color:var(--muted);font-size:.7rem;line-height:1.4}
-  [data-theme="dark"] .hint-modal{background:#26372d;border-color:rgba(216,170,85,.38)}
-  [data-theme="dark"] .hint-modal-close,[data-theme="dark"] .hint-modal-actions button{background:rgba(180,205,175,.12);color:#eaf1e6}
-  [data-theme="dark"] .hint-modal-answer{background:rgba(216,170,85,.12);color:#f4f1e7}
+  .hint-modal-head h2{margin:0;font:700 1rem/1.2 var(--round);color:var(--forest)}
+  .hint-modal-close{display:grid;place-items:center;width:34px;height:34px;margin:-8px -8px 0 0;border:0;border-radius:50%;background:transparent;color:var(--muted);font:400 1.25rem/1 system-ui;cursor:pointer}
+  .hint-modal-close:hover,.hint-modal-close:focus-visible{background:rgba(120,150,120,.1);color:var(--forest)}
+  .hint-modal-list{min-height:0;margin-top:18px;overflow:auto;overscroll-behavior:contain;padding:0 2px 2px}
+  .hint-modal-answer{position:relative;padding:0 0 17px;margin:0 0 17px;color:var(--ink);font-size:1.04rem;line-height:1.65;white-space:pre-wrap;overflow-wrap:anywhere}
+  .hint-modal-answer+.hint-modal-answer{padding-top:17px;border-top:1px solid rgba(69,102,78,.12)}
+  .hint-modal-answer-number{position:absolute;left:-20px;top:3px;color:var(--muted);font-size:.72rem;line-height:1.6}
+  [data-theme="dark"] .hint-modal{background:#26372d;border-color:rgba(180,205,175,.18);box-shadow:0 10px 28px rgba(0,0,0,.2)}
+  [data-theme="dark"] .hint-modal-close{color:#bdcbbd}
+  [data-theme="dark"] .hint-modal-close:hover,[data-theme="dark"] .hint-modal-close:focus-visible{background:rgba(180,205,175,.1);color:#eef4eb}
+  [data-theme="dark"] .hint-modal-answer+.hint-modal-answer{border-color:rgba(180,205,175,.14)}
+  @keyframes hint-fade-in{from{opacity:0}to{opacity:1}}
+  @keyframes hint-rise-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+  .modal-open .atmosphere,.modal-open .card-shine,.modal-open .float,
+  body[data-page-hidden="true"] .atmosphere,body[data-page-hidden="true"] .card-shine,body[data-page-hidden="true"] .float{animation-play-state:paused}
+  .modal-open .mic-wrap:not(.listening) .voice-waves,
+  body[data-page-hidden="true"] .mic-wrap:not(.listening) .voice-waves{animation-play-state:paused}
   .manuscript-add-backdrop{position:fixed;inset:0;z-index:85;display:grid;place-items:center;padding:20px;background:rgba(38,48,40,.28);backdrop-filter:blur(6px)}
   .manuscript-add-backdrop[hidden]{display:none}
   .manuscript-add-dialog{width:min(440px,100%);padding:24px;border-radius:22px;background:var(--paper);box-shadow:0 20px 55px rgba(38,48,40,.2)}
@@ -714,6 +697,12 @@
     .nav{position:sticky;bottom:env(safe-area-inset-bottom);z-index:4;padding:10px 0;background:var(--cream)}
     .note-modal-backdrop{padding:10px;align-items:end}
     .note-list-dialog{max-height:88dvh;padding:17px}
+    .hint-modal-backdrop{align-items:end;padding:0}
+    .hint-modal{width:100%;max-width:none;max-height:82dvh;padding:26px 28px calc(28px + env(safe-area-inset-bottom));border-radius:22px 22px 0 0}
+    .hint-modal::before{content:"";position:absolute;top:10px;left:50%;width:38px;height:4px;border-radius:4px;background:rgba(69,102,78,.2);transform:translateX(-50%)}
+    .hint-modal-close{width:44px;height:44px;margin:-8px -10px 0 0}
+    .hint-modal-list{margin-top:16px;padding-left:20px}
+    .hint-modal-answer{font-size:1rem}
     .restore-actions{flex-direction:column}
     .restore-actions button{width:100%}
   }
@@ -751,9 +740,7 @@
     .note-panel-slot{position:absolute;top:18px;right:42px;bottom:18px;width:calc(50% - 52px);max-width:none;margin:0;z-index:3;display:block;transform:translateY(12px);pointer-events:none;opacity:0;transition:opacity .3s ease,transform .3s var(--ease)}
     .note-panel-slot.open{display:block;margin:0;transform:translateY(0);pointer-events:auto;opacity:1}
     .note-panel-slot .my-answer-panel{height:100%;padding:18px;background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(8px);border-radius:18px}
-    .note-panel-slot .hint-panel{height:100%;padding:18px;background:color-mix(in srgb,var(--paper) 94%,transparent);backdrop-filter:blur(8px);border-radius:18px}
     .note-panel-slot .history-list{max-height:none;height:calc(100% - 34px)}
-    .note-panel-slot .hint-list{max-height:none;height:calc(100% - 38px)}
   }
   @media(max-width:720px){
     .card{min-height:clamp(430px,68vh,650px);padding:36px 22px}
@@ -783,9 +770,7 @@
     .note-panel-slot{position:absolute;inset:auto 22px 18px;z-index:3;display:block;transform:translateY(12px);pointer-events:none;opacity:0;transition:opacity .3s ease,transform .3s var(--ease)}
     .note-panel-slot.open{display:block;margin:0;transform:translateY(0);pointer-events:auto;opacity:1}
     .note-panel-slot .my-answer-panel{height:calc(66% - 10px);padding:14px;background:color-mix(in srgb,var(--paper) 95%,transparent);backdrop-filter:blur(8px);border-radius:18px}
-    .note-panel-slot .hint-panel{height:calc(66% - 10px);padding:14px;background:color-mix(in srgb,var(--paper) 95%,transparent);backdrop-filter:blur(8px);border-radius:18px}
     .note-panel-slot .history-list{max-height:none;height:calc(100% - 34px)}
-    .note-panel-slot .hint-list{max-height:none;height:calc(100% - 38px)}
   }
   @media(max-width:520px){
     .question-column{flex-basis:31%;padding-bottom:14px}
@@ -934,7 +919,6 @@
       <section class="setting-section">
         <h3>Hints</h3>
         <label class="setting-toggle"><span><strong>Allow hints</strong><small>Show reference answers when a question has them.</small></span><input type="checkbox" data-setting-toggle="allowHints"><i aria-hidden="true"></i></label>
-        <label class="setting-toggle"><span><strong>Hide answers until tapped</strong><small>Blur each reference answer until you reveal it.</small></span><input type="checkbox" data-setting-toggle="hideHintsUntilTapped"><i aria-hidden="true"></i></label>
         <label class="setting-toggle"><span><strong>Hints cost points</strong><small>Opening hints once on a question costs the amount below.</small></span><input type="checkbox" data-setting-toggle="hintsCostPoints"><i aria-hidden="true"></i></label>
         <div class="range-row"><label for="hint-cost"><span class="setting-help">Points per question</span></label><input id="hint-cost" type="number" min="1" max="20" step="1" aria-label="Hint point cost"></div>
       </section>
@@ -1110,12 +1094,9 @@
   </section>
 </div>
 <div class="hint-modal-backdrop" id="hint-modal-backdrop" hidden>
-  <section class="hint-modal" id="hint-modal" role="dialog" aria-modal="true" aria-labelledby="hint-modal-title" aria-describedby="hint-modal-question">
-    <div class="hint-modal-head"><h2 id="hint-modal-title">Reference answers</h2><button class="hint-modal-close" id="hint-modal-close" type="button" aria-label="Close reference answers">×</button></div>
-    <p class="hint-modal-question" id="hint-modal-question"></p>
-    <div class="hint-modal-actions"><button id="hint-reveal-all" type="button">Reveal all</button></div>
+  <section class="hint-modal" id="hint-modal" role="dialog" aria-modal="true" aria-labelledby="hint-modal-title">
+    <div class="hint-modal-head"><h2 id="hint-modal-title">Hint</h2><button class="hint-modal-close" id="hint-modal-close" type="button" aria-label="Close hint">×</button></div>
     <div class="hint-modal-list" id="hint-modal-list"></div>
-    <p class="hint-modal-foot">Use these as a calm reference, then return to your own answer.</p>
   </section>
 </div>
 <div class="modal-backdrop note-modal-backdrop" id="answers-list-backdrop" hidden>
@@ -1133,7 +1114,7 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.4.0";
+  const APP_VERSION = "1.5.0";
   const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
   // Optional: set a same-folder filename to publish a PDF with the site. This makes it public to anyone with the link.
@@ -1153,7 +1134,6 @@
     textSize: "medium",         // "small", "medium", "large", or "xlarge"
     myAnswerChip: true,         // Show the answer history chip during questions
     allowHints: true,           // Show reference-answer hints when available
-    hideHintsUntilTapped: false, // Blur each reference answer until it is revealed
     hintsCostPoints: false,     // Charge hintCost XP once per question when opened
     hintCost: 5,                // XP cost for opening hints, from 1 to 20
     saveAnswersOnDevice: true,  // Keep answer history in this browser between visits
@@ -1798,7 +1778,6 @@
     voiceLanguage: ["en","tl","taglish"],
     voiceMode: ["auto","continuous","phrase"],
     allowHints: [true,false],
-    hideHintsUntilTapped: [true,false],
     hintsCostPoints: [true,false],
     rememberPlace: [true,false],
     smartCleanup: [true,false],
@@ -1819,7 +1798,7 @@
   if(historyNeedsMigration&&settings.saveAnswersOnDevice)persistNotes();
   let sessionAnswerEntries=new Map();
   let historyUndo=null, historyUndoTimer=null, pendingHistoryEntry=null;
-  let hintRevealedByQuestion=new Map(), hintsUsed=new Set(), hintCostApplied=new Set();
+  let hintsUsed=new Set(), hintCostApplied=new Set();
   let passedQuestions=[],passesUsed=0,reviewMode=false,reviewQuestions=[],reviewIndex=0,reviewOffered=false;
   let passToastTimer=null,passMessageTimer=null,gateMessageTimer=null,lastPass=null;
   let speechInterim="", applyingSpeech=false, silenceTimer=null, micInactivityTimer=null, voiceUndoTimer=null, lastVoiceUndo=null;
@@ -1993,7 +1972,7 @@
     activeSet=null;activeQuestions=[];activeWasShuffled=false;
     answers=[];index=0;furthestIndex=0;points=0;streak=0;
     passedQuestions=[];passesUsed=0;reviewMode=false;reviewQuestions=[];reviewIndex=0;reviewOffered=false;
-    hintRevealedByQuestion=new Map();hintsUsed=new Set();hintCostApplied=new Set();
+    hintsUsed=new Set();hintCostApplied=new Set();
     notePanelOpen=false;busy=false;pendingReturn=false;orderSettingChanged=false;
     $("leave-modal").hidden=true;
     $("settings-backdrop").hidden=true;
@@ -2027,7 +2006,7 @@
     Object.keys(allowedSettings).forEach(key=>{
       if(allowedSettings[key].includes(saved[key]))result[key]=saved[key];
     });
-    ["streak","background","confetti","sound","shuffleQuestions","reshuffleOnReplay","myAnswerChip","saveAnswersOnDevice","showVoiceTest","smartCleanup","spokenPunctuation","removeVoiceFillers","allowHints","hideHintsUntilTapped","hintsCostPoints"].forEach(key=>{
+    ["streak","background","confetti","sound","shuffleQuestions","reshuffleOnReplay","myAnswerChip","saveAnswersOnDevice","showVoiceTest","smartCleanup","spokenPunctuation","removeVoiceFillers","allowHints","rememberPlace","hintsCostPoints"].forEach(key=>{
       if(typeof saved[key]==="boolean")result[key]=saved[key];
     });
     const hintCost=Number(saved.hintCost);
@@ -2339,6 +2318,7 @@
     if(!notePanelOpen)return Promise.resolve();
     notePanelOpen=false;
     noteOpenId=null;
+    document.body.classList.remove("modal-open");
     $("my-answer-chip").setAttribute("aria-expanded","false");
     updateNoteDot();
     if(restoreFocus)$("my-answer-chip").focus({preventScroll:true});
@@ -2352,112 +2332,24 @@
     if(!question)return;
     notePanelOpen=true;
     noteOpenId=id;
+    document.body.classList.add("modal-open");
     $("my-answer-chip").setAttribute("aria-expanded","true");
     renderHistoryList(id);
     setNotePanelExpanded(true);
   }
-  function setHintPanelExpanded(open){
-    const panel=$("hint-panel"),panelSlot=$("note-panel-slot");
-    if(panelSlot.classList.contains("open")===open&&panel.hidden===!open)return Promise.resolve();
-    if(notePanelAnimation){notePanelAnimation.cancel();notePanelAnimation=null;}
-    panel.hidden=!open;
-    panel.setAttribute("aria-hidden",String(!open));
-    panel.inert=!open;
-    panelSlot.style.setProperty("--note-panel-duration",motionDuration(400,220)+"ms");
-    panelSlot.classList.toggle("open",open);
-    if(!open)ensureAnswerColumnVisible();
-    const duration=motionDuration(400,220);
-    if(duration===0)return Promise.resolve();
-    return new Promise(resolve=>{
-      requestAnimationFrame(()=>{
-        const animation=panelSlot.animate(open?[{opacity:0,transform:"translateY(12px)"},{opacity:1,transform:"translateY(0)"}]:[{opacity:1,transform:"translateY(0)"},{opacity:0,transform:"translateY(12px)"}],{duration,easing:"ease-in-out"});
-        notePanelAnimation=animation;
-        animation.finished.catch(()=>{}).finally(()=>{if(notePanelAnimation===animation)notePanelAnimation=null;resolve();});
-      });
-    });
-  }
-  function renderHintText(container,text){
-    const parts=[];let last=0;
-    const pattern=/(\[(?:pp?\.?\s*)?(\d+)(?:\s*[-–]\s*\d+)?\]|\((?:page|p\.)\s*(\d+)(?:\s*[-–]\s*\d+)?\)|\bpp?\.?\s*(\d+)(?:\s*[-–]\s*\d+)?)/giu;
-    let match;
-    while((match=pattern.exec(text))){
-      if(match.index>last)parts.push(document.createTextNode(text.slice(last,match.index)));
-      const page=Number(match[2]||match[3]||match[4]);
-      const button=document.createElement("button");button.type="button";button.className="hint-page-chip";button.textContent="p. "+page;button.title="Open manuscript page "+page;
-      button.addEventListener("click",()=>openManuscriptAtPage(page));
-      parts.push(button);last=match.index+match[0].length;
-    }
-    if(last<text.length)parts.push(document.createTextNode(text.slice(last)));
-    container.replaceChildren(...parts);
-  }
-  function renderHintPanel(id=currentNoteId()){
-    const list=$("hint-list"),entries=hintAnswersFor(id),revealed=hintRevealedByQuestion.get(id)||new Set();
-    list.replaceChildren();
-    entries.forEach((entry,n)=>{
-      const card=document.createElement("article");card.className="hint-entry";
-      const label=document.createElement("p");label.className="hint-entry-label";label.textContent=entry.label||"Answer "+(n+1);
-      const reveal=document.createElement("div");reveal.className="hint-reveal";
-      const answer=document.createElement("p");answer.className="hint-answer";
-      renderHintText(answer,entry.text);
-      const isRevealed=!settings.hideHintsUntilTapped||revealed.has(n);
-      answer.classList.toggle("is-hidden",!isRevealed);
-      if(entry.text.split(/\r?\n/u).length>6)answer.classList.add("collapsed");
-      reveal.appendChild(answer);
-      if(!isRevealed){
-        const cover=document.createElement("span");cover.className="hint-reveal-label";cover.textContent="Tap to reveal";
-        reveal.appendChild(cover);reveal.addEventListener("click",()=>{const set=hintRevealedByQuestion.get(id)||new Set();set.add(n);hintRevealedByQuestion.set(id,set);renderHintPanel(id);});
-      }
-      const actions=document.createElement("div");actions.className="hint-entry-actions";
-      const copy=document.createElement("button");copy.type="button";copy.className="hint-action";copy.textContent="Copy";
-      copy.addEventListener("click",async()=>{try{await navigator.clipboard.writeText(entry.text);}catch(_){const temp=document.createElement("textarea");temp.value=entry.text;document.body.appendChild(temp);temp.select();document.execCommand("copy");temp.remove();}copy.textContent="Copied!";setTimeout(()=>{copy.textContent="Copy";},1200);});
-      actions.appendChild(copy);
-      if(entry.text.split(/\r?\n/u).length>6){const more=document.createElement("button");more.type="button";more.className="hint-action";more.textContent="Show more";more.addEventListener("click",()=>{answer.classList.toggle("collapsed");more.textContent=answer.classList.contains("collapsed")?"Show more":"Show less";});actions.appendChild(more);}
-      card.append(label,reveal,actions);list.appendChild(card);
-    });
-  }
-  function closeHintPanel({restoreFocus=true}={}){
-    if(!hintPanelOpen)return Promise.resolve();
-    hintPanelOpen=false;
-    $("hint-chip").setAttribute("aria-expanded","false");
-    if(restoreFocus)$("hint-chip").focus({preventScroll:true});
-    return setHintPanelExpanded(false);
-  }
-  function openHintPanel(id=currentNoteId()){
-    const entries=hintAnswersFor(id);
-    if(!id||!activeSet||!hintsAllowed()||!entries.length)return;
-    if(notePanelOpen)closeMyAnswerPanel({restoreFocus:false});
-    hintPanelOpen=true;
-    hintsUsed.add(id);
-    if(settings.hintsCostPoints&&!hintCostApplied.has(id)){
-      hintCostApplied.add(id);
-      points=Math.max(0,points-Math.max(1,Math.min(20,Number(settings.hintCost)||5)));
-      updatePoints(points);
-      showLevelToast("-"+Math.max(1,Math.min(20,Number(settings.hintCost)||5))+" XP");
-    }
-    renderHintPanel(id);
-    $("hint-chip").setAttribute("aria-expanded","true");
-    setHintPanelExpanded(true);
-  }
-  function toggleHintPanel(){if(hintPanelOpen)closeHintPanel();else openHintPanel();}
   function renderHintModal(id=currentNoteId()){
-    const list=$("hint-modal-list"),question=$("hint-modal-question"),entries=hintAnswersFor(id),revealed=hintRevealedByQuestion.get(id)||new Set();
+    const list=$("hint-modal-list"),entries=hintAnswersFor(id);
     if(!list)return;
-    question.textContent=activeQuestions[index]?.question||"";
     list.replaceChildren();
     entries.forEach((entry,n)=>{
-      const card=document.createElement("article");card.className="hint-modal-answer";
-      const isRevealed=!settings.hideHintsUntilTapped||revealed.has(n);
-      card.classList.toggle("is-hidden",!isRevealed);
-      card.textContent=(entry.label?entry.label+": ":"")+entry.text;
-      if(entry.pageRef){
-        const page=document.createElement("small");
-        page.textContent="Manuscript reference: "+entry.pageRef;
-        card.appendChild(page);
+      const card=document.createElement("div");card.className="hint-modal-answer";
+      if(entries.length>1){
+        const number=document.createElement("span");
+        number.className="hint-modal-answer-number";
+        number.textContent=String(n+1);
+        card.appendChild(number);
       }
-      if(!isRevealed)card.addEventListener("click",()=>{
-        const nextRevealed=hintRevealedByQuestion.get(id)||new Set();
-        nextRevealed.add(n);hintRevealedByQuestion.set(id,nextRevealed);renderHintModal(id);
-      },{once:true});
+      card.appendChild(document.createTextNode(entry.text));
       list.appendChild(card);
     });
   }
@@ -2466,6 +2358,8 @@
     hintPanelOpen=false;
     $("hint-chip").setAttribute("aria-expanded","false");
     $("hint-modal-backdrop").hidden=true;
+    $("hint-modal-list").replaceChildren();
+    document.body.classList.remove("modal-open");
     if(restoreFocus)$("hint-chip").focus({preventScroll:true});
   }
   function openHintPanel(id=currentNoteId()){
@@ -2473,6 +2367,7 @@
     if(!id||!activeSet||!hintsAllowed()||!entries.length)return;
     if(notePanelOpen)closeMyAnswerPanel({restoreFocus:false});
     hintPanelOpen=true;
+    document.body.classList.add("modal-open");
     hintsUsed.add(id);
     if(settings.hintsCostPoints&&!hintCostApplied.has(id)){
       hintCostApplied.add(id);
@@ -2738,7 +2633,7 @@
     const canHint=hasQuestion&&hintsAllowed()&&hintAnswers.length>0;
     $("hint-chip").hidden=!canHint;
     $("hint-chip").setAttribute("aria-expanded",String(hintPanelOpen));
-    $("hint-chip-label").textContent="Hint · "+hintAnswers.length+(settings.hintsCostPoints&&!hintCostApplied.has(currentNoteId())?" · Costs "+settings.hintCost+" XP":"");
+    $("hint-chip-label").textContent="Hint · "+hintAnswers.length+(settings.hintsCostPoints&&!hintCostApplied.has(currentNoteId())?" · -"+Math.max(1,Math.min(20,Number(settings.hintCost)||5))+" XP":"");
     const manuscriptChip=$("manuscript-open-chip");
     const hasManuscript=Boolean(manuscriptRecord||bundledPdf);
     if(manuscriptChip)manuscriptChip.hidden=!hasQuestion;
@@ -3180,14 +3075,11 @@
     if(!settings.rememberPlace||!activeSet)return;
     const write=()=>{
       placeSaveTimer=0;
-      const revealed={};
-      hintRevealedByQuestion.forEach((value,key)=>{revealed[key]=[...value];});
       const record={
         version:1,savedAt:Date.now(),screen:currentScreen,setNumber:activeSet.number,
         orderedIds:activeQuestions.map(item=>item.id),index,answers:activeQuestions.reduce((out,item,n)=>{out[item.id]=answers[n]||"";return out;},{}),
         points,streak,furthestIndex,passedIds:passedQuestions.map(item=>item.id),passesUsed,reviewMode,
-        reviewIds:reviewQuestions.map(item=>item.id),reviewIndex,reviewOffered,hintsUsed:[...hintsUsed],
-        hintRevealed:revealed,hintCostApplied:[...hintCostApplied]
+        reviewIds:reviewQuestions.map(item=>item.id),reviewIndex,reviewOffered,hintsUsed:[...hintsUsed]
       };
       try{localStorage.setItem(PLACE_STORAGE_KEY,JSON.stringify(record));}catch(_){}
     };
@@ -3222,8 +3114,7 @@
     reviewQuestions=(Array.isArray(record.reviewIds)?record.reviewIds:[]).map(id=>byId.get(id)).filter(Boolean);
     reviewIndex=Math.max(0,Number(record.reviewIndex)||0);reviewOffered=Boolean(record.reviewOffered);
     hintsUsed=new Set(Array.isArray(record.hintsUsed)?record.hintsUsed:[]);
-    hintCostApplied=new Set(Array.isArray(record.hintCostApplied)?record.hintCostApplied:[]);
-    hintRevealedByQuestion=new Map(Object.entries(record.hintRevealed&&typeof record.hintRevealed==="object"?record.hintRevealed:{}).map(([id,list])=>[id,new Set(Array.isArray(list)?list:[])]));
+    hintCostApplied=settings.hintsCostPoints?new Set(hintsUsed):new Set();
     sessionAnswerEntries=new Map();
     notePanelOpen=false;hintPanelOpen=false;showOnly("game");buildProgressUI();updatePoints(points);render();
     history.replaceState({littleQuest:"playing"},"",location.href.split("#")[0]+"#playing");
@@ -3251,7 +3142,6 @@
       star.classList.toggle("lit",lit);
     });
     if([...starsEl.children].some((star,n)=>star.classList.contains("lit")&&!starsBefore[n]))playSoftTone("star");
-    queuePlaceSave();
   }
   const questionSizePixels = {small:34,medium:39,large:42,xlarge:44};
   function putQuestionText(question){
@@ -3450,6 +3340,7 @@
         updateWordUI();
         refreshHud();
         updateChips();
+        queuePlaceSave();
       });
       textarea.addEventListener("scroll",()=>{
         const distance=textarea.scrollHeight-textarea.scrollTop-textarea.clientHeight;
@@ -4746,10 +4637,6 @@
   $("my-answer-chip").addEventListener("click",toggleMyAnswerPanel);
   $("hint-chip").addEventListener("click",toggleHintFromChip);
   $("history-writing-link").addEventListener("click",()=>closeMyAnswerPanel());
-  $("hint-reveal-all").addEventListener("click",()=>{
-    const id=currentNoteId(),set=new Set(hintAnswersFor(id).map((_,n)=>n));
-    hintRevealedByQuestion.set(id,set);renderHintModal(id);
-  });
   $("hint-modal-close").addEventListener("click",()=>closeHintPanel());
   $("hint-modal-backdrop").addEventListener("click",event=>{if(event.target===$("hint-modal-backdrop"))closeHintPanel();});
   $("history-undo-button").addEventListener("click",undoDeleteHistoryEntry);
