@@ -21,15 +21,19 @@ The service worker is scoped to this repository folder only. It checks for a new
 
 Open `index.html` in a text editor. Near the top of the script, update `APP_VERSION` when publishing a new copy, and edit the `QUEST_SETS` section to change questions and hints. The comments there also identify the storage prefix, animation speed, and starting settings.
 
-## Manuscript viewer
+## Manuscript PDF
 
-The Manuscript button opens a local PDF viewer. Choose a PDF from the device, or drag it into the Manuscript section in Settings. The selected PDF is stored in this browser's IndexedDB and is never uploaded, sent to a server, or included in answer backups. A new browser profile or device will require choosing the PDF again; clearing site data, private browsing, storage quota limits, or browser cleanup can also remove it.
+The Manuscript button opens the saved PDF in a new browser tab. Choose a PDF from the device, or drag it into the Manuscript section in Settings. The selected PDF is stored in this browser's IndexedDB and is never uploaded, sent to a server, or included in answer backups. A new browser profile or device will require choosing the PDF again; clearing site data, private browsing, storage quota limits, or browser cleanup can also remove it.
 
-The viewer supports lazy page rendering, page navigation, zoom, fit width, local text search, dark-page reading, and links from a question to manuscript pages. The PDF itself is not cached by the service worker. PDF.js `3.11.174` is bundled locally so the viewer works offline after the app assets have been cached. If you configure a bundled PDF in `index.html`, that file becomes public with the site and is not private.
+The app does not bundle a PDF viewer or upload the selected file. If you configure a bundled PDF in `index.html`, that file becomes public with the site and is opened as a normal same-folder PDF.
 
 ## Reference hints
 
-The Hint chip shows the prepared reference answers stored in the `HINT_ANSWERS` block near the top of `index.html`. Hints are local page content, not a server feature; anyone who can view the page source can read them. Settings can hide hints, blur them until tapped, or charge a small configurable XP cost once per question.
+The Hint chip opens a centered reference-answer modal showing the prepared answers stored in the `HINT_ANSWERS` block near the top of `index.html`. Hints are local page content, not a server feature; anyone who can view the page source can read them. Settings can blur answers until tapped or charge a small configurable XP cost once per question.
+
+## Resume place
+
+When enabled, the app remembers the active set, shuffled order, current question, written answers, passes, review state, points, streak, and hint state in this browser for up to seven days. It does not save open panels, microphone state, or settings, and starting another set or leaving the set clears the saved place.
 
 ## Notes
 

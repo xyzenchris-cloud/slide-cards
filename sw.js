@@ -1,4 +1,4 @@
-const APP_VERSION = "1.3.0";
+const APP_VERSION = "1.4.0";
 const CACHE_NAME = "questionquest_v1_app_" + APP_VERSION;
 const APP_FILES = [
   "./",
@@ -9,9 +9,7 @@ const APP_FILES = [
   "./icons/icon-512.png",
   "./icons/icon-maskable-512.png",
   "./icons/icon-180.png",
-  "./icons/apple-touch-icon-180.png",
-  "./vendor/pdfjs/pdf.min.js",
-  "./vendor/pdfjs/pdf.worker.min.js"
+  "./icons/apple-touch-icon-180.png"
 ];
 
 self.addEventListener("install", event => {

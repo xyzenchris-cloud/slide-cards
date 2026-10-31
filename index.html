@@ -237,7 +237,7 @@
   .voice-waves i:nth-child(4){height:13px;animation-delay:.08s}
   .mic-wrap.listening .voice-waves{display:inline-flex}
   @keyframes voice-wave{to{transform:scaleY(.45);opacity:.55}}
-  .writing-tools{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"mic language" "words fix";align-items:center;gap:6px 10px;min-width:0;padding:8px 11px 11px}
+  .writing-tools{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"mic words" "fix fix";align-items:center;gap:6px 10px;min-width:0;padding:8px 11px 11px}
   .mic-wrap{grid-area:mic;display:flex;align-items:center;gap:8px;min-width:0}
   .mic-button{display:grid;place-items:center;flex:none;width:43px;height:43px;border:0;border-radius:50%;background:var(--sage);color:#fff;cursor:pointer;box-shadow:0 5px 0 var(--forest),0 7px 12px rgba(69,102,78,.16);transition:transform .2s,box-shadow .2s,background .2s}
   .mic-button:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 7px 0 var(--forest),0 10px 17px rgba(69,102,78,.21)}
@@ -247,10 +247,10 @@
   .mic-button.listening{animation:mic-pulse 1.15s ease-in-out infinite alternate}
   @keyframes mic-pulse{to{box-shadow:0 0 0 7px rgba(120,150,120,.17),0 5px 0 var(--forest),0 9px 16px rgba(69,102,78,.2)}}
   .mic-label{max-width:150px;color:var(--muted);font-size:.77rem;line-height:1.35}
-  .language-switch{grid-area:language;display:flex;flex-wrap:nowrap;justify-content:center;gap:2px;min-width:0;padding:4px;border:1px solid rgba(69,102,78,.12);border-radius:999px;background:#f3f5ef}
+  .language-switch{display:none}
   .language-choice{flex:none;min-height:29px;padding:5px 8px;border:0;border-radius:999px;background:transparent;color:var(--muted);font-size:.71rem;font-weight:700;white-space:nowrap;cursor:pointer;transition:background .2s,color .2s,box-shadow .2s}
   .language-choice[aria-pressed="true"]{background:#fffefa;color:var(--forest);box-shadow:0 2px 5px rgba(69,102,78,.13)}
-  .language-note{grid-column:1/-1;margin:0 4px 0;color:var(--muted);font-size:.69rem;line-height:1.4;text-align:right}
+  .language-note{display:none}
   .voice-message{min-height:1.4em;margin:7px 4px 0;color:#7a704f;font-size:.74rem;line-height:1.4}
   .voice-message:empty{display:none}
   .mic-retry{margin-top:5px}
@@ -261,7 +261,7 @@
   .mic-help-button{margin-top:11px}
   .mic-permission-copy{margin:0;color:var(--muted);font-size:.88rem;line-height:1.5}
   .mic-permission-copy strong{color:var(--forest)}
-  .word-row{grid-area:words;display:flex;align-items:center;gap:11px;min-width:0;margin:0 4px}
+  .word-row{grid-area:words;display:flex;align-items:center;justify-content:flex-end;gap:11px;min-width:0;margin:0 4px}
   .word-ring{width:42px;height:42px;flex:none;filter:drop-shadow(0 1px 3px rgba(120,150,120,.12))}
   .word-ring circle{fill:none;stroke-width:3}
   .word-ring .ring-track{stroke:rgba(69,102,78,.13)}
@@ -277,7 +277,31 @@
   @keyframes success-glow{40%{box-shadow:0 10px 0 var(--forest),0 14px 0 rgba(69,102,78,.12),0 26px 55px rgba(64,77,57,.15),0 0 26px rgba(216,170,85,.34),inset 0 0 0 1px rgba(120,150,120,.14)}}
   .gate-message{min-height:1.45em;margin:0;color:#8a6c35;font-size:.82rem;text-align:right}
   .answer-column>.gate-message{margin:8px 4px 0;text-align:left}
-  .language-info{width:20px;height:20px;margin:0 2px;border:1px solid currentColor;border-radius:50%;background:transparent;color:var(--sage);font:700 .72rem/1 system-ui;cursor:help}
+  .language-info{display:none}
+  .hint-modal-backdrop{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:20px;background:rgba(38,48,40,.34);backdrop-filter:blur(7px)}
+  .hint-modal-backdrop[hidden]{display:none}
+  .hint-modal{display:flex;flex-direction:column;width:min(680px,100%);max-height:min(78vh,720px);padding:22px;border:1px solid rgba(216,170,85,.3);border-radius:24px;background:var(--paper);color:var(--ink);box-shadow:0 20px 55px rgba(38,48,40,.22),0 0 0 1px rgba(255,255,255,.4) inset;overflow:hidden}
+  .hint-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+  .hint-modal-head h2{margin:0;font:400 1.65rem/1.1 var(--serif);color:var(--forest)}
+  .hint-modal-question{margin:10px 0 14px;color:var(--muted);font-size:.84rem;line-height:1.5}
+  .hint-modal-close{width:36px;height:36px;border:0;border-radius:50%;background:rgba(69,102,78,.08);color:var(--forest);font-size:1.4rem;cursor:pointer}
+  .hint-modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-bottom:10px}
+  .hint-modal-actions button{border:0;border-radius:999px;padding:8px 12px;background:rgba(120,150,120,.12);color:var(--forest);font:700 .72rem var(--round);cursor:pointer}
+  .hint-modal-list{min-height:0;overflow:auto;padding:2px 3px 4px}
+  .hint-modal-answer{padding:13px 14px;margin:0 0 9px;border:1px solid rgba(216,170,85,.23);border-radius:15px;background:rgba(216,170,85,.07);color:var(--ink);font-size:.86rem;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere}
+  .hint-modal-answer.is-hidden{filter:blur(6px);user-select:none;cursor:pointer}
+  .hint-modal-answer small{display:block;margin-top:8px;color:var(--muted);font-size:.68rem}
+  .hint-modal-foot{margin:10px 0 0;color:var(--muted);font-size:.7rem;line-height:1.4}
+  [data-theme="dark"] .hint-modal{background:#26372d;border-color:rgba(216,170,85,.38)}
+  [data-theme="dark"] .hint-modal-close,[data-theme="dark"] .hint-modal-actions button{background:rgba(180,205,175,.12);color:#eaf1e6}
+  [data-theme="dark"] .hint-modal-answer{background:rgba(216,170,85,.12);color:#f4f1e7}
+  .manuscript-add-backdrop{position:fixed;inset:0;z-index:85;display:grid;place-items:center;padding:20px;background:rgba(38,48,40,.28);backdrop-filter:blur(6px)}
+  .manuscript-add-backdrop[hidden]{display:none}
+  .manuscript-add-dialog{width:min(440px,100%);padding:24px;border-radius:22px;background:var(--paper);box-shadow:0 20px 55px rgba(38,48,40,.2)}
+  .manuscript-add-dialog h2{margin:0 0 8px;font:400 1.5rem/1.1 var(--serif);color:var(--forest)}
+  .manuscript-add-dialog p{margin:0 0 16px;color:var(--muted);font-size:.82rem;line-height:1.5}
+  .manuscript-fallback{margin:12px 0 0;padding:10px;border-radius:12px;background:rgba(216,170,85,.12);font-size:.76rem;line-height:1.4}
+  .manuscript-fallback a{color:var(--forest);font-weight:700}
   .language-info:hover,.language-info:focus-visible{background:var(--sage);color:#fff}
   .language-note[hidden]{display:none}
   .history-writing-link{display:block;margin:0 0 10px;padding:0;border:0;background:transparent;color:var(--sage);font-size:.7rem;font-weight:700;cursor:pointer;text-align:left}
@@ -830,11 +854,6 @@
             <p class="history-storage-warning" id="history-storage-warning" hidden>Answers can't be saved in this window, so they'll be gone when you close it. You can still download a backup before leaving.</p>
             <p class="history-undo" id="history-undo" hidden>Deleted. <button id="history-undo-button" type="button">Undo</button></p>
           </section>
-          <section class="hint-panel" id="hint-panel" aria-label="Reference answers" aria-hidden="true" inert hidden>
-            <div class="hint-panel-head"><button class="hint-writing-link" id="hint-writing-link" type="button">Back to writing</button><button class="hint-reveal-all" id="hint-reveal-all" type="button">Reveal all</button></div>
-            <div class="hint-list" id="hint-list"></div>
-            <p class="hint-footnote">Reference answers. Use them to check your own.</p>
-          </section>
         </div>
       </section>
     </div>
@@ -843,33 +862,19 @@
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3.5h12a1.5 1.5 0 0 1 1.5 1.5v8a1.5 1.5 0 0 1-1.5 1.5H9l-4.5 3v-3H4A1.5 1.5 0 0 1 2.5 13V5A1.5 1.5 0 0 1 4 3.5z"/><path d="m7 11 5.8-5.8 2 2L9 13H7z"/></svg><span id="my-answer-chip-label">My Answers</span>
       </button>
       <button class="chip pass-chip" id="pass" type="button" aria-disabled="false"><span id="pass-label">Pass</span></button>
-      <button class="chip hint-chip" id="hint-chip" type="button" aria-expanded="false" aria-controls="hint-panel" aria-label="Open reference answers" hidden>
+      <button class="chip hint-chip" id="hint-chip" type="button" aria-expanded="false" aria-controls="hint-modal" aria-label="Open reference answers" hidden>
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.2 14.5h5.6M7.7 17h4.6M6.3 11.6a5.4 5.4 0 1 1 7.4 0c-.8.6-1.2 1.4-1.3 2.2H7.6c-.1-.8-.5-1.6-1.3-2.2Z"/><path d="M10 2v1.2M3.3 4.7l.9.9M16.7 4.7l-.9.9"/></svg><span id="hint-chip-label">Hint</span>
       </button>
       <button class="chip manuscript-chip" id="manuscript-open-chip" type="button" aria-label="Open manuscript">
         <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 3.5h6a3 3 0 0 1 3 3V17h-6a3 3 0 0 0-3 3V3.5Z"/><path d="M16.5 3.5h-4V17h4a2 2 0 0 1 2 2H6.5"/></svg><span id="manuscript-chip-label">Manuscript</span></button>
     </div>
-    <div class="manuscript-backdrop" id="manuscript-backdrop" hidden>
-      <aside class="manuscript-drawer" id="manuscript-drawer" role="dialog" aria-modal="true" aria-labelledby="manuscript-title">
-        <header class="manuscript-head">
-          <div class="manuscript-title"><strong id="manuscript-title">Manuscript</strong><small id="manuscript-page-label">No PDF loaded</small></div>
-          <button class="settings-close" id="manuscript-close" type="button" aria-label="Close manuscript">×</button>
-        </header>
-        <div class="manuscript-controls">
-          <button id="manuscript-prev" type="button" aria-label="Previous page">‹</button>
-          <input id="manuscript-page-input" type="number" min="1" value="1" aria-label="Manuscript page number">
-          <button id="manuscript-next" type="button" aria-label="Next page">›</button>
-          <button id="manuscript-zoom-out" type="button" aria-label="Zoom out">−</button>
-          <button id="manuscript-zoom-in" type="button" aria-label="Zoom in">+</button>
-          <button id="manuscript-fit" type="button">Fit width</button>
-          <button id="manuscript-search-toggle" type="button">Search</button>
-          <button id="manuscript-link-page" type="button">Link this page</button>
-        </div>
-        <div class="manuscript-search" id="manuscript-search" hidden><input id="manuscript-search-input" type="search" placeholder="Search manuscript" aria-label="Search manuscript"><button id="manuscript-search-prev" type="button">‹</button><button id="manuscript-search-next" type="button">›</button><span id="manuscript-search-status"></span></div>
-        <div class="manuscript-links" id="manuscript-links"></div>
-        <p class="manuscript-message" id="manuscript-message" aria-live="polite"></p>
-        <div class="manuscript-pages" id="manuscript-pages" tabindex="0"></div>
-      </aside>
+    <div class="manuscript-add-backdrop" id="manuscript-add-backdrop" hidden>
+      <section class="manuscript-add-dialog" role="dialog" aria-modal="true" aria-labelledby="manuscript-add-title">
+        <h2 id="manuscript-add-title">Add your manuscript</h2>
+        <p>Choose your PDF once and it stays on this device. It is never uploaded or included in backups.</p>
+        <div class="dialog-actions"><button class="stay-button" id="manuscript-add-cancel" type="button">Not now</button><button class="leave-button" id="manuscript-add-choose" type="button">Choose PDF</button></div>
+        <p class="manuscript-fallback" id="manuscript-fallback" hidden></p>
+      </section>
     </div>
     <p class="pass-message" id="pass-message" aria-live="polite"></p>
     <div class="nav" id="nav">
@@ -980,9 +985,11 @@
           <input id="manuscript-file-input" type="file" accept="application/pdf,.pdf" hidden>
         </div>
         <div class="manuscript-drop" id="manuscript-drop">Drag a PDF here. Your PDF stays on this device and is never uploaded anywhere.</div>
-        <label class="setting-toggle"><span><strong>Dark manuscript pages</strong><small>Softly invert page colors while reading.</small></span><input type="checkbox" data-setting-toggle="manuscriptDarkPages"><i aria-hidden="true"></i></label>
-        <label class="setting-toggle"><span><strong>Jump to linked pages</strong><small>Open a question at its first linked manuscript page.</small></span><input type="checkbox" data-setting-toggle="manuscriptJumpLinks"><i aria-hidden="true"></i></label>
-        <p class="setting-help">Saved only in this browser on this device. The PDF is not included in backups; choose it again on a new device.</p>
+        <p class="setting-help">The PDF opens in a new browser tab. It is saved only in this browser on this device and is not included in backups.</p>
+      </section>
+      <section class="setting-section">
+        <h3>Resume place</h3>
+        <label class="setting-toggle"><span><strong>Remember where I am</strong><small>Restore this set, question, answers, and progress after a refresh for up to seven days.</small></span><input type="checkbox" data-setting-toggle="rememberPlace"><i aria-hidden="true"></i></label>
       </section>
       <section class="setting-section">
         <h3>Voice typing</h3>
@@ -1102,13 +1109,21 @@
     <div class="dialog-actions"><button class="stay-button" id="notes-clear-download" type="button">Download backup</button><button class="leave-button" id="notes-clear-confirm" type="button">Clear answers</button><button class="stay-button" id="notes-clear-cancel" type="button">Cancel</button></div>
   </section>
 </div>
+<div class="hint-modal-backdrop" id="hint-modal-backdrop" hidden>
+  <section class="hint-modal" id="hint-modal" role="dialog" aria-modal="true" aria-labelledby="hint-modal-title" aria-describedby="hint-modal-question">
+    <div class="hint-modal-head"><h2 id="hint-modal-title">Reference answers</h2><button class="hint-modal-close" id="hint-modal-close" type="button" aria-label="Close reference answers">×</button></div>
+    <p class="hint-modal-question" id="hint-modal-question"></p>
+    <div class="hint-modal-actions"><button id="hint-reveal-all" type="button">Reveal all</button></div>
+    <div class="hint-modal-list" id="hint-modal-list"></div>
+    <p class="hint-modal-foot">Use these as a calm reference, then return to your own answer.</p>
+  </section>
+</div>
 <div class="modal-backdrop note-modal-backdrop" id="answers-list-backdrop" hidden>
   <section class="note-list-dialog" role="dialog" aria-modal="true" aria-labelledby="answers-list-title">
     <header class="note-list-heading"><h2 id="answers-list-title">My answers</h2><button class="settings-close" id="answers-list-close" type="button" aria-label="Close answers list">×</button></header>
     <div class="note-list-content" id="answers-set-list"></div>
   </section>
 </div>
-<script src="./vendor/pdfjs/pdf.min.js"></script>
 <script>
   // QUEST SETTINGS, SETS, AND REWARDS — make all question and goal edits here.
   // Change APP_VERSION when you publish a new copy; it appears at the bottom of Settings.
@@ -1118,8 +1133,8 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.3.0";
-  const VERSION_DATE = "Oct 31, 2026";
+  const APP_VERSION = "1.4.0";
+  const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
   // Optional: set a same-folder filename to publish a PDF with the site. This makes it public to anyone with the link.
   const bundledPdf = "";
@@ -1128,6 +1143,8 @@
   const MAX_ANSWERS_PER_QUESTION = 30; // Keep only the newest 30 answers for each question.
   const MIC_SILENCE_TIMEOUT_MS = 120000; // Turn the microphone off after two minutes without speech.
   const MIC_PERMISSION_SEEN_KEY = STORAGE_PREFIX+"mic-explanation-seen";
+  const PLACE_STORAGE_KEY = STORAGE_PREFIX+"current-place-v1";
+  const PLACE_MAX_AGE_MS = 7*24*60*60*1000;
   const transitionSpeed = 700; // Milliseconds for the Full entrance; lower is faster.
   const DEFAULT_SETTINGS = {
     theme: "light",             // "light", "dark", or "auto"
@@ -1136,10 +1153,11 @@
     textSize: "medium",         // "small", "medium", "large", or "xlarge"
     myAnswerChip: true,         // Show the answer history chip during questions
     allowHints: true,           // Show reference-answer hints when available
-    hideHintsUntilTapped: true, // Blur each reference answer until it is revealed
+    hideHintsUntilTapped: false, // Blur each reference answer until it is revealed
     hintsCostPoints: false,     // Charge hintCost XP once per question when opened
     hintCost: 5,                // XP cost for opening hints, from 1 to 20
     saveAnswersOnDevice: true,  // Keep answer history in this browser between visits
+    rememberPlace: true,        // Restore the current set and question after a refresh
     streak: true,               // Show the streak counter
     background: true,           // Show floating glows and sparkles
     confetti: true,             // Show confetti at quest completion
@@ -1154,8 +1172,6 @@
     removeVoiceFillers: false,  // Remove a short safe list of fillers
     keepMicBetweenQuestions: true, // Keep voice typing active while moving between questions
     showVoiceTest: false,       // Show temporary voice diagnostics in Settings
-    manuscriptDarkPages: false,
-    manuscriptJumpLinks: true,
     shuffleQuestions: true,    // Mix question order when a set starts
     reshuffleOnReplay: true,   // Give Play again a new shuffled order
     animations: "full"        // "full", "lite", or "off"; Full is the default even with reduced-motion enabled
@@ -1784,8 +1800,7 @@
     allowHints: [true,false],
     hideHintsUntilTapped: [true,false],
     hintsCostPoints: [true,false],
-    manuscriptDarkPages: [true,false],
-    manuscriptJumpLinks: [true,false],
+    rememberPlace: [true,false],
     smartCleanup: [true,false],
     spokenPunctuation: [true,false],
     removeVoiceFillers: [true,false],
@@ -2132,8 +2147,8 @@
       if(!raw&&legacyRaw)raw=legacyRaw;
       if(!raw)return result;
       const parsed=JSON.parse(raw);
-      if(parsed?.format==="little-quest-answer-history"&&(parsed.version===1||parsed.version===2)){
-        if(parsed.version===2&&Array.isArray(parsed.wordList)){
+      if(parsed?.format==="little-quest-answer-history"&&(parsed.version===1||parsed.version===2||parsed.version===3||parsed.version===4)){
+        if(parsed.version>=2&&Array.isArray(parsed.wordList)){
           const restored=cleanWordList(parsed.wordList);
           if(restored.length){wordList=restored;persistWordList();}
         }
@@ -2154,7 +2169,7 @@
     }catch(_){return result;}
   }
   function serializeNotes(){
-    return JSON.stringify({format:"little-quest-answer-history",version:3,exportedAt:new Date().toISOString(),answers:notesById,wordList,manuscript:{links:manuscriptLinks,settings:{page:manuscriptPage,zoom:manuscriptZoom,pinned:manuscriptPinned}}});
+    return JSON.stringify({format:"little-quest-answer-history",version:4,exportedAt:new Date().toISOString(),answers:notesById,wordList});
   }
   function persistNotes(){
     if(!settings.saveAnswersOnDevice||!notesStorageAvailable)return false;
@@ -2424,6 +2439,53 @@
     setHintPanelExpanded(true);
   }
   function toggleHintPanel(){if(hintPanelOpen)closeHintPanel();else openHintPanel();}
+  function renderHintModal(id=currentNoteId()){
+    const list=$("hint-modal-list"),question=$("hint-modal-question"),entries=hintAnswersFor(id),revealed=hintRevealedByQuestion.get(id)||new Set();
+    if(!list)return;
+    question.textContent=activeQuestions[index]?.question||"";
+    list.replaceChildren();
+    entries.forEach((entry,n)=>{
+      const card=document.createElement("article");card.className="hint-modal-answer";
+      const isRevealed=!settings.hideHintsUntilTapped||revealed.has(n);
+      card.classList.toggle("is-hidden",!isRevealed);
+      card.textContent=(entry.label?entry.label+": ":"")+entry.text;
+      if(entry.pageRef){
+        const page=document.createElement("small");
+        page.textContent="Manuscript reference: "+entry.pageRef;
+        card.appendChild(page);
+      }
+      if(!isRevealed)card.addEventListener("click",()=>{
+        const nextRevealed=hintRevealedByQuestion.get(id)||new Set();
+        nextRevealed.add(n);hintRevealedByQuestion.set(id,nextRevealed);renderHintModal(id);
+      },{once:true});
+      list.appendChild(card);
+    });
+  }
+  function closeHintPanel({restoreFocus=true}={}){
+    if(!hintPanelOpen)return;
+    hintPanelOpen=false;
+    $("hint-chip").setAttribute("aria-expanded","false");
+    $("hint-modal-backdrop").hidden=true;
+    if(restoreFocus)$("hint-chip").focus({preventScroll:true});
+  }
+  function openHintPanel(id=currentNoteId()){
+    const entries=hintAnswersFor(id);
+    if(!id||!activeSet||!hintsAllowed()||!entries.length)return;
+    if(notePanelOpen)closeMyAnswerPanel({restoreFocus:false});
+    hintPanelOpen=true;
+    hintsUsed.add(id);
+    if(settings.hintsCostPoints&&!hintCostApplied.has(id)){
+      hintCostApplied.add(id);
+      points=Math.max(0,points-Math.max(1,Math.min(20,Number(settings.hintCost)||5)));
+      updatePoints(points);
+      showLevelToast("-"+Math.max(1,Math.min(20,Number(settings.hintCost)||5))+" XP");
+    }
+    renderHintModal(id);
+    $("hint-chip").setAttribute("aria-expanded","true");
+    $("hint-modal-backdrop").hidden=false;
+    $("hint-modal-close").focus({preventScroll:true});
+  }
+  function toggleHintPanel(){if(hintPanelOpen)closeHintPanel();else openHintPanel();}
   function useHistoryEntry(entry){
     const textarea=$("answer-input");
     if(!textarea)return;
@@ -2465,8 +2527,8 @@
     $("notes-backup-status").textContent="Backup downloaded.";
   }
   function normalizeBackupData(parsed){
-    if(parsed?.format==="little-quest-answer-history"&&(parsed.version===1||parsed.version===2||parsed.version===3)&&parsed.answers&&typeof parsed.answers==="object"&&!Array.isArray(parsed.answers)){
-      return {answers:cleanHistoryMap(parsed.answers),wordList:cleanWordList(parsed.wordList),manuscript:parsed.manuscript||null};
+    if(parsed?.format==="little-quest-answer-history"&&(parsed.version===1||parsed.version===2||parsed.version===3||parsed.version===4)&&parsed.answers&&typeof parsed.answers==="object"&&!Array.isArray(parsed.answers)){
+      return {answers:cleanHistoryMap(parsed.answers),wordList:cleanWordList(parsed.wordList),manuscript:null};
     }
     if(parsed?.format==="little-quest-notes"&&parsed.version===1&&parsed.notes&&typeof parsed.notes==="object"&&!Array.isArray(parsed.notes)){
       return {answers:cleanHistoryMap(parsed.notes,true),wordList:[],manuscript:null};
@@ -2480,7 +2542,7 @@
       const restored=normalizeBackupData(parsed);
       pendingRestoreNotes=restored.answers;
       pendingRestoreWordList=restored.wordList;
-      pendingRestoreManuscript=restored.manuscript;
+      pendingRestoreManuscript=null;
       const count=Object.values(pendingRestoreNotes).reduce((sum,entries)=>sum+entries.length,0);
       $("notes-restore-description").textContent=count+" answer"+(count===1?"":"s")+" found. Choose how to restore them.";
       $("notes-restore-backdrop").hidden=false;
@@ -2510,15 +2572,6 @@
       persistWordList();
       renderWordList();
       ensureAnswerColumnVisible();
-    }
-    if(pendingRestoreManuscript?.links&&typeof pendingRestoreManuscript.links==="object"){
-      manuscriptLinks=mode==="replace"?pendingRestoreManuscript.links:{...manuscriptLinks,...pendingRestoreManuscript.links};
-      persistManuscriptLinks();
-      const restoredSettings=pendingRestoreManuscript.settings;
-      if(restoredSettings&&Number.isFinite(Number(restoredSettings.page)))manuscriptPage=Math.max(1,Number(restoredSettings.page));
-      if(restoredSettings&&Number.isFinite(Number(restoredSettings.zoom)))manuscriptZoom=Math.max(.6,Math.min(2.5,Number(restoredSettings.zoom)));
-      if(restoredSettings&&typeof restoredSettings.pinned==="boolean")manuscriptPinned=restoredSettings.pinned;
-      persistManuscriptViewState();
     }
     pendingRestoreNotes=null;
     pendingRestoreWordList=null;
@@ -2639,6 +2692,7 @@
       if(value)persistNotes();
       refreshNotesStatus();
     }
+    if(key==="rememberPlace"&&!value)clearSavedPlace();
     applySettings();
     if(key==="requiredWords")refreshGateMessage();
     if(activeSet&&key==="offerPassed"&&index>=questionTotal()&&!reviewMode)render();
@@ -2688,8 +2742,7 @@
     const manuscriptChip=$("manuscript-open-chip");
     const hasManuscript=Boolean(manuscriptRecord||bundledPdf);
     if(manuscriptChip)manuscriptChip.hidden=!hasQuestion;
-    const linkedPages=hasQuestion&&typeof currentNoteId==="function"?(manuscriptLinks[currentNoteId()]||[]):[];
-    if($("manuscript-chip-label"))$("manuscript-chip-label").textContent="Manuscript"+(linkedPages.length?" · "+linkedPages.length:"");
+    if($("manuscript-chip-label"))$("manuscript-chip-label").textContent="Manuscript";
     $("chips").hidden=!(hasQuestion&&(settings.myAnswerChip||canPass||canHint||hasManuscript));
     $("pass").setAttribute("aria-disabled",String(limitReached));
     $("pass-label").textContent=settings.passLimit==="unlimited"?"Pass":"Pass ("+passesRemaining()+" left)";
@@ -2748,7 +2801,7 @@
     const meta=$("manuscript-settings-meta"),remove=$("manuscript-remove");
     if(!meta)return;
     if(manuscriptRecord){
-      meta.textContent=manuscriptRecord.name+" · "+(manuscriptRecord.pages||"?")+" pages · "+formatManuscriptSize(manuscriptRecord.size||0);
+      meta.textContent=manuscriptRecord.name+" · "+formatManuscriptSize(manuscriptRecord.size||0);
       remove.hidden=false;
     }else if(bundledPdf){
       meta.textContent="Bundled manuscript: "+bundledPdf;
@@ -2880,7 +2933,9 @@
     updateChips();
   }
   function renderManuscriptLinks(){
-    const target=$("manuscript-links");target.replaceChildren();
+    const target=$("manuscript-links");
+    if(!target)return;
+    target.replaceChildren();
     const links=typeof currentNoteId==="function"?(manuscriptLinks[currentNoteId()]||[]):[];
     links.slice(0,8).forEach(pageNumber=>{
       const chip=document.createElement("button");chip.className="manuscript-link-chip";chip.type="button";chip.textContent="p. "+pageNumber;
@@ -2944,6 +2999,67 @@
     $("manuscript-search-status").textContent=manuscriptSearchResults.length?("1 of "+manuscriptSearchResults.length):"No matches";
     if(manuscriptSearchIndex>=0)scrollManuscriptToPage(manuscriptSearchResults[0]);
     if(!manuscriptSearchResults.length)setManuscriptMessage("This PDF has no searchable text or no matching words.");
+  }
+  // The manuscript now uses the browser's native PDF tab instead of an in-app viewer.
+  function prepareManuscriptUrl(blob){
+    if(manuscriptObjectUrl){URL.revokeObjectURL(manuscriptObjectUrl);manuscriptObjectUrl="";}
+    if(blob)manuscriptObjectUrl=URL.createObjectURL(blob);
+  }
+  function manuscriptUrl(){
+    return manuscriptObjectUrl|| (bundledPdf?"./"+bundledPdf:"");
+  }
+  function showManuscriptFallback(url){
+    const fallback=$("manuscript-fallback");
+    if(!fallback)return;
+    fallback.hidden=false;
+    fallback.innerHTML="";
+    fallback.append("Your browser blocked the new tab. ");
+    const link=document.createElement("a");
+    link.href=url;link.target="_blank";link.rel="noopener";link.textContent="Open the PDF here";
+    fallback.append(link);
+  }
+  async function importManuscript(file){
+    if(!file)return;
+    if(file.type!=="application/pdf"&&!/\.pdf$/iu.test(file.name)){
+      $("manuscript-settings-meta").textContent="Please choose a valid PDF file.";
+      return;
+    }
+    const nextRecord={name:file.name,size:file.size,lastModified:file.lastModified,updatedAt:Date.now(),blob:file};
+    try{await manuscriptDbPut(nextRecord);}catch(_){}
+    manuscriptRecord=nextRecord;
+    prepareManuscriptUrl(file);
+    updateManuscriptSettings();
+    updateChips();
+    $("manuscript-add-backdrop").hidden=true;
+    openManuscript();
+  }
+  async function loadManuscriptState(){
+    try{
+      manuscriptRecord=await manuscriptDbGet();
+      if(manuscriptRecord?.blob)prepareManuscriptUrl(manuscriptRecord.blob);
+    }catch(_){manuscriptRecord=null;}
+    updateManuscriptSettings();
+    updateChips();
+  }
+  function openManuscript(){
+    const url=manuscriptUrl();
+    if(!url){
+      $("manuscript-fallback").hidden=true;
+      $("manuscript-add-backdrop").hidden=false;
+      $("manuscript-add-choose").focus({preventScroll:true});
+      return;
+    }
+    const opened=window.open(url,"_blank");
+    if(!opened){
+      $("manuscript-fallback").hidden=true;
+      $("manuscript-add-backdrop").hidden=false;
+      showManuscriptFallback(url);
+    }else{try{opened.opener=null;}catch(_){}}
+  }
+  function openManuscriptAtPage(){openManuscript();}
+  function closeManuscript(){
+    $("manuscript-add-backdrop").hidden=true;
+    $("manuscript-fallback").hidden=true;
   }
   function clearPassToast(){
     if(passToastTimer)clearDelay(passToastTimer);
@@ -3054,6 +3170,65 @@
   function progressCount(){
     return Math.min(index,questionTotal());
   }
+  let placeSaveTimer=0;
+  function clearSavedPlace(){
+    if(placeSaveTimer){clearTimeout(placeSaveTimer);placeSaveTimer=0;}
+    try{localStorage.removeItem(PLACE_STORAGE_KEY);}catch(_){}
+  }
+  function queuePlaceSave(immediate=false){
+    if(placeSaveTimer){clearTimeout(placeSaveTimer);placeSaveTimer=0;}
+    if(!settings.rememberPlace||!activeSet)return;
+    const write=()=>{
+      placeSaveTimer=0;
+      const revealed={};
+      hintRevealedByQuestion.forEach((value,key)=>{revealed[key]=[...value];});
+      const record={
+        version:1,savedAt:Date.now(),screen:currentScreen,setNumber:activeSet.number,
+        orderedIds:activeQuestions.map(item=>item.id),index,answers:activeQuestions.reduce((out,item,n)=>{out[item.id]=answers[n]||"";return out;},{}),
+        points,streak,furthestIndex,passedIds:passedQuestions.map(item=>item.id),passesUsed,reviewMode,
+        reviewIds:reviewQuestions.map(item=>item.id),reviewIndex,reviewOffered,hintsUsed:[...hintsUsed],
+        hintRevealed:revealed,hintCostApplied:[...hintCostApplied]
+      };
+      try{localStorage.setItem(PLACE_STORAGE_KEY,JSON.stringify(record));}catch(_){}
+    };
+    if(immediate)write();else placeSaveTimer=setTimeout(write,300);
+  }
+  async function restoreSavedPlace(){
+    if(!settings.rememberPlace)return false;
+    let record=null;
+    try{record=JSON.parse(localStorage.getItem(PLACE_STORAGE_KEY)||"null");}catch(_){record=null;}
+    if(!record||record.version!==1||Date.now()-Number(record.savedAt)>PLACE_MAX_AGE_MS){
+      if(record)clearSavedPlace();
+      return false;
+    }
+    const set=QUEST_SETS.find(item=>item.number===Number(record.setNumber));
+    const source=set?.questions||[];
+    const byId=new Map(source.map(item=>[item.id,item]));
+    const ordered=Array.isArray(record.orderedIds)?record.orderedIds.map(id=>byId.get(id)).filter(Boolean):[];
+    if(!set||ordered.length!==source.length||ordered.some(item=>!item)||record.index<0||record.index>ordered.length){
+      clearSavedPlace();
+      $("start-notice").textContent="We couldn't restore your place, so we started fresh.";
+      $("start-notice").hidden=false;
+      return false;
+    }
+    activeSet=set;activeQuestions=ordered;activeWasShuffled=ordered.some((item,n)=>item!==source[n]);
+    lastOrderBySet.set(set.number,activeQuestions.slice());
+    index=Number(record.index)||0;points=Math.max(0,Number(record.points)||0);streak=Math.max(0,Number(record.streak)||0);
+    furthestIndex=Math.max(0,Math.min(activeQuestions.length,Number(record.furthestIndex)||index));
+    const storedAnswers=record.answers&&typeof record.answers==="object"?record.answers:{};
+    answers=activeQuestions.map(item=>typeof storedAnswers[item.id]==="string"?storedAnswers[item.id]:"");
+    passedQuestions=(Array.isArray(record.passedIds)?record.passedIds:[]).map(id=>byId.get(id)).filter(Boolean);
+    passesUsed=Math.max(0,Number(record.passesUsed)||0);reviewMode=Boolean(record.reviewMode);
+    reviewQuestions=(Array.isArray(record.reviewIds)?record.reviewIds:[]).map(id=>byId.get(id)).filter(Boolean);
+    reviewIndex=Math.max(0,Number(record.reviewIndex)||0);reviewOffered=Boolean(record.reviewOffered);
+    hintsUsed=new Set(Array.isArray(record.hintsUsed)?record.hintsUsed:[]);
+    hintCostApplied=new Set(Array.isArray(record.hintCostApplied)?record.hintCostApplied:[]);
+    hintRevealedByQuestion=new Map(Object.entries(record.hintRevealed&&typeof record.hintRevealed==="object"?record.hintRevealed:{}).map(([id,list])=>[id,new Set(Array.isArray(list)?list:[])]));
+    sessionAnswerEntries=new Map();
+    notePanelOpen=false;hintPanelOpen=false;showOnly("game");buildProgressUI();updatePoints(points);render();
+    history.replaceState({littleQuest:"playing"},"",location.href.split("#")[0]+"#playing");
+    return true;
+  }
   function refreshHud(){
     if(!activeSet) return;
     const total = questionTotal();
@@ -3076,6 +3251,7 @@
       star.classList.toggle("lit",lit);
     });
     if([...starsEl.children].some((star,n)=>star.classList.contains("lit")&&!starsBefore[n]))playSoftTone("star");
+    queuePlaceSave();
   }
   const questionSizePixels = {small:34,medium:39,large:42,xlarge:44};
   function putQuestionText(question){
@@ -3192,7 +3368,7 @@
     wasReady=false;
     updateWordUI();
     updateChips();
-    if(hintPanelOpen)renderHintPanel(currentNoteId());
+    if(hintPanelOpen)renderHintModal(currentNoteId());
     refreshHud();
   }
   function renderPassOffer(){
@@ -3209,7 +3385,7 @@
   }
   function renderFinishScreen(){
     completedSets.add(activeSet.number);
-    slot.innerHTML = '<div class="finish-content"><p class="quest-label">A little adventure, well traveled</p><h1>Quest Complete!</h1><p class="finish-set-name"></p><p class="finish-order-note"></p><p class="finish-summary"></p><p class="total-words"></p><p class="finish-order-note" id="finish-hints-used"></p><div class="finish-stars" aria-label="Three stars earned"></div><div class="finish-stats"><span class="finish-stat gold">✦ <span id="final-points"></span> XP</span><span class="finish-stat" id="final-streak-stat">♨ Streak <span id="final-streak"></span></span></div><button class="finish-notes-button" id="finish-notes-button" type="button">See my answers</button><button class="copy-answers" id="copy-answers" type="button">Copy my answers</button><label class="include-notes-option"><input id="include-answer-history" type="checkbox"> Include answer history</label><p class="copy-status" id="copy-status" aria-live="polite"></p><div class="finish-actions"><button class="play-again" id="play-again" type="button">Play again <span aria-hidden="true">↻</span></button><button class="choose-again" id="choose-again" type="button">Choose another set</button></div></div>';
+    slot.innerHTML = '<div class="finish-content"><p class="quest-label">A little adventure, well traveled</p><h1>Quest Complete!</h1><p class="finish-set-name"></p><p class="finish-order-note"></p><p class="finish-summary"></p><p class="total-words"></p><p class="finish-order-note" id="finish-hints-used"></p><div class="finish-stars" aria-label="Three stars earned"></div><div class="finish-stats"><span class="finish-stat gold">✦ <span id="final-points"></span> XP</span><span class="finish-stat" id="final-streak-stat">♨ Streak <span id="final-streak"></span></span></div><button class="finish-notes-button" id="finish-notes-button" type="button">See my answers</button><button class="copy-answers" id="copy-answers" type="button">Copy my answers</button><button class="manuscript-open" id="finish-manuscript-button" type="button">Open manuscript</button><label class="include-notes-option"><input id="include-answer-history" type="checkbox"> Include answer history</label><p class="copy-status" id="copy-status" aria-live="polite"></p><div class="finish-actions"><button class="play-again" id="play-again" type="button">Play again <span aria-hidden="true">↻</span></button><button class="choose-again" id="choose-again" type="button">Choose another set</button></div></div>';
     slot.querySelector(".finish-set-name").textContent = "You finished Set " + activeSet.number + ": " + activeSet.name + ".";
     slot.querySelector(".finish-order-note").textContent=activeWasShuffled?"Shuffled order":"Original order";
     const answered=activeQuestions.length-passedQuestions.length;
@@ -3227,6 +3403,7 @@
     $("choose-again").addEventListener("click",returnToPicker);
     $("copy-answers").addEventListener("click",copyAnswers);
     $("finish-notes-button").addEventListener("click",showNotesForSet);
+    $("finish-manuscript-button").addEventListener("click",openManuscript);
     gameView.appendChild($("gate-message"));
     renderSetCards();
     confettiBurst();
@@ -3255,7 +3432,7 @@
     function createWritingArea(){
       const area=document.createElement("div");
       area.className="writing-area";
-      area.innerHTML='<div class="answer-box"><div class="answer-input-layer"><textarea class="answer-input" id="answer-input" aria-label="Write your answer" placeholder="Write or speak your answer here..." rows="5"></textarea></div><div class="speech-display" id="speech-display" aria-hidden="true"><span class="speech-interim" id="speech-interim"></span></div><div class="writing-tools"><div class="mic-wrap voice-area"><button class="mic-button" id="mic-button" type="button" aria-label="Start Taglish voice typing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3m-4 0h8"/></svg></button><span class="voice-waves" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div><div class="language-switch" role="group" aria-label="Voice language"><button class="language-choice" type="button" data-language="en" aria-pressed="false">English</button><button class="language-choice" type="button" data-language="tl" aria-pressed="false">Tagalog</button><button class="language-choice" type="button" data-language="taglish" aria-pressed="true">Taglish</button><button class="language-info" type="button" aria-label="Voice language tip" title="Choose the language you will speak for best accuracy.">i</button></div><div class="word-row"><svg class="word-ring" id="word-ring" viewBox="0 0 44 44" aria-label="Word goal progress"><circle class="ring-track" cx="22" cy="22" r="18"/><circle class="ring-progress" id="ring-progress" cx="22" cy="22" r="18"/><path class="ring-sparkle" d="M22 5.5 23.2 9l3.3 1.2-3.3 1.2L22 15l-1.2-3.6 3.3-1.2-3.3-1.2-3.3-1.2L22 5.5z"/></svg><span class="word-readout"><strong id="word-count">0</strong><span id="word-goal-copy"> / 100 words</span></span><span class="ready-note" id="ready-note">✦ Nice! You can continue.</span></div><button class="voice-fix-link" id="voice-fix-link" type="button" hidden>Fix a word?</button></div></div><button class="undo-voice" id="undo-voice-text" type="button" hidden>Undo voice text</button><div class="voice-fix-box" id="voice-fix-box" hidden><input id="voice-fix-hear" type="text" maxlength="80" placeholder="Heard as..." aria-label="Heard as"><input id="voice-fix-write" type="text" maxlength="80" placeholder="Write as..." aria-label="Write as"><button id="voice-fix-save" type="button">Add</button></div><p class="voice-message" id="voice-message" aria-live="polite"></p><button class="note-quiet-button mic-retry" id="mic-retry" type="button" hidden>Try again</button>';
+      area.innerHTML='<div class="answer-box"><div class="answer-input-layer"><textarea class="answer-input" id="answer-input" aria-label="Write your answer" placeholder="Write or speak your answer here..." rows="5"></textarea></div><div class="speech-display" id="speech-display" aria-hidden="true"><span class="speech-interim" id="speech-interim"></span></div><div class="writing-tools"><div class="mic-wrap voice-area"><button class="mic-button" id="mic-button" type="button" aria-label="Start Taglish voice typing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3m-4 0h8"/></svg></button><span class="voice-waves" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div><div class="word-row"><svg class="word-ring" id="word-ring" viewBox="0 0 44 44" aria-label="Word goal progress"><circle class="ring-track" cx="22" cy="22" r="18"/><circle class="ring-progress" id="ring-progress" cx="22" cy="22" r="18"/><path class="ring-sparkle" d="M22 5.5 23.2 9l3.3 1.2-3.3 1.2L22 15l-1.2-3.6 3.3-1.2-3.3-1.2-3.3-1.2L22 5.5z"/></svg><span class="word-readout"><strong id="word-count">0</strong><span id="word-goal-copy"> / 100 words</span></span><span class="ready-note" id="ready-note">✦ Nice! You can continue.</span></div><button class="voice-fix-link" id="voice-fix-link" type="button" hidden>Fix a word?</button></div></div><button class="undo-voice" id="undo-voice-text" type="button" hidden>Undo voice text</button><div class="voice-fix-box" id="voice-fix-box" hidden><input id="voice-fix-hear" type="text" maxlength="80" placeholder="Heard as..." aria-label="Heard as"><input id="voice-fix-write" type="text" maxlength="80" placeholder="Write as..." aria-label="Write as"><button id="voice-fix-save" type="button">Add</button></div><p class="voice-message" id="voice-message" aria-live="polite"></p><button class="note-quiet-button mic-retry" id="mic-retry" type="button" hidden>Try again</button>';
       const retry=area.querySelector("#mic-retry");
       retry.addEventListener("click",()=>startListening(area.querySelector("#answer-input")));
       const textarea=area.querySelector("#answer-input");
@@ -3279,10 +3456,6 @@
         textarea.dataset.userScrolled=String(distance>24);
       });
       autoGrow(textarea);
-      area.querySelectorAll(".language-choice").forEach(button=>{
-        button.setAttribute("aria-pressed",String(button.dataset.language===selectedLanguage));
-        button.addEventListener("click",()=>selectLanguage(button.dataset.language));
-      });
       const mic=area.querySelector("#mic-button");
       if(!SpeechRecognitionAPI){
         mic.disabled=true;
@@ -4238,6 +4411,7 @@
     if(busy||entranceActive)return;
     busy=true;
     try{
+      clearSavedPlace();
       if(notePanelOpen)closeMyAnswerPanel({restoreFocus:false});
       clearGameArtifacts();
       activeSet=set;
@@ -4271,6 +4445,7 @@
     if(busy){pendingReturn=true;return;}
     busy=true;
     try{
+      clearSavedPlace();
       $("leave-modal").hidden=true;
       $("reset-backdrop").hidden=true;
       $("settings-backdrop").hidden=true;
@@ -4571,11 +4746,12 @@
   $("my-answer-chip").addEventListener("click",toggleMyAnswerPanel);
   $("hint-chip").addEventListener("click",toggleHintFromChip);
   $("history-writing-link").addEventListener("click",()=>closeMyAnswerPanel());
-  $("hint-writing-link").addEventListener("click",()=>closeHintPanel());
   $("hint-reveal-all").addEventListener("click",()=>{
     const id=currentNoteId(),set=new Set(hintAnswersFor(id).map((_,n)=>n));
-    hintRevealedByQuestion.set(id,set);renderHintPanel(id);
+    hintRevealedByQuestion.set(id,set);renderHintModal(id);
   });
+  $("hint-modal-close").addEventListener("click",()=>closeHintPanel());
+  $("hint-modal-backdrop").addEventListener("click",event=>{if(event.target===$("hint-modal-backdrop"))closeHintPanel();});
   $("history-undo-button").addEventListener("click",undoDeleteHistoryEntry);
   $("history-use-replace").addEventListener("click",()=>applyHistoryEntry("replace"));
   $("history-use-add").addEventListener("click",()=>applyHistoryEntry("append"));
@@ -4610,7 +4786,7 @@
   $("answers-list-backdrop").addEventListener("click",event=>{if(event.target===$("answers-list-backdrop"))$("answers-list-backdrop").hidden=true;});
   document.addEventListener("click",event=>{
     if(notePanelOpen&&!event.composedPath().includes($("note-panel-slot"))&&event.target!==$("my-answer-chip"))closeMyAnswerPanel({restoreFocus:false});
-    if(hintPanelOpen&&!event.composedPath().includes($("note-panel-slot"))&&event.target!==$("hint-chip"))closeHintPanel({restoreFocus:false});
+    if(hintPanelOpen&&!event.composedPath().includes($("hint-modal"))&&event.target!==$("hint-chip"))closeHintPanel({restoreFocus:false});
   });
   function openSettings(){
     if(busy||!SHOW_SETTINGS_BUTTON||!$("settings-backdrop").hidden)return;
@@ -4651,8 +4827,9 @@
   $("manuscript-open-corner").addEventListener("click",openManuscript);
   $("manuscript-open-start").addEventListener("click",openManuscript);
   $("manuscript-open-chip").addEventListener("click",openManuscript);
-  $("manuscript-close").addEventListener("click",closeManuscript);
-  $("manuscript-backdrop").addEventListener("click",event=>{if(event.target===$("manuscript-backdrop"))closeManuscript();});
+  $("manuscript-add-cancel").addEventListener("click",closeManuscript);
+  $("manuscript-add-backdrop").addEventListener("click",event=>{if(event.target===$("manuscript-add-backdrop"))closeManuscript();});
+  $("manuscript-add-choose").addEventListener("click",()=>$("manuscript-file-input").click());
   $("manuscript-choose").addEventListener("click",()=>$("manuscript-file-input").click());
   $("manuscript-file-input").addEventListener("change",event=>{
     const file=event.target.files?.[0];if(file)importManuscript(file);event.target.value="";
@@ -4660,23 +4837,12 @@
   $("manuscript-remove").addEventListener("click",async()=>{
     if(!manuscriptRecord||!confirm("Remove the saved manuscript from this device?"))return;
     try{await manuscriptDbDelete();}catch(_){}
-    manuscriptRecord=null;destroyManuscriptDocument();updateManuscriptSettings();updateChips();setManuscriptMessage("Manuscript removed.");
+    manuscriptRecord=null;prepareManuscriptUrl(null);updateManuscriptSettings();updateChips();
   });
   const manuscriptDrop=$("manuscript-drop");
   ["dragenter","dragover"].forEach(type=>manuscriptDrop.addEventListener(type,event=>{event.preventDefault();manuscriptDrop.classList.add("dragging");}));
   ["dragleave","drop"].forEach(type=>manuscriptDrop.addEventListener(type,event=>{event.preventDefault();manuscriptDrop.classList.remove("dragging");}));
   manuscriptDrop.addEventListener("drop",event=>importManuscript(event.dataTransfer?.files?.[0]));
-  $("manuscript-prev").addEventListener("click",()=>scrollManuscriptToPage(Math.max(1,manuscriptPage-1)));
-  $("manuscript-next").addEventListener("click",()=>scrollManuscriptToPage(Math.min(manuscriptDoc?.numPages||1,manuscriptPage+1)));
-  $("manuscript-page-input").addEventListener("change",event=>scrollManuscriptToPage(Math.max(1,Math.min(manuscriptDoc?.numPages||1,Number(event.target.value)||1))));
-  $("manuscript-zoom-out").addEventListener("click",()=>{manuscriptZoom=Math.max(.6,manuscriptZoom-.1);persistManuscriptViewState();buildManuscriptPages();});
-  $("manuscript-zoom-in").addEventListener("click",()=>{manuscriptZoom=Math.min(2.5,manuscriptZoom+.1);persistManuscriptViewState();buildManuscriptPages();});
-  $("manuscript-fit").addEventListener("click",()=>{manuscriptZoom=1;persistManuscriptViewState();buildManuscriptPages();});
-  $("manuscript-link-page").addEventListener("click",linkCurrentManuscriptPage);
-  $("manuscript-search-toggle").addEventListener("click",()=>{$("manuscript-search").hidden=!$("manuscript-search").hidden;if(!$("manuscript-search").hidden)$("manuscript-search-input").focus();});
-  $("manuscript-search-input").addEventListener("keydown",event=>{if(event.key==="Enter")searchManuscript();});
-  $("manuscript-search-prev").addEventListener("click",()=>{if(!manuscriptSearchResults.length)return;manuscriptSearchIndex=(manuscriptSearchIndex-1+manuscriptSearchResults.length)%manuscriptSearchResults.length;scrollManuscriptToPage(manuscriptSearchResults[manuscriptSearchIndex]);$("manuscript-search-status").textContent=(manuscriptSearchIndex+1)+" of "+manuscriptSearchResults.length;});
-  $("manuscript-search-next").addEventListener("click",()=>{if(!manuscriptSearchResults.length)return;manuscriptSearchIndex=(manuscriptSearchIndex+1)%manuscriptSearchResults.length;scrollManuscriptToPage(manuscriptSearchResults[manuscriptSearchIndex]);$("manuscript-search-status").textContent=(manuscriptSearchIndex+1)+" of "+manuscriptSearchResults.length;});
   let deferredInstallPrompt=null;
   let pwaRegistration=null;
   let pwaReloadRequested=false;
@@ -4889,7 +5055,7 @@
         else closeSettings();
         return;
       }
-      if(!$("manuscript-backdrop").hidden){
+      if(!$("manuscript-add-backdrop").hidden){
         if(event.key==="Escape"){event.preventDefault();closeManuscript();return;}
         if(event.key==="m"&&!editing){event.preventDefault();closeManuscript();return;}
         return;
@@ -4915,7 +5081,16 @@
       if(hintPanelOpen){closeHintPanel();return;}
     }
     if(!$("notes-clear-backdrop").hidden||!$("notes-restore-backdrop").hidden||!$("history-use-backdrop").hidden||!$("answers-list-backdrop").hidden)return;
-    if(notePanelOpen||hintPanelOpen)return;
+    if(hintPanelOpen){
+      if(event.key==="Tab"){
+        const focusable=[...$("hint-modal").querySelectorAll('button:not(:disabled),a[href],input,textarea')].filter(el=>el.offsetParent!==null);
+        const first=focusable[0],last=focusable[focusable.length-1];
+        if(first&&last&&event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}
+        else if(first&&last&&!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}
+      }
+      return;
+    }
+    if(notePanelOpen)return;
     if(!$("leave-modal").hidden){
       if(event.key==="Escape")$("stay-button").click();
       return;
@@ -4971,7 +5146,7 @@
     }else if(activeSet&&currentScreen!=="game")recoverToStart();
   });
   addEventListener("pageshow",event=>{
-    if(event.persisted)recoverToStart("Welcome back. Your current set has been reset.");
+    if(event.persisted&&!activeSet)restoreSavedPlace();
   });
   document.addEventListener("visibilitychange",()=>{
     if(document.hidden&&entranceActive)finishEntranceImmediately();
@@ -4985,7 +5160,7 @@
       if(hiddenVoiceWasOn&&Date.now()<=hiddenVoiceUntil&&activeSet&&$("answer-input"))startListening($("answer-input"));
       hiddenVoiceWasOn=false;
     }
-    if(document.hidden)persistNotes();
+    if(document.hidden){persistNotes();queuePlaceSave(true);}
   });
   addEventListener("resize",()=>{
     if(entranceActive)finishEntranceImmediately();
@@ -4997,11 +5172,11 @@
   addEventListener("pagehide",()=>{
     if(listening)stopVoice();
     if(notePanelOpen)closeMyAnswerPanel({restoreFocus:false});
-    persistNotes();
+    persistNotes();queuePlaceSave(true);
   });
   addEventListener("beforeunload",()=>{
     if(notePanelOpen)closeMyAnswerPanel({restoreFocus:false});
-    persistNotes();
+    persistNotes();queuePlaceSave(true);
   });
   addEventListener("error",event=>{
     if(activeSet)recoverToStart("Something unexpected happened. Let's start fresh.");
@@ -5018,9 +5193,10 @@
   if(document.fonts?.ready)document.fonts.ready.then(()=>fitVisibleQuestion()).catch(()=>{});
   history.replaceState({littleQuest:"start"},"",location.href.split("#")[0]);
   applySettings();
-  renderSetCards();
-  scheduleStartCardShines();
   loadManuscriptState();
+  restoreSavedPlace().then(restored=>{
+    if(!restored){renderSetCards();scheduleStartCardShines();}
+  });
 </script>
 </body>
 </html>
