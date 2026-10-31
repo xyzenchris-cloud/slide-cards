@@ -949,7 +949,7 @@
         <h3>Manuscript</h3>
         <p class="manuscript-meta" id="manuscript-settings-meta">No manuscript saved.</p>
         <div class="notes-backup-actions">
-          <button class="note-quiet-button" id="manuscript-choose" type="button">Choose PDF</button>
+          <button class="note-quiet-button" id="manuscript-choose" type="button">Choose / replace PDF</button>
           <button class="note-quiet-button" id="manuscript-remove" type="button" hidden>Remove PDF</button>
           <input id="manuscript-file-input" type="file" accept="application/pdf,.pdf" hidden>
         </div>
@@ -2822,16 +2822,19 @@
     return (bytes/(1024*1024)).toFixed(1)+" MB";
   }
   function updateManuscriptSettings(){
-    const meta=$("manuscript-settings-meta"),remove=$("manuscript-remove");
+    const meta=$("manuscript-settings-meta"),choose=$("manuscript-choose"),remove=$("manuscript-remove");
     if(!meta)return;
     if(manuscriptRecord){
       meta.textContent=manuscriptRecord.name+" · "+formatManuscriptSize(manuscriptRecord.size||0);
+      if(choose)choose.textContent="Replace PDF";
       remove.hidden=false;
     }else if(bundledPdf){
       meta.textContent="Bundled manuscript: "+bundledPdf;
+      if(choose)choose.textContent="Choose PDF";
       remove.hidden=true;
     }else{
       meta.textContent="No manuscript saved.";
+      if(choose)choose.textContent="Choose PDF";
       remove.hidden=true;
     }
   }
