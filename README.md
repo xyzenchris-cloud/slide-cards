@@ -23,7 +23,7 @@ Open `index.html` in a text editor. Near the top of the script, update `APP_VERS
 
 ## Manuscript PDF
 
-The Manuscript button opens the saved PDF in a new browser tab. Choose a PDF from the device, or drag it into the Manuscript section in Settings. The selected PDF is stored in this browser's IndexedDB and is never uploaded, sent to a server, or included in answer backups. A new browser profile or device will require choosing the PDF again; clearing site data, private browsing, storage quota limits, or browser cleanup can also remove it.
+The Manuscript chip opens the saved PDF in a new browser tab. Choose or replace a PDF from the device, or drag it into the Manuscript section in Settings. The selected PDF is stored in this browser's IndexedDB and is never uploaded, sent to a server, or included in answer backups. A new browser profile or device will require choosing the PDF again; clearing site data, private browsing, storage quota limits, or browser cleanup can also remove it. To make one public manuscript available on every device, place a PDF beside `index.html` and set the `bundledPdf` constant near the top of the script to its filename; do not use that option for a private manuscript.
 
 The app does not bundle PDF.js, render pages, search inside the PDF, or upload the selected file. If you configure a bundled PDF in `index.html`, that file becomes public with the site and is opened as a normal same-folder PDF. Version `1.6.0` removes the old viewer cache on service-worker activation; when replacing an older upload, also remove any obsolete `vendor/pdfjs/` files from the published folder.
 
