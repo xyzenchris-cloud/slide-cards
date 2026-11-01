@@ -77,6 +77,14 @@
   }
   .level-copy{min-width:0;overflow-wrap:anywhere}
   .level-star{color:var(--gold);font-size:1rem;text-shadow:0 1px 0 #fff}
+  .attempt-copy{font-size:.68rem;color:var(--muted);font-weight:600}
+  .timer-pill{display:inline-flex;align-items:center;gap:6px;margin-left:4px;padding:5px 8px;border:1px solid rgba(69,102,78,.13);border-radius:999px;background:rgba(255,254,250,.72);color:var(--forest);font:700 .74rem var(--round);box-shadow:0 3px 0 rgba(69,102,78,.09)}
+  .timer-pill[hidden]{display:none}
+  .timer-pill.warning{color:#8a6c35;border-color:rgba(216,170,85,.35)}
+  .timer-pill.urgent{color:#a85f42;animation:timer-pulse .9s ease-in-out infinite alternate}
+  .timer-pill button{display:grid;place-items:center;width:20px;height:20px;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;cursor:pointer}
+  .timer-pill svg{width:13px;height:13px}
+  @keyframes timer-pulse{to{transform:scale(1.035)}}
   .rewardline{display:flex;align-items:center;gap:10px;justify-self:end}
   .xp-pill,.streak-pill{
     display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:34px;padding:6px 11px;
@@ -342,6 +350,12 @@
   .pass-offer-button.secondary{background:#edf2e8;color:var(--forest);box-shadow:0 5px 0 rgba(61,91,68,.2)}
   .finish-summary{margin:-7px 0 0;color:var(--muted);font-size:.78rem;font-weight:700}
   .nav{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:7px;background:transparent}
+  .question-arrows{position:absolute;inset:50% 10px auto;display:flex;justify-content:space-between;transform:translateY(-50%);z-index:2;pointer-events:none}
+  .question-arrow{display:grid;place-items:center;width:34px;height:34px;border:1px solid rgba(69,102,78,.15);border-radius:50%;background:rgba(255,254,250,.78);color:var(--forest);box-shadow:0 3px 0 rgba(69,102,78,.11);cursor:pointer;pointer-events:auto}
+  .question-arrow:disabled{opacity:.25;cursor:default}
+  .timer-overlay{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(38,48,40,.12);pointer-events:none}
+  .timer-overlay[hidden]{display:none}
+  .timer-overlay-card{padding:18px 24px;border:1px solid rgba(69,102,78,.16);border-radius:18px;background:var(--paper);color:var(--forest);font:700 1rem var(--round);box-shadow:0 8px 0 rgba(69,102,78,.12)}
   .back,.next{border:0;cursor:pointer;font-weight:700;transition:transform .22s var(--ease),box-shadow .25s,opacity .2s}
   .back{min-height:46px;padding:10px 19px;border-radius:999px;background:#e8ede4;color:var(--forest);box-shadow:0 4px 0 rgba(69,102,78,.18);font-size:.9rem}
   .back:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 9px rgba(69,102,78,.15)}
@@ -648,6 +662,8 @@
     .nav{gap:10px}
     .back{padding:10px 15px}
     .next{flex:0 1 auto;max-width:210px;min-width:0;min-height:48px;padding:11px 20px;font-size:.88rem;gap:9px}
+    .question-arrows{position:static;transform:none;justify-content:center;gap:12px;margin:2px 0 0}
+    .question-arrow{width:32px;height:32px}
     .chips{margin-top:5px}
     .pass-chip{min-height:44px;padding-inline:16px}
     .card{padding:36px 22px}
@@ -800,7 +816,7 @@
       <button class="sets-button" id="sets-button" type="button">‹ Sets</button>
     </div>
     <section class="hud" aria-label="Quest progress">
-      <div class="level"><span class="level-copy" id="level-copy">Set 1: Cozy Reflections • Level 1</span><span class="level-star" aria-hidden="true">★</span></div>
+      <div class="level"><span class="level-copy" id="level-copy">Set 1: Cozy Reflections • Level 1</span><span class="level-star" aria-hidden="true">★</span><span class="attempt-copy" id="attempt-copy" hidden></span><span class="timer-pill" id="timer-pill" hidden><button id="timer-sound-toggle" type="button" aria-label="Mute timer sounds"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><circle cx="10" cy="10" r="6.8"/><path d="M10 6v4l2.5 1.5"/></svg></button><span id="timer-copy">2:00</span></span></div>
       <div class="rewardline">
         <div class="xp-pill" aria-label="Reward points"><span class="xp-icon" aria-hidden="true">✦</span><span id="xp-count">0 XP</span></div>
         <div class="streak-pill" id="streak-pill" aria-label="Streak"><span aria-hidden="true">♨</span><span id="streak-count">0</span></div>
@@ -817,6 +833,7 @@
         <i class="corner tl" aria-hidden="true"></i><i class="corner tr" aria-hidden="true"></i>
         <i class="corner bl" aria-hidden="true"></i><i class="corner br" aria-hidden="true"></i>
         <span class="card-shine" aria-hidden="true"></span>
+        <div class="question-arrows" id="question-arrows" hidden><button class="question-arrow" id="question-prev" type="button" aria-label="Previous question" title="Previous question">←</button><button class="question-arrow" id="question-next" type="button" aria-label="Next question without points" title="Next question without points">→</button></div>
         <div class="slot" id="slot"></div>
         <div class="note-panel-slot" id="note-panel-slot">
           <section class="my-answer-panel answer-history-panel" id="my-answer-panel" aria-label="My answer history" aria-hidden="true" inert>
@@ -859,6 +876,7 @@
   </div>
   <p class="status" id="status" aria-live="polite"></p>
 </main>
+<div class="timer-overlay" id="timer-overlay" hidden><div class="timer-overlay-card" role="status">Time's up<br><small>Starting over from Question 1.</small></div></div>
 <div class="pass-toast" id="pass-toast" role="status" aria-live="polite" hidden>
   <span>Passed.</span><button class="pass-undo" id="pass-undo" type="button">Undo</button>
 </div>
@@ -906,6 +924,25 @@
         </div>
       </section>
       <section class="setting-section">
+        <h3>Challenge timer</h3>
+        <label class="setting-toggle"><span><strong>Turn on challenge timer</strong><small>When time runs out, the current set starts again from Question 1.</small></span><input type="checkbox" data-setting-toggle="timerEnabled"><i aria-hidden="true"></i></label>
+        <div class="pill-choice" role="group" aria-label="Timer mode"><button type="button" data-timer-mode="question">Per question</button><button type="button" data-timer-mode="set">Whole set</button></div>
+        <div class="range-row"><label for="timer-duration"><span class="setting-help">Duration</span></label><input id="timer-duration" type="number" min="10" max="3600" step="1" aria-label="Timer duration"></div>
+        <div class="pill-choice" role="group" aria-label="Timer duration unit"><button type="button" data-timer-unit="seconds">Seconds</button><button type="button" data-timer-unit="minutes">Minutes</button></div>
+        <div class="quick-picks" role="group" aria-label="Timer quick picks"><button type="button" data-timer-pick="30">30s</button><button type="button" data-timer-pick="60">1 min</button><button type="button" data-timer-pick="120">2 min</button><button type="button" data-timer-pick="300">5 min</button><button type="button" data-timer-pick="600">10 min</button></div>
+        <label class="setting-toggle"><span><strong>Timer sounds</strong><small>Play soft ticks and quiet warning chimes.</small></span><input type="checkbox" data-setting-toggle="timerSounds"><i aria-hidden="true"></i></label>
+        <div class="range-row"><label for="timer-volume"><span class="setting-help">Timer volume</span></label><input id="timer-volume" type="range" min="0" max="100" step="1" aria-label="Timer volume"></div>
+        <label class="setting-toggle"><span><strong>Keep ticking while microphone is on</strong><small>Leave off to keep ticks out of voice typing.</small></span><input type="checkbox" data-setting-toggle="timerTickWhileMic"><i aria-hidden="true"></i></label>
+        <label class="setting-toggle"><span><strong>Pause in Settings, Hint, or background</strong><small>Paused time resumes when you return.</small></span><input type="checkbox" data-setting-toggle="timerPausePanels"><i aria-hidden="true"></i></label>
+        <label class="setting-toggle"><span><strong>Save unfinished text on timeout</strong><small>Store the current draft as Timed out in My Answers.</small></span><input type="checkbox" data-setting-toggle="timerSaveDraft"><i aria-hidden="true"></i></label>
+        <label class="setting-toggle"><span><strong>Reset points and streak on restart</strong><small>Start each timed attempt cleanly.</small></span><input type="checkbox" data-setting-toggle="timerResetProgress"><i aria-hidden="true"></i></label>
+      </section>
+      <section class="setting-section">
+        <h3>Free question navigation</h3>
+        <label class="setting-toggle"><span><strong>Show previous and next arrows</strong><small>Show quiet arrows on the question card.</small></span><input type="checkbox" data-setting-toggle="showQuestionArrows"><i aria-hidden="true"></i></label>
+        <label class="setting-toggle"><span><strong>Free navigation</strong><small>Let the right arrow move ahead without the word goal.</small></span><input type="checkbox" data-setting-toggle="freeNavigation"><i aria-hidden="true"></i></label>
+      </section>
+      <section class="setting-section">
         <h3>Hints</h3>
         <label class="setting-toggle"><span><strong>Allow hints</strong><small>Show reference answers when a question has them.</small></span><input type="checkbox" data-setting-toggle="allowHints"><i aria-hidden="true"></i></label>
         <label class="setting-toggle"><span><strong>Hints cost points</strong><small>Opening hints once on a question costs the amount below.</small></span><input type="checkbox" data-setting-toggle="hintsCostPoints"><i aria-hidden="true"></i></label>
@@ -946,6 +983,8 @@
           <input id="notes-file-input" type="file" accept="application/json,.json" hidden>
         </div>
         <p class="notes-backup-status" id="notes-backup-status" aria-live="polite"></p>
+        <p class="setting-help" id="answers-check">Saved answers check: checking…</p>
+        <button class="note-quiet-button" id="answers-test-save" type="button">Test saving</button>
         <button class="notes-clear" id="answers-clear-open" type="button">Clear all my answers</button>
         <p class="setting-help">Reset to default changes settings only and never deletes saved answers.</p>
       </section>
@@ -1140,7 +1179,7 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.7.0";
+  const APP_VERSION = "1.8.0";
   const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
   // Optional: set a same-folder filename to publish a PDF with the site. This makes it public to anyone with the link.
@@ -1180,6 +1219,18 @@
     showVoiceTest: false,       // Show temporary voice diagnostics in Settings
     shuffleQuestions: true,    // Mix question order when a set starts
     reshuffleOnReplay: true,   // Give Play again a new shuffled order
+    timerEnabled: false,       // Turn on the optional challenge timer
+    timerMode: "question",     // "question" or "set"
+    timerDuration: 120,        // Default duration in seconds
+    timerUnit: "seconds",      // Settings display unit
+    timerSounds: true,         // Timer ticks and warning chimes
+    timerVolume: 35,           // Timer volume from 0 to 100
+    timerTickWhileMic: false,  // Keep timer ticks audible during voice typing
+    timerPausePanels: true,    // Pause while Settings, Hint, or the page is hidden
+    timerSaveDraft: true,      // Save unfinished text when the timer restarts
+    timerResetProgress: true,  // Reset XP and streak on a timed restart
+    showQuestionArrows: true,  // Show free previous/next question arrows
+    freeNavigation: true,      // Allow the next arrow to skip the word goal
     animations: "full"        // "full", "lite", or "off"; Full is the default even with reduced-motion enabled
   };
   // Settings and answer history stay in this browser on this device.
@@ -1915,6 +1966,8 @@
     textSize: ["small","medium","large","xlarge"],
     voiceLanguage: ["en","tl","taglish"],
     voiceMode: ["auto","continuous","phrase"],
+    timerMode: ["question","set"],
+    timerUnit: ["seconds","minutes"],
     allowHints: [true,false],
     hintsCostPoints: [true,false],
     rememberPlace: [true,false],
@@ -1927,17 +1980,22 @@
   const settings = loadSettings();
   let wordList=loadWordList();
   let activeSet=null, activeQuestions=[], activeWasShuffled=false, index=0, points=0, streak=0, busy=false, notePanelOpen=false, hintPanelOpen=false;
+  let timerInterval=0, timerRemaining=0, timerLastTick=0, timerLastSoundSecond=-1, timerQuestionRemaining=new Map(), timerMuted=false, timerAnnounced=new Set(), attempts=1, timerStarted=false, timerRestorePauseUntil=0, questStartedAt=Date.now();
   let answers=[], furthestIndex=0, selectedLanguage=settings.voiceLanguage, recognition=null, voiceSession=null, listening=false, restartTimer=null;
   let voiceTextarea=null, notePanelAnimation=null, noteOpenId=null, pendingRestoreNotes=null, pendingRestoreWordList=null;
   let downloadedBackup=(()=>{try{return localStorage.getItem(NOTES_STORAGE_KEY+"-backup")==="1";}catch(_){return false;}})();
   let notesStorageAvailable=noteStorageWorks();
   let historyNeedsMigration=false;
   const notesById=loadAnswerHistory();
+  let lastNotesSaveAt=Object.values(notesById).flatMap(list=>Array.isArray(list)?list:[]).reduce((latest,entry)=>{
+    const time=Date.parse(entry.answeredAt||"");
+    return Number.isFinite(time)?Math.max(latest,time):latest;
+  },0);
   if(historyNeedsMigration&&settings.saveAnswersOnDevice)persistNotes();
   let sessionAnswerEntries=new Map();
   let historyUndo=null, historyUndoTimer=null, pendingHistoryEntry=null;
   let hintsUsed=new Set(), hintCostApplied=new Set();
-  let passedQuestions=[],passesUsed=0,reviewMode=false,reviewQuestions=[],reviewIndex=0,reviewOffered=false;
+  let passedQuestions=[],unansweredQuestions=[],passesUsed=0,reviewMode=false,reviewQuestions=[],reviewIndex=0,reviewOffered=false;
   let passToastTimer=null,passMessageTimer=null,gateMessageTimer=null,lastPass=null;
   let speechInterim="", applyingSpeech=false, silenceTimer=null, micInactivityTimer=null, voiceUndoTimer=null, lastVoiceUndo=null;
   let restartFailures=0, speechRestarting=false, restartDelay=350, voiceRoundCounter=0, currentVoiceRound=null, textGuardTimer=null, textGuardSnapshot="";
@@ -1980,6 +2038,105 @@
     managedTimers.forEach(timer=>clearTimeout(timer));
     managedTimers.clear();
     restartTimer=null;
+  }
+  function timerDurationSeconds(){
+    const raw=Math.max(10,Math.min(3600,Number(settings.timerDuration)||120));
+    return settings.timerUnit==="minutes"?raw*60:raw;
+  }
+  function timerConfiguredSeconds(){
+    return Math.max(10,Number(activeSet?.timerSeconds)||timerDurationSeconds());
+  }
+  function timerPaused(){
+    return Date.now()<timerRestorePauseUntil||document.hidden||(settings.timerPausePanels&&(!$("settings-backdrop").hidden||hintPanelOpen||notePanelOpen));
+  }
+  function formatTimer(seconds){
+    const value=Math.max(0,Math.ceil(seconds));
+    return Math.floor(value/60)+":"+String(value%60).padStart(2,"0");
+  }
+  function timerSound(kind){
+    if(!settings.timerSounds||timerMuted||Number(settings.timerVolume)<=0||(listening&&!settings.timerTickWhileMic))return;
+    const AudioContextClass=window.AudioContext||window.webkitAudioContext;
+    if(!AudioContextClass)return;
+    try{
+      const context=new AudioContextClass(),oscillator=context.createOscillator(),gain=context.createGain();
+      const now=context.currentTime,volume=Math.min(.08,Number(settings.timerVolume)/100*.07);
+      const frequency=kind==="up"?220:kind==="warning"?620:kind==="ten"?760:kind==="thirty"?540:420;
+      oscillator.type="sine";oscillator.frequency.setValueAtTime(frequency,now);
+      oscillator.frequency.exponentialRampToValueAtTime(frequency*(kind==="up"?.72:1.08),now+.18);
+      gain.gain.setValueAtTime(.0001,now);gain.gain.exponentialRampToValueAtTime(volume,now+.02);gain.gain.exponentialRampToValueAtTime(.0001,now+(kind==="up"?.5:.12));
+      oscillator.connect(gain);gain.connect(context.destination);oscillator.start(now);oscillator.stop(now+(kind==="up"?.52:.14));oscillator.onended=()=>context.close();
+    }catch(_){}
+  }
+  function updateTimerUI(){
+    const pill=$("timer-pill");
+    if(!pill)return;
+    const enabled=Boolean(activeSet&&settings.timerEnabled&&timerStarted&&index<questionTotal());
+    pill.hidden=!enabled;
+    if(!enabled)return;
+    const seconds=settings.timerMode==="set"?timerRemaining:(timerQuestionRemaining.get(activeQuestions[index]?.id)??timerRemaining);
+    $("timer-copy").textContent=formatTimer(seconds);
+    pill.classList.toggle("warning",seconds<=30&&seconds>10);
+    pill.classList.toggle("urgent",seconds<=10);
+    $("timer-sound-toggle").setAttribute("aria-label",timerMuted?"Unmute timer sounds":"Mute timer sounds");
+    $("attempt-copy").hidden=attempts<=1;
+    $("attempt-copy").textContent="Attempt "+attempts;
+  }
+  function stopTimer(){
+    if(timerInterval){clearInterval(timerInterval);timerInterval=0;}
+    timerStarted=false;timerLastTick=0;timerLastSoundSecond=-1;timerRemaining=0;timerQuestionRemaining.clear();timerAnnounced.clear();
+    $("timer-pill").hidden=true;
+    $("timer-overlay").hidden=true;
+  }
+  function startTimer(){
+    stopTimer();
+    if(!activeSet||!settings.timerEnabled||index>=questionTotal())return;
+    const seconds=timerConfiguredSeconds();
+    timerRemaining=seconds;
+    activeQuestions.forEach(question=>timerQuestionRemaining.set(question.id,seconds));
+    timerStarted=true;timerLastTick=performance.now();updateTimerUI();
+    timerInterval=setInterval(timerTick,250);
+  }
+  function syncTimerQuestion(previousId){
+    if(!timerStarted||settings.timerMode!=="question")return;
+    if(previousId&&timerQuestionRemaining.has(previousId))timerQuestionRemaining.set(previousId,Math.max(0,timerQuestionRemaining.get(previousId)));
+    if(activeQuestions[index])timerRemaining=timerQuestionRemaining.get(activeQuestions[index].id)??timerConfiguredSeconds();
+    timerLastTick=performance.now();updateTimerUI();
+  }
+  function timerTick(){
+    if(!timerStarted||!activeSet||index>=questionTotal())return;
+    const now=performance.now();
+    if(timerPaused()){timerLastTick=now;updateTimerUI();return;}
+    const elapsed=(now-timerLastTick)/1000;timerLastTick=now;
+    if(settings.timerMode==="set")timerRemaining-=elapsed;
+    else{
+      const id=activeQuestions[index]?.id;
+      const remaining=Math.max(0,(timerQuestionRemaining.get(id)??timerRemaining)-elapsed);
+      timerQuestionRemaining.set(id,remaining);timerRemaining=remaining;
+    }
+    const remaining=settings.timerMode==="set"?timerRemaining:timerRemaining;
+    const whole=Math.ceil(remaining);
+    if(whole!==timerLastSoundSecond){timerLastSoundSecond=whole;if(whole>0)timerSound(whole<=10?"warning":"tick");}
+    if(whole===30&&!timerAnnounced.has("30")){timerAnnounced.add("30");timerSound("thirty");}
+    if(whole===10&&!timerAnnounced.has("10")){timerAnnounced.add("10");timerSound("ten");}
+    if(whole<=10&&whole>0&&whole!==Math.ceil(remaining+elapsed))timerSound("tick");
+    updateTimerUI();
+    if(remaining<=0)timeUp();
+  }
+  async function timeUp(){
+    if(!timerStarted||busy)return;
+    stopTimer();busy=true;
+    try{
+      if(settings.timerSaveDraft&&activeQuestions[index]&&$("answer-input")?.value.trim()){
+        recordAnswer(activeQuestions[index],$("answer-input").value,"Timed out");
+      }
+      stopVoice();clearVoiceUndo();$("timer-overlay").hidden=false;timerSound("up");
+      await new Promise(resolve=>setTimeout(resolve,1800));
+      $("timer-overlay").hidden=true;
+      attempts++;
+      if(settings.timerResetProgress){points=0;streak=0;}
+      busy=false;
+      await beginSet(activeSet,null,true,true);
+    }finally{busy=false;}
   }
   function motionDuration(full,lite=full){
     return settings.animations==="off"?0:settings.animations==="lite"?lite:full;
@@ -2189,6 +2346,7 @@
     root.getAnimations({subtree:true}).forEach(animation=>animation.cancel());
   }
   function clearGameArtifacts(){
+    stopTimer();
     if(notePanelOpen)closeMyAnswerPanel({restoreFocus:false});
     if(hintPanelOpen)closeHintPanel({restoreFocus:false});
     resetEntrance();
@@ -2218,10 +2376,11 @@
   function recoverToStart(message="Let's start fresh."){
     if(recovering)return;
     recovering=true;
+    stopTimer();
     clearGameArtifacts();
     activeSet=null;activeQuestions=[];activeWasShuffled=false;
     answers=[];index=0;furthestIndex=0;points=0;streak=0;
-    passedQuestions=[];passesUsed=0;reviewMode=false;reviewQuestions=[];reviewIndex=0;reviewOffered=false;
+    passedQuestions=[];unansweredQuestions=[];passesUsed=0;reviewMode=false;reviewQuestions=[];reviewIndex=0;reviewOffered=false;
     hintsUsed=new Set();hintCostApplied=new Set();
     notePanelOpen=false;busy=false;pendingReturn=false;orderSettingChanged=false;
     $("leave-modal").hidden=true;
@@ -2256,9 +2415,11 @@
     Object.keys(allowedSettings).forEach(key=>{
       if(allowedSettings[key].includes(saved[key]))result[key]=saved[key];
     });
-    ["streak","background","confetti","sound","shuffleQuestions","reshuffleOnReplay","myAnswerChip","saveAnswersOnDevice","showVoiceTest","smartCleanup","spokenPunctuation","removeVoiceFillers","allowHints","rememberPlace","hintsCostPoints"].forEach(key=>{
+    ["streak","background","confetti","sound","shuffleQuestions","reshuffleOnReplay","myAnswerChip","saveAnswersOnDevice","showVoiceTest","smartCleanup","spokenPunctuation","removeVoiceFillers","allowHints","rememberPlace","hintsCostPoints","timerEnabled","timerSounds","timerTickWhileMic","timerPausePanels","timerSaveDraft","timerResetProgress","showQuestionArrows","freeNavigation"].forEach(key=>{
       if(typeof saved[key]==="boolean")result[key]=saved[key];
     });
+    ["timerMode","timerUnit"].forEach(key=>{if(allowedSettings[key]?.includes(saved[key]))result[key]=saved[key];});
+    ["timerDuration","timerVolume"].forEach(key=>{const value=Number(saved[key]);if(Number.isFinite(value))result[key]=value;});
     const hintCost=Number(saved.hintCost);
     if(Number.isFinite(hintCost))result.hintCost=Math.max(1,Math.min(20,Math.round(hintCost)));
     if(typeof saved.saveAnswersOnDevice!=="boolean"&&typeof saved.saveNotesOnDevice==="boolean")result.saveAnswersOnDevice=saved.saveNotesOnDevice;
@@ -2341,7 +2502,8 @@
     return {
       text:value.text,
       answeredAt:typeof value.answeredAt==="string"?value.answeredAt:(typeof value.editedAt==="string"?value.editedAt:""),
-      wordCount:Number.isFinite(Number(value.wordCount))?Math.max(0,Math.floor(Number(value.wordCount))):countWords(value.text)
+      wordCount:Number.isFinite(Number(value.wordCount))?Math.max(0,Math.floor(Number(value.wordCount))):countWords(value.text),
+      status:typeof value.status==="string"?value.status:""
     };
   }
   function cleanHistoryMap(source,legacy=false){
@@ -2398,11 +2560,11 @@
     }catch(_){return result;}
   }
   function serializeNotes(){
-    return JSON.stringify({format:"little-quest-answer-history",version:4,exportedAt:new Date().toISOString(),answers:notesById,wordList});
+    return JSON.stringify({format:"little-quest-answer-history",version:4,exportedAt:new Date().toISOString(),lastSavedAt:lastNotesSaveAt,answers:notesById,wordList});
   }
   function persistNotes(){
     if(!settings.saveAnswersOnDevice||!notesStorageAvailable)return false;
-    try{localStorage.setItem(NOTES_STORAGE_KEY,serializeNotes());return true;}
+    try{lastNotesSaveAt=Date.now();localStorage.setItem(NOTES_STORAGE_KEY,serializeNotes());return true;}
     catch(_){notesStorageAvailable=false;refreshNotesStatus();return false;}
   }
   function ensureNote(id){
@@ -2433,6 +2595,21 @@
       :"New answers are kept only until this page is closed.";
     $("history-storage-warning").hidden=!unavailable;
     updateAnswerChip();
+    updateAnswersCheck();
+  }
+  function updateAnswersCheck(){
+    const target=$("answers-check");
+    if(!target)return;
+    const entries=Object.values(notesById).reduce((sum,list)=>sum+(Array.isArray(list)?list.length:0),0);
+    let bytes=0;
+    try{bytes=(localStorage.getItem(NOTES_STORAGE_KEY)||"").length*2;}catch(_){}
+    const counts=QUEST_SETS.map(set=>{
+      const ids=new Set(set.questions.map(question=>question.id));
+      const count=Object.entries(notesById).filter(([id,list])=>ids.has(id)&&Array.isArray(list)).reduce((sum,[,list])=>sum+list.length,0);
+      return count?set.number+":"+count:"";
+    }).filter(Boolean).join(", ");
+    const saved=lastNotesSaveAt?formatNoteDate(new Date(lastNotesSaveAt).toISOString()):"not yet";
+    target.textContent="Saved answers check: "+(notesStorageAvailable?"working":"unavailable")+" · "+entries+" saved · "+formatBytes(bytes)+" · last save "+saved+(counts?" · sets "+counts:"");
   }
   function updateAnswerChip(){
     const id=currentNoteId(),count=id?(notesById[id]||[]).length:0;
@@ -2442,19 +2619,20 @@
   }
   function updateNoteDot(){updateAnswerChip();}
   function updateNoteMeta(){updateAnswerChip();}
-  function recordAnswer(question,text){
+  function recordAnswer(question,text,status=""){
     if(!question||!text||!text.trim())return null;
     const entries=ensureNote(question.id),last=entries[entries.length-1];
     if(last&&last.text===text){
       sessionAnswerEntries.set(question.id,last);
       return last;
     }
-    const entry={text,answeredAt:new Date().toISOString(),wordCount:countWords(text)};
+    const entry={text,answeredAt:new Date().toISOString(),wordCount:countWords(text),status};
     entries.push(entry);
     if(entries.length>MAX_ANSWERS_PER_QUESTION)entries.splice(0,entries.length-MAX_ANSWERS_PER_QUESTION);
     sessionAnswerEntries.set(question.id,entry);
     persistNotes();
     updateAnswerChip();
+    showLevelToast(status||"Saved to My Answers");
     return entry;
   }
   function renderHistoryEntries(target,id,{actions=true}={}){
@@ -2468,6 +2646,7 @@
       if(settings.animations!=="off")article.style.setProperty("--entry-delay",Math.min(n*45,270)+"ms");
       const meta=document.createElement("div");meta.className="history-entry-meta";
       const stamp=document.createElement("time");stamp.className="history-timestamp";stamp.textContent=formatNoteDate(entry.answeredAt);
+      if(entry.status){const tag=document.createElement("span");tag.className="history-latest";tag.textContent=entry.status;meta.appendChild(tag);}
       if(n===0){const latest=document.createElement("span");latest.className="history-latest";latest.textContent="Latest";meta.append(stamp,latest);}else meta.appendChild(stamp);
       const text=document.createElement("p");text.className="history-answer collapsed";text.textContent=entry.text;
       const showMore=document.createElement("button");showMore.className="history-show-more";showMore.type="button";showMore.textContent="Show more";
@@ -2787,6 +2966,12 @@
     document.querySelectorAll("[data-setting-toggle]").forEach(input=>{input.checked=settings[input.dataset.settingToggle];});
     if($("hint-cost"))$("hint-cost").value=settings.hintCost;
     document.querySelectorAll("[data-voice-mode]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.voiceMode===settings.voiceMode)));
+    document.querySelectorAll("[data-timer-mode]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.timerMode===settings.timerMode)));
+    document.querySelectorAll("[data-timer-unit]").forEach(button=>button.setAttribute("aria-pressed",String(button.dataset.timerUnit===settings.timerUnit)));
+    if($("timer-duration"))$("timer-duration").value=settings.timerUnit==="minutes"?Math.max(1,Math.round(settings.timerDuration/60)):settings.timerDuration;
+    if($("timer-volume"))$("timer-volume").value=settings.timerVolume;
+    if($("answers-check"))updateAnswersCheck();
+    updateTimerUI();
     $("voice-test-panel").hidden=!settings.showVoiceTest;
     if($("performance-enabled"))$("performance-enabled").checked=performanceTools.enabled;
     renderWordList();
@@ -2816,6 +3001,10 @@
     if(key==="voiceLanguage"){
       selectLanguage(value);
       applySettings();
+      if(activeSet&&key==="timerEnabled"){
+        if(value&&!timerStarted)startTimer();
+        if(!value)stopTimer();
+      }
       saveSettings();
       return;
     }
@@ -2836,6 +3025,11 @@
       refreshNotesStatus();
     }
     if(key==="rememberPlace"&&!value)clearSavedPlace();
+    if(key==="timerEnabled"&&!value)stopTimer();
+    if(key==="timerEnabled"&&value&&activeSet&&!timerStarted)startTimer();
+    if(activeSet&&timerStarted&&(key==="timerMode"||key==="timerDuration"||key==="timerUnit"))startTimer();
+    if(key==="timerDuration")value=Math.max(10,Math.min(3600,Number(value)||120));
+    if(key==="timerVolume")value=Math.max(0,Math.min(100,Number(value)||0));
     applySettings();
     if(key==="requiredWords")refreshGateMessage();
     if(activeSet&&key==="offerPassed"&&index>=questionTotal()&&!reviewMode)render();
@@ -3180,8 +3374,9 @@
       const record={
         version:1,savedAt:Date.now(),screen:currentScreen,setNumber:activeSet.number,
         orderedIds:activeQuestions.map(item=>item.id),index,answers:activeQuestions.reduce((out,item,n)=>{out[item.id]=answers[n]||"";return out;},{}),
-        points,streak,furthestIndex,passedIds:passedQuestions.map(item=>item.id),passesUsed,reviewMode,
-        reviewIds:reviewQuestions.map(item=>item.id),reviewIndex,reviewOffered,hintsUsed:[...hintsUsed]
+        points,streak,furthestIndex,passedIds:passedQuestions.map(item=>item.id),unansweredIds:unansweredQuestions.map(item=>item.id),passesUsed,reviewMode,
+        reviewIds:reviewQuestions.map(item=>item.id),reviewIndex,reviewOffered,hintsUsed:[...hintsUsed],
+        timerEnabled:timerStarted,timerMode:settings.timerMode,timerRemaining,timerQuestionRemaining:Object.fromEntries(timerQuestionRemaining),attempts
       };
       try{localStorage.setItem(PLACE_STORAGE_KEY,JSON.stringify(record));}catch(_){}
     };
@@ -3212,13 +3407,21 @@
     const storedAnswers=record.answers&&typeof record.answers==="object"?record.answers:{};
     answers=activeQuestions.map(item=>typeof storedAnswers[item.id]==="string"?storedAnswers[item.id]:"");
     passedQuestions=(Array.isArray(record.passedIds)?record.passedIds:[]).map(id=>byId.get(id)).filter(Boolean);
+    unansweredQuestions=(Array.isArray(record.unansweredIds)?record.unansweredIds:[]).map(id=>byId.get(id)).filter(Boolean);
     passesUsed=Math.max(0,Number(record.passesUsed)||0);reviewMode=Boolean(record.reviewMode);
     reviewQuestions=(Array.isArray(record.reviewIds)?record.reviewIds:[]).map(id=>byId.get(id)).filter(Boolean);
     reviewIndex=Math.max(0,Number(record.reviewIndex)||0);reviewOffered=Boolean(record.reviewOffered);
     hintsUsed=new Set(Array.isArray(record.hintsUsed)?record.hintsUsed:[]);
+    attempts=Math.max(1,Number(record.attempts)||1);
     hintCostApplied=settings.hintsCostPoints?new Set(hintsUsed):new Set();
     sessionAnswerEntries=new Map();
     notePanelOpen=false;hintPanelOpen=false;showOnly("game");buildProgressUI();updatePoints(points);render();
+    if(settings.timerEnabled&&record.timerEnabled){
+      timerRemaining=Math.max(0,Number(record.timerRemaining)||timerConfiguredSeconds());
+      timerQuestionRemaining=new Map(Object.entries(record.timerQuestionRemaining||{}).map(([id,value])=>[id,Math.max(0,Number(value)||0)]));
+      timerStarted=true;timerLastTick=performance.now();timerInterval=setInterval(timerTick,250);updateTimerUI();
+      timerRestorePauseUntil=Date.now()+2000;
+    }
     history.replaceState({littleQuest:"playing"},"",location.href.split("#")[0]+"#playing");
     return true;
   }
@@ -3290,6 +3493,15 @@
     const question=column?.querySelector(".question");
     if(column&&question)fitQuestionText(column,question);
   }
+  function updateQuestionArrows(){
+    const wrap=$("question-arrows"),prev=$("question-prev"),nextArrow=$("question-next");
+    const visible=Boolean(activeSet&&settings.showQuestionArrows&&index<questionTotal()&&!reviewMode);
+    if(!wrap)return;
+    wrap.hidden=!visible;
+    if(!visible)return;
+    prev.disabled=index<=0;
+    nextArrow.disabled=index>=questionTotal()-1||(!settings.freeNavigation&&!canAdvanceCurrent());
+  }
   function ensureAnswerColumnVisible(){
     const column=document.querySelector(".answer-column");
     if(!column)return;
@@ -3315,7 +3527,7 @@
       cancelQuestionCardShine();
       stopVoice();
       clearVoiceUndo();
-      if(passedQuestions.length&&settings.offerPassed&&!reviewOffered)renderPassOffer();
+      if((passedQuestions.length||unansweredQuestions.length)&&settings.offerPassed&&!reviewOffered)renderPassOffer();
       else renderFinishScreen();
       refreshHud();
       return;
@@ -3360,6 +3572,8 @@
     wasReady=false;
     updateWordUI();
     updateChips();
+    updateQuestionArrows();
+    syncTimerQuestion(currentQuestion.id);
     if(hintPanelOpen)renderHintModal(currentNoteId());
     refreshHud();
   }
@@ -3368,20 +3582,30 @@
     pendingQuestionShineId=null;
     cancelQuestionCardShine();
     slot.innerHTML='<div class="pass-offer"><p class="quest-label">A gentle second chance</p><h1 class="pass-offer-message"></h1><div class="pass-offer-actions"><button class="pass-offer-button" id="show-passed" type="button">Yes, show me</button><button class="pass-offer-button secondary" id="finish-passed" type="button">No, finish</button></div></div>';
-    slot.querySelector(".pass-offer-message").textContent="You passed "+passedQuestions.length+" question"+(passedQuestions.length===1?"":"s")+". Want to try them now?";
+    slot.querySelector(".pass-offer-message").textContent="You have "+passedQuestions.length+" passed"+(unansweredQuestions.length?" and "+unansweredQuestions.length+" skipped":"")+". Want a gentle second chance?";
     $("show-passed").addEventListener("click",startSecondChance);
     $("finish-passed").addEventListener("click",finishWithoutReview);
-    gameView.appendChild($("gate-message"));
+    const gateMessage=$("gate-message");
+    if(gateMessage)gameView.appendChild(gateMessage);
     $("chips").hidden=true;$("nav").hidden=true;
     $("pass-message").textContent="";
   }
   function renderFinishScreen(){
+    stopTimer();
+    document.body.classList.remove("transition-locked");
+    hintPanelOpen=false;notePanelOpen=false;
+    $("hint-modal-backdrop").hidden=true;
+    $("settings-backdrop").hidden=true;
+    $("my-answer-panel").inert=true;
+    $("question-arrows").hidden=true;
     completedSets.add(activeSet.number);
     slot.innerHTML = '<div class="finish-content"><p class="quest-label">A little adventure, well traveled</p><h1>Quest Complete!</h1><p class="finish-set-name"></p><p class="finish-order-note"></p><p class="finish-summary"></p><p class="total-words"></p><p class="finish-order-note" id="finish-hints-used"></p><div class="finish-stars" aria-label="Three stars earned"></div><div class="finish-stats"><span class="finish-stat gold">✦ <span id="final-points"></span> XP</span><span class="finish-stat" id="final-streak-stat">♨ Streak <span id="final-streak"></span></span></div><button class="finish-notes-button" id="finish-notes-button" type="button">See my answers</button><button class="copy-answers" id="copy-answers" type="button">Copy my answers</button><button class="manuscript-open" id="finish-manuscript-button" type="button">Open manuscript</button><label class="include-notes-option"><input id="include-answer-history" type="checkbox"> Include answer history</label><p class="copy-status" id="copy-status" aria-live="polite"></p><div class="finish-actions"><button class="play-again" id="play-again" type="button">Play again <span aria-hidden="true">↻</span></button><button class="choose-again" id="choose-again" type="button">Choose another set</button></div></div>';
     slot.querySelector(".finish-set-name").textContent = "You finished Set " + activeSet.number + ": " + activeSet.name + ".";
     slot.querySelector(".finish-order-note").textContent=activeWasShuffled?"Shuffled order":"Original order";
-    const answered=activeQuestions.length-passedQuestions.length;
-    slot.querySelector(".finish-summary").textContent=answered+" answered, "+passedQuestions.length+" passed.";
+    const answered=answers.filter(text=>Boolean(text&&text.trim())).length;
+    const elapsed=Math.max(0,Math.round((Date.now()-questStartedAt)/1000));
+    const elapsedLabel=Math.floor(elapsed/60)+":"+String(elapsed%60).padStart(2,"0");
+    slot.querySelector(".finish-summary").textContent=answered+" answered, "+passedQuestions.length+" passed"+(unansweredQuestions.length?" · "+unansweredQuestions.length+" skipped":"")+" · Attempt "+attempts+" · "+elapsedLabel;
     slot.querySelector(".total-words").textContent = "You wrote " + answers.reduce((sum,text)=>sum+countWords(text),0) + " words!";
     slot.querySelector("#finish-hints-used").textContent = hintsUsed.size ? "Hints used on " + hintsUsed.size + " question" + (hintsUsed.size===1?"":"s") + "." : "";
     const finishStars = slot.querySelector(".finish-stars");
@@ -3396,14 +3620,15 @@
     $("copy-answers").addEventListener("click",copyAnswers);
     $("finish-notes-button").addEventListener("click",showNotesForSet);
     $("finish-manuscript-button").addEventListener("click",openManuscript);
-    gameView.appendChild($("gate-message"));
+    const gateMessage=$("gate-message");
+    if(gateMessage)gameView.appendChild(gateMessage);
     renderSetCards();
     confettiBurst();
   }
   function startSecondChance(){
-    if(busy||!passedQuestions.length)return;
+    if(busy||(!passedQuestions.length&&!unansweredQuestions.length))return;
     reviewOffered=true;
-    reviewQuestions=passedQuestions.slice();
+    reviewQuestions=[...passedQuestions,...unansweredQuestions.filter(question=>!passedQuestions.includes(question))];
     reviewIndex=0;
     reviewMode=true;
     index=activeQuestions.indexOf(reviewQuestions[0]);
@@ -4400,7 +4625,7 @@
     document.body.classList.remove("transition-locked");
     card.style.removeProperty("visibility");
   }
-  async function beginSet(set,pressedCard,replay=false){
+  async function beginSet(set,pressedCard,replay=false,timedRestart=false){
     if(busy||entranceActive)return;
     busy=true;
     try{
@@ -4415,16 +4640,20 @@
       activeWasShuffled=set.keepOrder!==true&&settings.shuffleQuestions&&set.questions.length>1;
       lastOrderBySet.set(set.number,activeQuestions.slice());
       orderSettingChanged=false;
-      index=0;furthestIndex=0;points=0;streak=0;
+      index=0;furthestIndex=0;
+      if(!timedRestart||settings.timerResetProgress){points=0;streak=0;}
+      if(!timedRestart)attempts=1;
       answers=activeQuestions.map(()=> "");
       sessionAnswerEntries=new Map();
-      passedQuestions=[];passesUsed=0;reviewMode=false;reviewQuestions=[];reviewIndex=0;reviewOffered=false;
+      passedQuestions=[];unansweredQuestions=[];passesUsed=0;reviewMode=false;reviewQuestions=[];reviewIndex=0;reviewOffered=false;
+      questStartedAt=Date.now();
       $("pass-message").textContent="";
       updatePoints(0);
       buildProgressUI();
       history.pushState({littleQuest:"playing"},"",location.href.split("#")[0]+"#playing");
       if(settings.animations==="off"){showOnly("game");render();playPendingQuestionShine();}
       else await runSetEntrance(pressedCard);
+      if(settings.timerEnabled){startTimer();}
       updateRecoveryMessage("");
       next.focus({preventScroll:true});
     }catch(error){
@@ -4446,7 +4675,7 @@
       clearGameArtifacts();
       await fadeSwap(gameView,startView);
       activeSet=null;activeQuestions=[];activeWasShuffled=false;orderSettingChanged=false;index=0;furthestIndex=0;points=0;streak=0;answers=[];
-      passedQuestions=[];passesUsed=0;reviewMode=false;reviewQuestions=[];reviewIndex=0;reviewOffered=false;
+      passedQuestions=[];unansweredQuestions=[];passesUsed=0;reviewMode=false;reviewQuestions=[];reviewIndex=0;reviewOffered=false;
       if(pointsFrame)cancelAnimationFrame(pointsFrame);
       pointsFrame=0;
       $("xp-count").textContent="0 XP";
@@ -4557,12 +4786,12 @@
       document.body.classList.remove("transition-locked");
     }
   }
-  async function moveTo(target,{earn=false,skip=false}={}){
+  async function moveTo(target,{earn=false,skip=false,free=false}={}){
     if(busy||!activeSet||target<0||target>questionTotal()||target===index) return;
     const answerTextarea=$("answer-input"),answerGuess=voiceTextarea===answerTextarea?speechInterim:"";
     const currentQuestion=activeQuestions[index],wordCount=countWords((answerTextarea?.value||"")+(answerGuess?" "+answerGuess:""));
     const currentPassed=isPassed(currentQuestion);
-    if(!skip&&target>index&&settings.requiredWords>0&&wordCount<settings.requiredWords&&(currentPassed||index>=furthestIndex)){
+    if(!free&&!skip&&target>index&&settings.requiredWords>0&&wordCount<settings.requiredWords&&(currentPassed||index>=furthestIndex)){
       showGateMessage();
       return;
     }
@@ -4572,9 +4801,12 @@
       if(notePanelOpen)await closeMyAnswerPanel({restoreFocus:false});
       prepareVoiceForQuestionChange();
       clearVoiceUndo();
-      if(direction>0&&!skip)recordAnswer(currentQuestion,$("answer-input")?.value||"");
+      if($("answer-input")?.value.trim()&&(!earn||wordCount<settings.requiredWords))recordAnswer(currentQuestion,$("answer-input").value,"Draft");
+      else if(direction>0&&!skip)recordAnswer(currentQuestion,$("answer-input")?.value||"");
       clearGateMessage();
       if(direction>0){
+        if(free&&!(answerTextarea?.value||"").trim()&&!currentPassed&&!unansweredQuestions.includes(currentQuestion))unansweredQuestions.push(currentQuestion);
+        if((answerTextarea?.value||"").trim())unansweredQuestions=unansweredQuestions.filter(question=>question!==currentQuestion);
         if(!skip&&(settings.requiredWords===0||wordCount>=settings.requiredWords))removePassed(currentQuestion);
         streak++;
         bumpStreak();
@@ -4583,6 +4815,7 @@
       }
       if(direction<0) streak=0;
       await transitionQuestion(direction,()=>{index=target;render();});
+      syncTimerQuestion(currentQuestion.id);
       restoreVoiceAfterQuestionChange();
       if(direction>0&&index<questionTotal()){
         const toast=$("level-toast");
@@ -4612,6 +4845,7 @@
       recordAnswer(activeQuestions[index],$("answer-input")?.value||"");
       clearGateMessage();
       removePassed(activeQuestions[index]);
+      unansweredQuestions=unansweredQuestions.filter(question=>question!==activeQuestions[index]);
       await transitionQuestion(1,()=>{
         reviewIndex++;
         if(reviewIndex>=reviewQuestions.length){reviewMode=false;index=questionTotal();}
@@ -4641,6 +4875,7 @@
       passedQuestions.push(question);
       passesUsed++;
     }
+    unansweredQuestions=unansweredQuestions.filter(item=>item!==question);
     busy=true;
     try{
       if(notePanelOpen)await closeMyAnswerPanel({restoreFocus:false});
@@ -4724,6 +4959,8 @@
   $("leave-button").addEventListener("click",returnToPicker);
   next.addEventListener("click",handleNext);
   back.addEventListener("click",handleBack);
+  $("question-prev").addEventListener("click",()=>{if(!busy)moveTo(index-1,{free:true});});
+  $("question-next").addEventListener("click",()=>{if(!busy&&settings.freeNavigation)moveTo(index+1,{free:true});else if(!busy)showGateMessage();});
   $("pass").addEventListener("click",passQuestion);
   $("pass-undo").addEventListener("click",undoPass);
   function toggleMyAnswerPanel(){
@@ -4967,6 +5204,28 @@
   document.querySelectorAll("[data-setting-toggle]").forEach(input=>{
     input.addEventListener("change",()=>setSetting(input.dataset.settingToggle,input.checked));
   });
+  document.querySelectorAll("[data-timer-mode]").forEach(button=>button.addEventListener("click",()=>setSetting("timerMode",button.dataset.timerMode)));
+  document.querySelectorAll("[data-timer-unit]").forEach(button=>button.addEventListener("click",()=>{
+    const seconds=settings.timerUnit==="minutes"?Math.max(1,Math.round(settings.timerDuration/60)):settings.timerDuration;
+    settings.timerUnit=button.dataset.timerUnit;
+    settings.timerDuration=settings.timerUnit==="minutes"?Math.max(1,Math.round(seconds/60)):Math.max(10,seconds);
+    applySettings();saveSettings();
+  }));
+  document.querySelectorAll("[data-timer-pick]").forEach(button=>button.addEventListener("click",()=>{
+    settings.timerUnit="seconds";settings.timerDuration=Math.max(10,Number(button.dataset.timerPick)||120);applySettings();saveSettings();
+  }));
+  $("timer-duration").addEventListener("change",event=>{
+    const value=Math.max(settings.timerUnit==="minutes"?1:10,Number(event.target.value)||2);
+    settings.timerDuration=settings.timerUnit==="minutes"?Math.min(60,value)*60:Math.min(3600,value);
+    applySettings();saveSettings();
+  });
+  $("timer-volume").addEventListener("input",event=>{settings.timerVolume=Math.max(0,Math.min(100,Number(event.target.value)||0));saveSettings();});
+  $("timer-sound-toggle").addEventListener("click",()=>{timerMuted=!timerMuted;updateTimerUI();});
+  $("answers-test-save").addEventListener("click",()=>{
+    const key=NOTES_STORAGE_KEY+"-test",value=JSON.stringify({savedAt:Date.now()});
+    try{localStorage.setItem(key,value);const read=localStorage.getItem(key);localStorage.removeItem(key);$("answers-check").textContent=read===value?"Saving works":"Saving failed: read-back did not match.";}
+    catch(error){$("answers-check").textContent="Saving failed: "+(error?.message||"storage is unavailable.");}
+  });
   $("performance-enabled").addEventListener("change",event=>setPerformanceEnabled(event.target.checked));
   document.querySelectorAll("[data-perf-toggle]").forEach(input=>{
     input.addEventListener("change",event=>{
@@ -5130,8 +5389,8 @@
       if(chosen){event.preventDefault();beginSet(chosen);}
       return;
     }
-    if(key==="arrowright"){event.preventDefault();if(index<questionTotal())handleNext();}
-    else if(key==="arrowleft"){event.preventDefault();handleBack();}
+    if(key==="arrowright"){event.preventDefault();if(index<questionTotal()-1)moveTo(index+1,{free:settings.freeNavigation});}
+    else if(key==="arrowleft"){event.preventDefault();if(index>0)moveTo(index-1,{free:true});}
     else if(key==="enter"&&index<questionTotal()&&!(target instanceof Element&&target.closest("button,input,textarea,select,a"))){event.preventDefault();handleNext();}
     else if(key==="s"&&index<questionTotal()){event.preventDefault();if(reviewMode)passQuestion();else moveTo(index+1,{skip:true});}
     else if(key==="p"&&index<questionTotal()){event.preventDefault();passQuestion();}
