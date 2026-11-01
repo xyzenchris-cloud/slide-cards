@@ -1140,7 +1140,7 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.6.0";
+  const APP_VERSION = "1.7.0";
   const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
   // Optional: set a same-folder filename to publish a PDF with the site. This makes it public to anyone with the link.
@@ -1664,6 +1664,96 @@
       "label": "Answer 1",
       "text": "The core system was delivered and evaluated within the schedule, although some phases ran longer than planned and we adjusted the later ones. [Confirm.]"
     }
+  ],
+  "s6-q1": [
+    {
+      "label": "Answer 1",
+      "text": "HappYness's needs were not fully clear at the start, and stakeholders could only react to something they could see. Scrum let us build the system in small working increments, show them, and adjust. Waterfall would have locked the requirements before anyone saw a working version."
+    }
+  ],
+  "s6-q2": [
+    {
+      "label": "Answer 1",
+      "text": "A Sprint is a short, fixed cycle in which the team builds a chosen set of features. Ours lasted about two weeks, and each ended with a working module that we could test and show to our adviser or the HappYness representative."
+    }
+  ],
+  "s6-q3": [
+    {
+      "label": "Answer 1",
+      "text": "The Product Backlog is the prioritized list of everything the system needs: features, fixes, and improvements. It came from our interview, survey, and analysis of the manual process. Our top items were volunteer registration, attendance tracking, donation logging, and certificate generation because they solved the biggest problems in our fishbone diagrams."
+    }
+  ],
+  "s6-q4": [
+    {
+      "label": "Answer 1",
+      "text": "The HappYness representative acted as the voice of the client. Our team leader coordinated the Sprints and tracked tasks, while the rest of us built and tested modules. Because we are a small student team, some Product Owner and Scrum Master responsibilities were shared."
+    }
+  ],
+  "s6-q5": [
+    {
+      "label": "Answer 1",
+      "text": "We did short check-ins in person or in our group chat. Each member shared what they finished, what they were working on, and what was blocking them. We did not hold them at a fixed time every day, which is why the paper says informal."
+    }
+  ],
+  "s6-q6": [
+    {
+      "label": "Answer 1",
+      "text": "After HappYness staff reviewed the volunteer management module, they said the registration list was hard to scan once it had many names. We added it to the backlog and, in the next Sprint, added Pending and Approved status filters and a search bar, which made approvals faster."
+    }
+  ],
+  "s6-q7": [
+    {
+      "label": "Answer 1",
+      "text": "Retrospectives reviewed how we worked, not the system. We found that testing at the end of a Sprint caused rushed bug fixing, so we began testing each module as soon as it was finished. We also assigned a main owner to each module so tasks were clearer."
+    }
+  ],
+  "s6-q8": [
+    {
+      "label": "Answer 1",
+      "text": "A feature was done when it was built, tested for functionality, data accuracy, and user experience, and checked by another team member. Bugs found were either fixed or logged in the backlog."
+    }
+  ],
+  "s6-q9": [
+    {
+      "label": "Answer 1",
+      "text": "We recorded bugs in a shared spreadsheet with the issue, module, assigned person, and status. Each bug was fixed in a later task or Sprint, so none were forgotten."
+    }
+  ],
+  "s6-q10": [
+    {
+      "label": "Answer 1",
+      "text": "We built the system with Python and Django, using SQLite3. The PHP and MySQL wording is leftover from early drafts when we were comparing options, so we are correcting it. MySQL remains our upgrade path if HappYness outgrows SQLite."
+    }
+  ],
+  "s6-q11": [
+    {
+      "label": "Answer 1",
+      "text": "The system has four roles: Admin, Volunteer, Beneficiary, and Regular User. The section named only the three main stakeholder groups, so we are updating it to match the four roles in the diagram."
+    }
+  ],
+  "s6-q12": [
+    {
+      "label": "Answer 1",
+      "text": "Increments were first put on a test environment during development so reviewers could try them. The final live deployment on the server, with admin training, came at the end, as the chart shows. We will reword the section so the two descriptions match."
+    }
+  ],
+  "s6-q13": [
+    {
+      "label": "Answer 1",
+      "text": "Certificates go to volunteers and students, including those completing required hours, who finish verified activities and hours. We will fix the wording so it names volunteers and students clearly, not just social work students."
+    }
+  ],
+  "s6-q14": [
+    {
+      "label": "Answer 1",
+      "text": "The HappYness representative and staff attended the reviews, and volunteers gave feedback on later builds. Beneficiaries took part mainly during the final evaluation, so we do not claim they reviewed every Sprint."
+    }
+  ],
+  "s6-q15": [
+    {
+      "label": "Answer 1",
+      "text": "It followed the core of Scrum: a Product Backlog, Sprints, reviews, and retrospectives. We adapted it for a small student team, including informal Daily Scrums. That is why we call it Scrum-Agile instead of claiming every formal practice."
+    }
   ]
 };
   // QUEST SETS — make all set and question edits in this section.
@@ -1790,6 +1880,28 @@
         { id: "s5-q16", question: "If the system was already being developed in 2025, when did you first contact HappYness? What did they say, and did they approve?", hint: "Give the contact timeline, stakeholder response, and evidence of permission or approval." },
         { id: "s5-q17", question: "If you had to do this project again, how would you change the schedule?", hint: "Name specific changes that would make the plan more realistic and easier to track." },
         { id: "s5-q18", question: "Based on this chart, was your project delivered on time? Be honest.", hint: "Compare the planned and actual milestones and give a direct, evidence-based judgment." }
+      ]
+    },
+    {
+      number: 6,
+      name: "System Development (Scrum-Agile)",
+      keepOrder: true,
+      questions: [
+        { id: "s6-q1", question: "Why did you use Scrum instead of Waterfall for this project?", hint: "Explain how unclear needs and stakeholder feedback made short working increments more suitable than locking requirements early." },
+        { id: "s6-q2", question: "What is a Sprint, and how long were your Sprints?", hint: "Define the fixed development cycle and state that yours lasted about two weeks." },
+        { id: "s6-q3", question: "What is the Product Backlog, and what was at the top of yours?", hint: "Describe the prioritized list and name volunteer registration, attendance, donations, and certificates." },
+        { id: "s6-q4", question: "Who acted as the Product Owner and Scrum Master on your team?", hint: "Identify the HappYness representative, team leader, and the shared roles in a small student team." },
+        { id: "s6-q5", question: "What does “informal” Daily Scrum mean in your project?", hint: "Describe the short in-person or group-chat check-ins and why they were not held at a fixed time." },
+        { id: "s6-q6", question: "Show me one change you made because of a Sprint Review.", hint: "Use the volunteer registration list example with Pending and Approved filters plus search." },
+        { id: "s6-q7", question: "What did your retrospectives change about how your team worked?", hint: "Mention testing modules earlier and assigning a main owner to each module." },
+        { id: "s6-q8", question: "What did “done” mean for a feature in your project?", hint: "Include building, functional/data/user-experience testing, peer checking, and logging unresolved bugs." },
+        { id: "s6-q9", question: "How did you track bugs so none were forgotten?", hint: "Describe the shared spreadsheet fields and how later tasks or Sprints handled each bug." },
+        { id: "s6-q10", question: "Your paper says PHP 8.x with MySQL 8.0, but you also mentioned Python and Django. Which is correct?", hint: "State the actual stack: Python, Django, and SQLite3, then explain the old wording and MySQL upgrade path." },
+        { id: "s6-q11", question: "This section lists three roles, but your diagram shows four. Which is correct?", hint: "Name Admin, Volunteer, Beneficiary, and Regular User, and explain that the section is being updated." },
+        { id: "s6-q12", question: "You say each increment was deployed after testing, but your Gantt chart shows implementation only at the end. How do you reconcile that?", hint: "Distinguish test-environment increments during development from final live deployment and training." },
+        { id: "s6-q13", question: "Your requirements mention social work students. Who actually receives certificates?", hint: "Clarify that verified volunteers and students who complete required activities and hours receive certificates." },
+        { id: "s6-q14", question: "Who were the stakeholders in your Sprint Reviews, and did beneficiaries review every Sprint?", hint: "Identify HappYness staff, the representative, and volunteers, while explaining beneficiaries mainly joined final evaluation." },
+        { id: "s6-q15", question: "Is your process really Scrum, or was it only iterative development?", hint: "Point to the Product Backlog, Sprints, reviews, retrospectives, and the small-team adaptations." }
       ]
     }
   ];
