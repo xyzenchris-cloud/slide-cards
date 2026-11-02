@@ -78,10 +78,11 @@
   .level-copy{min-width:0;overflow-wrap:anywhere}
   .level-star{color:var(--gold);font-size:1rem;text-shadow:0 1px 0 #fff}
   .attempt-copy{font-size:.68rem;color:var(--muted);font-weight:600}
-  .timer-pill{display:inline-flex;align-items:center;gap:6px;margin-left:4px;padding:5px 8px;border:1px solid rgba(69,102,78,.13);border-radius:999px;background:rgba(255,254,250,.72);color:var(--forest);font:700 .74rem var(--round);box-shadow:0 3px 0 rgba(69,102,78,.09)}
+  .timer-pill{display:inline-flex;align-items:center;gap:6px;margin-left:4px;padding:5px 8px;border:1px solid rgba(69,102,78,.13);border-radius:999px;background:rgba(255,254,250,.72);color:var(--forest);font:700 .74rem var(--round);box-shadow:0 3px 0 rgba(69,102,78,.09);cursor:pointer;user-select:none}
   .timer-pill[hidden]{display:none}
   .timer-pill.warning{color:#8a6c35;border-color:rgba(216,170,85,.35)}
   .timer-pill.urgent{color:#a85f42;animation:timer-pulse .9s ease-in-out infinite alternate}
+  .timer-pill.paused{color:var(--forest);border-color:color-mix(in srgb,var(--sage) 40%,transparent);background:color-mix(in srgb,var(--sage-light) 25%,var(--paper))}
   .timer-pill button{display:grid;place-items:center;width:20px;height:20px;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;cursor:pointer}
   .timer-pill svg{width:13px;height:13px}
   @keyframes timer-pulse{to{transform:scale(1.035)}}
@@ -1184,7 +1185,7 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.9.3";
+  const APP_VERSION = "1.9.4";
   const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
   // Optional: set a same-folder filename to publish a PDF with the site. This makes it public to anyone with the link.
@@ -1985,7 +1986,7 @@
   const settings = loadSettings();
   let wordList=loadWordList();
   let activeSet=null, activeQuestions=[], activeWasShuffled=false, index=0, points=0, streak=0, busy=false, notePanelOpen=false, hintPanelOpen=false;
-  let timerInterval=0, timerRemaining=0, timerLastTick=0, timerLastSoundSecond=-1, timerQuestionRemaining=new Map(), timerMuted=false, timerAnnounced=new Set(), attempts=1, timerStarted=false, timerRestorePauseUntil=0, questStartedAt=Date.now();
+  let timerInterval=0, timerRemaining=0, timerLastTick=0, timerLastSoundSecond=-1, timerQuestionRemaining=new Map(), timerMuted=false, timerManuallyPaused=false, timerAnnounced=new Set(), attempts=1, timerStarted=false, timerRestorePauseUntil=0, questStartedAt=Date.now();
   let answers=[], furthestIndex=0, selectedLanguage=settings.voiceLanguage, recognition=null, voiceSession=null, listening=false, restartTimer=null;
   let voiceTextarea=null, notePanelAnimation=null, noteOpenId=null, pendingRestoreNotes=null, pendingRestoreWordList=null;
   let downloadedBackup=(()=>{try{return localStorage.getItem(NOTES_STORAGE_KEY+"-backup")==="1";}catch(_){return false;}})();
@@ -2052,7 +2053,7 @@
     return Math.max(10,Number(activeSet?.timerSeconds)||timerDurationSeconds());
   }
   function timerPaused(){
-    return Date.now()<timerRestorePauseUntil||document.hidden||(settings.timerPausePanels&&(!$("settings-backdrop").hidden||hintPanelOpen||notePanelOpen));
+    return timerManuallyPaused||Date.now()<timerRestorePauseUntil||document.hidden||(settings.timerPausePanels&&(!$("settings-backdrop").hidden||hintPanelOpen||notePanelOpen));
   }
   function formatTimer(seconds){
     const value=Math.max(0,Math.ceil(seconds));
@@ -2081,16 +2082,19 @@
     pill.hidden=!enabled;
     if(!enabled)return;
     const seconds=settings.timerMode==="set"?timerRemaining:(timerQuestionRemaining.get(activeQuestions[index]?.id)??timerRemaining);
-    $("timer-copy").textContent=formatTimer(seconds);
+    $("timer-copy").textContent=timerManuallyPaused?"Paused · "+formatTimer(seconds):formatTimer(seconds);
+    pill.classList.toggle("paused",timerManuallyPaused);
     pill.classList.toggle("warning",seconds<=30&&seconds>10);
     pill.classList.toggle("urgent",seconds<=10);
+    pill.setAttribute("aria-label",timerManuallyPaused?"Resume timer":"Pause timer");
+    pill.setAttribute("aria-pressed",String(timerManuallyPaused));
     $("timer-sound-toggle").setAttribute("aria-label",timerMuted?"Unmute timer sounds":"Mute timer sounds");
     $("attempt-copy").hidden=attempts<=1;
     $("attempt-copy").textContent="Attempt "+attempts;
   }
   function stopTimer(){
     if(timerInterval){clearInterval(timerInterval);timerInterval=0;}
-    timerStarted=false;timerLastTick=0;timerLastSoundSecond=-1;timerRemaining=0;timerQuestionRemaining.clear();timerAnnounced.clear();
+    timerStarted=false;timerManuallyPaused=false;timerLastTick=0;timerLastSoundSecond=-1;timerRemaining=0;timerQuestionRemaining.clear();timerAnnounced.clear();
     $("timer-pill").hidden=true;
     $("timer-overlay").hidden=true;
   }
@@ -2108,6 +2112,18 @@
     if(previousId&&timerQuestionRemaining.has(previousId))timerQuestionRemaining.set(previousId,Math.max(0,timerQuestionRemaining.get(previousId)));
     if(activeQuestions[index])timerRemaining=timerQuestionRemaining.get(activeQuestions[index].id)??timerConfiguredSeconds();
     timerLastTick=performance.now();updateTimerUI();
+  }
+  function toggleTimerPause(){
+    if(!timerStarted||!activeSet)return;
+    timerManuallyPaused=!timerManuallyPaused;
+    timerLastTick=performance.now();
+    updateTimerUI();
+  }
+  function resumeTimerFromTyping(){
+    if(!timerManuallyPaused)return;
+    timerManuallyPaused=false;
+    timerLastTick=performance.now();
+    updateTimerUI();
   }
   function timerTick(){
     if(!timerStarted||!activeSet||index>=questionTotal())return;
@@ -3673,6 +3689,7 @@
       speechInterim="";
       renderSpeechDisplay(area);
       textarea.addEventListener("input",()=>{
+        resumeTimerFromTyping();
         if(!applyingSpeech){
           onVoiceTargetEdited(textarea);
         }
@@ -5258,7 +5275,11 @@
     applySettings();saveSettings();
   });
   $("timer-volume").addEventListener("input",event=>{settings.timerVolume=Math.max(0,Math.min(100,Number(event.target.value)||0));saveSettings();});
-  $("timer-sound-toggle").addEventListener("click",()=>{timerMuted=!timerMuted;updateTimerUI();});
+  $("timer-pill").addEventListener("click",event=>{
+    if(event.target.closest("#timer-sound-toggle"))return;
+    toggleTimerPause();
+  });
+  $("timer-sound-toggle").addEventListener("click",event=>{event.stopPropagation();timerMuted=!timerMuted;updateTimerUI();});
   $("answers-test-save").addEventListener("click",()=>{
     const key=NOTES_STORAGE_KEY+"-test",value=JSON.stringify({savedAt:Date.now()});
     try{localStorage.setItem(key,value);const read=localStorage.getItem(key);localStorage.removeItem(key);$("answers-check").textContent=read===value?"Saving works":"Saving failed: read-back did not match.";}
