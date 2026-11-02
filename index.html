@@ -665,7 +665,11 @@
     .back{padding:10px 15px}
     .next{flex:1;max-width:none;min-width:0;min-height:52px;padding:11px 11px 11px 19px;font-size:.88rem;gap:8px}
     .back{min-width:96px;min-height:52px;padding:10px 13px}
-    .key-hint{display:none}
+    .back{min-width:52px;width:52px;padding:10px;font-size:0}
+    .back::before{font-size:1.15rem}
+    .next{flex:0 0 52px;width:52px;min-width:52px;padding:10px;font-size:0}
+    .next #next-label,.next .key-hint{display:none}
+    .next .arrow{margin:0;width:30px;height:30px}
     .chips{margin-top:5px}
     .pass-chip{min-height:44px;padding-inline:16px}
     .card{padding:36px 22px}
@@ -940,7 +944,6 @@
       </section>
       <section class="setting-section">
         <h3>Question movement</h3>
-        <label class="setting-toggle"><span><strong>Require the word goal before continuing</strong><small>When off, Next and Finish always work. The goal still controls rewards.</small></span><input type="checkbox" data-setting-toggle="requireWordGoal"><i aria-hidden="true"></i></label>
         <label class="setting-toggle"><span><strong>Enter goes to the next question</strong><small>Press Shift + Enter for a new line.</small></span><input type="checkbox" data-setting-toggle="enterNext"><i aria-hidden="true"></i></label>
       </section>
       <section class="setting-section">
@@ -1180,7 +1183,7 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.9.0";
+  const APP_VERSION = "1.9.1";
   const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
   // Optional: set a same-folder filename to publish a PDF with the site. This makes it public to anyone with the link.
@@ -1230,7 +1233,7 @@
     timerPausePanels: true,    // Pause while Settings, Hint, or the page is hidden
     timerSaveDraft: true,      // Save unfinished text when the timer restarts
     timerResetProgress: true,  // Reset XP and streak on a timed restart
-    requireWordGoal: false,    // Lock forward movement until the goal is reached
+    requireWordGoal: true,     // Lock forward movement until the goal is reached
     enterNext: !("ontouchstart" in window), // Enter advances on computers, inserts a line on touch devices
     animations: "full"        // "full", "lite", or "off"; Full is the default even with reduced-motion enabled
   };
@@ -2071,7 +2074,9 @@
   function updateTimerUI(){
     const pill=$("timer-pill");
     if(!pill)return;
-    const enabled=Boolean(activeSet&&settings.timerEnabled&&timerStarted&&index<questionTotal());
+    const current=activeQuestions[index];
+    const completed=Boolean(current&&(rewardedQuestionIds.has(current.id)||isPassed(current)));
+    const enabled=Boolean(activeSet&&settings.timerEnabled&&timerStarted&&index<questionTotal()&&!completed);
     pill.hidden=!enabled;
     if(!enabled)return;
     const seconds=settings.timerMode==="set"?timerRemaining:(timerQuestionRemaining.get(activeQuestions[index]?.id)??timerRemaining);
@@ -2106,6 +2111,12 @@
   function timerTick(){
     if(!timerStarted||!activeSet||index>=questionTotal())return;
     const now=performance.now();
+    const current=activeQuestions[index];
+    if(current&&(rewardedQuestionIds.has(current.id)||isPassed(current))){
+      timerLastTick=now;
+      updateTimerUI();
+      return;
+    }
     if(timerPaused()){timerLastTick=now;updateTimerUI();return;}
     const elapsed=(now-timerLastTick)/1000;timerLastTick=now;
     if(settings.timerMode==="set")timerRemaining-=elapsed;
@@ -2416,7 +2427,7 @@
     Object.keys(allowedSettings).forEach(key=>{
       if(allowedSettings[key].includes(saved[key]))result[key]=saved[key];
     });
-    ["streak","background","confetti","sound","shuffleQuestions","reshuffleOnReplay","myAnswerChip","saveAnswersOnDevice","showVoiceTest","smartCleanup","spokenPunctuation","removeVoiceFillers","allowHints","rememberPlace","hintsCostPoints","timerEnabled","timerSounds","timerTickWhileMic","timerPausePanels","timerSaveDraft","timerResetProgress","requireWordGoal","enterNext"].forEach(key=>{
+    ["streak","background","confetti","sound","shuffleQuestions","reshuffleOnReplay","myAnswerChip","saveAnswersOnDevice","showVoiceTest","smartCleanup","spokenPunctuation","removeVoiceFillers","allowHints","rememberPlace","hintsCostPoints","timerEnabled","timerSounds","timerTickWhileMic","timerPausePanels","timerSaveDraft","timerResetProgress","enterNext"].forEach(key=>{
       if(typeof saved[key]==="boolean")result[key]=saved[key];
     });
     ["timerMode","timerUnit"].forEach(key=>{if(allowedSettings[key]?.includes(saved[key]))result[key]=saved[key];});
@@ -3561,6 +3572,8 @@
     ensureAnswerColumnVisible();
     $("nav").hidden = false;
     $("next-label").textContent = reviewMode?(reviewIndex===reviewQuestions.length-1?"Finish":"Next"):(index===total-1?"Finish":"Next");
+    $("next").setAttribute("aria-label",$("next-label").textContent);
+    back.setAttribute("aria-label","Back");
     back.hidden = false;
     back.disabled = !reviewMode&&index === 0;
     wasReady=false;
@@ -3729,8 +3742,8 @@
       $("ring-progress").style.strokeDashoffset=(113.1*(goal===0?0:1-Math.min(count/goal,1))).toFixed(1);
       const goalReached=goal>0&&count>=goal;
       $("word-ring").classList.toggle("ready",goalReached);
-      $("ready-note").textContent=goalReached?"✦ Nice! Goal reached":"✦ Nice! You can continue.";
-      $("ready-note").classList.toggle("visible",true);
+      $("ready-note").textContent="✦ Nice! Goal reached";
+      $("ready-note").classList.toggle("visible",goalReached);
       $("ready-note").setAttribute("aria-hidden",String(!goalReached));
       next.setAttribute("aria-disabled","false");
       if(complete&&!wasReady){
@@ -5416,7 +5429,7 @@
     if(key==="arrowright"){event.preventDefault();if(!event.repeat&&index<questionTotal())moveTo(index+1);}
     else if(key==="arrowleft"){event.preventDefault();if(!event.repeat&&index>0)moveTo(index-1);}
     else if(key==="enter"&&index<questionTotal()&&!(target instanceof Element&&target.closest("button,input,textarea,select,a"))){event.preventDefault();handleNext();}
-    else if(key==="s"&&index<questionTotal()){event.preventDefault();if(reviewMode)passQuestion();else moveTo(index+1,{skip:true});}
+    else if(key==="s"&&index<questionTotal()){event.preventDefault();passQuestion();}
     else if(key==="p"&&index<questionTotal()){event.preventDefault();passQuestion();}
   });
   let touchStart=null;
