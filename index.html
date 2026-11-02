@@ -201,6 +201,8 @@
   .answer-input{display:block;width:100%;min-height:145px;max-height:270px;padding:18px 18px 22px;border:0;outline:0;resize:none;overflow-y:auto;overflow-wrap:anywhere;word-break:break-word;scroll-padding-block:18px;background:transparent;color:var(--ink);font:400 1rem/1.65 var(--round)}
   .answer-input::placeholder{color:#9aa396;opacity:1}
   .answer-input-layer{position:relative;display:flex;flex:1;min-width:0;min-height:0}
+  .enter-hint{position:absolute;left:18px;bottom:5px;color:var(--muted);font-size:.64rem;opacity:0;pointer-events:none;transition:opacity .2s}
+  .enter-hint.visible{opacity:.72}
   .speech-display{position:relative;flex:none;max-height:0;min-height:0;overflow:hidden;padding:0 17px;color:var(--muted);font:400 .78rem/1.45 var(--round);white-space:pre-wrap;overflow-wrap:anywhere;opacity:0;transition:max-height .2s ease,padding .2s ease,opacity .2s ease}
   .speech-display.has-interim{max-height:calc(3 * 1.45em + 8px);padding:0 17px 8px;overflow:auto;opacity:.76}
   .speech-display.has-interim::before{content:"... ";color:var(--sage);font-weight:700}
@@ -350,27 +352,27 @@
   .pass-offer-button.secondary{background:#edf2e8;color:var(--forest);box-shadow:0 5px 0 rgba(61,91,68,.2)}
   .finish-summary{margin:-7px 0 0;color:var(--muted);font-size:.78rem;font-weight:700}
   .nav{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:7px;background:transparent}
-  .question-arrows{position:absolute;inset:50% 10px auto;display:flex;justify-content:space-between;transform:translateY(-50%);z-index:2;pointer-events:none}
-  .question-arrow{display:grid;place-items:center;width:34px;height:34px;border:1px solid rgba(69,102,78,.15);border-radius:50%;background:rgba(255,254,250,.78);color:var(--forest);box-shadow:0 3px 0 rgba(69,102,78,.11);cursor:pointer;pointer-events:auto}
-  .question-arrow:disabled{opacity:.25;cursor:default}
   .timer-overlay{position:fixed;inset:0;z-index:50;display:grid;place-items:center;background:rgba(38,48,40,.12);pointer-events:none}
   .timer-overlay[hidden]{display:none}
   .timer-overlay-card{padding:18px 24px;border:1px solid rgba(69,102,78,.16);border-radius:18px;background:var(--paper);color:var(--forest);font:700 1rem var(--round);box-shadow:0 8px 0 rgba(69,102,78,.12)}
-  .back,.next{border:0;cursor:pointer;font-weight:700;transition:transform .22s var(--ease),box-shadow .25s,opacity .2s}
-  .back{min-height:46px;padding:10px 19px;border-radius:999px;background:#e8ede4;color:var(--forest);box-shadow:0 4px 0 rgba(69,102,78,.18);font-size:.9rem}
-  .back:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 9px rgba(69,102,78,.15)}
-  .back:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 rgba(69,102,78,.16)}
+  .back,.next{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:12px;min-height:56px;border-radius:999px;cursor:pointer;font-weight:700;transition:transform .2s var(--ease),box-shadow .2s,background .2s,border-color .2s,filter .2s}
+  .back{min-width:122px;padding:12px 20px;border:1px solid color-mix(in srgb,var(--sage) 42%,transparent);background:color-mix(in srgb,var(--paper) 72%,transparent);color:var(--forest);box-shadow:0 3px 0 color-mix(in srgb,var(--forest) 25%,transparent),0 8px 18px color-mix(in srgb,var(--sage) 10%,transparent);font-size:.9rem}
+  .back::before{content:"←";display:grid;place-items:center;width:28px;height:28px;border-radius:50%;background:color-mix(in srgb,var(--sage) 14%,transparent);transition:transform .2s var(--ease)}
+  .back:hover:not(:disabled){transform:translateY(-2px);border-color:color-mix(in srgb,var(--sage) 68%,transparent);box-shadow:0 5px 0 color-mix(in srgb,var(--forest) 25%,transparent),0 10px 20px color-mix(in srgb,var(--sage) 16%,transparent)}
+  .back:hover:not(:disabled)::before{transform:translateX(-3px)}
+  .back:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 color-mix(in srgb,var(--forest) 22%,transparent)}
   .back:disabled{opacity:.38;cursor:default}
-  .next{position:relative;display:flex;justify-content:center;align-items:center;gap:14px;min-height:58px;min-width:180px;padding:14px 30px;border-radius:999px;background:var(--sage);color:#fff;font-size:1rem;letter-spacing:.01em;box-shadow:0 6px 0 var(--forest),0 10px 18px rgba(69,102,78,.17)}
-  .next:hover{transform:translateY(-3px);box-shadow:0 9px 0 var(--forest),0 14px 24px rgba(69,102,78,.25);filter:brightness(1.04)}
-  .next:active{transform:translateY(4px);box-shadow:0 2px 0 var(--forest)}
-  .arrow{display:inline-block;transition:transform .25s var(--ease)}
+  .next{min-width:220px;padding:12px 12px 12px 28px;border:1px solid color-mix(in srgb,var(--sage-light) 70%,white);background:linear-gradient(180deg,color-mix(in srgb,var(--sage-light) 38%,var(--sage)),var(--sage));color:#fff;letter-spacing:.04em;box-shadow:0 4px 0 var(--forest),0 10px 22px color-mix(in srgb,var(--sage) 27%,transparent),inset 0 1px 0 rgba(255,255,255,.42)}
+  .next::after{content:"";position:absolute;inset:1px 18% auto 1px;height:2px;border-radius:99px;background:rgba(255,255,255,.42);opacity:.8;pointer-events:none}
+  .next:hover{transform:translateY(-3px);filter:brightness(1.05);box-shadow:0 7px 0 var(--forest),0 14px 25px color-mix(in srgb,var(--sage) 34%,transparent),inset 0 1px 0 rgba(255,255,255,.58)}
+  .next:active{transform:translateY(2px);box-shadow:0 2px 0 var(--forest),0 5px 10px color-mix(in srgb,var(--sage) 22%,transparent)}
+  .next.finish{border-color:var(--gold-light);background:linear-gradient(180deg,color-mix(in srgb,var(--gold-light) 32%,var(--sage)),var(--sage));box-shadow:0 4px 0 var(--forest),0 10px 22px color-mix(in srgb,var(--gold) 24%,transparent),inset 0 1px 0 rgba(255,255,255,.52)}
+  .next .arrow{display:grid;place-items:center;width:32px;height:32px;margin-left:auto;border-radius:50%;background:rgba(255,255,255,.2);font-size:1.15rem;transition:transform .2s var(--ease)}
   .next:hover .arrow{transform:translateX(4px)}
-  .next[aria-disabled="true"]{opacity:.48;filter:saturate(.6);box-shadow:0 4px 0 rgba(69,102,78,.65);cursor:pointer}
+  .next .key-hint{font-size:.62rem;letter-spacing:.02em;opacity:.62;font-weight:600}
+  .next[aria-disabled="true"]{opacity:.55}
   .next.unlocked{animation:unlock-pop .45s var(--ease)}
-  @keyframes unlock-pop{45%{transform:scale(1.045);box-shadow:0 7px 0 var(--forest),0 0 18px rgba(120,150,120,.38)}}
-  .next.wiggle{animation:soft-wiggle .36s ease}
-  @keyframes soft-wiggle{25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+  @keyframes unlock-pop{45%{transform:scale(1.035)}}
   .xp-pop{position:absolute;left:50%;top:-19px;transform:translateX(-50%);white-space:nowrap;color:#96702c;font-size:.8rem;font-weight:800;pointer-events:none;animation:xp-up .9s ease-out forwards}
   @keyframes xp-up{0%{opacity:0;transform:translate(-50%,8px) scale(.85)}20%{opacity:1}100%{opacity:0;transform:translate(-50%,-34px) scale(1.03)}}
   .confetti{position:fixed;z-index:5;top:-14px;width:8px;height:12px;border-radius:3px;pointer-events:none;animation:confetti-fall var(--fall,2.8s) ease-in forwards}
@@ -661,9 +663,9 @@
     .quest-label{margin-bottom:16px}
     .nav{gap:10px}
     .back{padding:10px 15px}
-    .next{flex:0 1 auto;max-width:210px;min-width:0;min-height:48px;padding:11px 20px;font-size:.88rem;gap:9px}
-    .question-arrows{position:static;transform:none;justify-content:center;gap:12px;margin:2px 0 0}
-    .question-arrow{width:32px;height:32px}
+    .next{flex:1;max-width:none;min-width:0;min-height:52px;padding:11px 11px 11px 19px;font-size:.88rem;gap:8px}
+    .back{min-width:96px;min-height:52px;padding:10px 13px}
+    .key-hint{display:none}
     .chips{margin-top:5px}
     .pass-chip{min-height:44px;padding-inline:16px}
     .card{padding:36px 22px}
@@ -833,7 +835,6 @@
         <i class="corner tl" aria-hidden="true"></i><i class="corner tr" aria-hidden="true"></i>
         <i class="corner bl" aria-hidden="true"></i><i class="corner br" aria-hidden="true"></i>
         <span class="card-shine" aria-hidden="true"></span>
-        <div class="question-arrows" id="question-arrows" hidden><button class="question-arrow" id="question-prev" type="button" aria-label="Previous question" title="Previous question">←</button><button class="question-arrow" id="question-next" type="button" aria-label="Next question without points" title="Next question without points">→</button></div>
         <div class="slot" id="slot"></div>
         <div class="note-panel-slot" id="note-panel-slot">
           <section class="my-answer-panel answer-history-panel" id="my-answer-panel" aria-label="My answer history" aria-hidden="true" inert>
@@ -870,7 +871,7 @@
     <p class="pass-message" id="pass-message" aria-live="polite"></p>
     <div class="nav" id="nav">
       <button class="back" id="back" type="button" disabled>Back</button>
-      <button class="next" id="next" type="button"><span id="next-label">Next</span><span class="arrow" aria-hidden="true">→</span></button>
+      <button class="next" id="next" type="button"><span id="next-label">Next</span><span class="key-hint" id="next-key-hint">Enter ↵</span><span class="arrow" aria-hidden="true">→</span></button>
     </div>
     <p class="gate-message" id="gate-message" aria-live="polite"></p>
   </div>
@@ -938,9 +939,9 @@
         <label class="setting-toggle"><span><strong>Reset points and streak on restart</strong><small>Start each timed attempt cleanly.</small></span><input type="checkbox" data-setting-toggle="timerResetProgress"><i aria-hidden="true"></i></label>
       </section>
       <section class="setting-section">
-        <h3>Free question navigation</h3>
-        <label class="setting-toggle"><span><strong>Show previous and next arrows</strong><small>Show quiet arrows on the question card.</small></span><input type="checkbox" data-setting-toggle="showQuestionArrows"><i aria-hidden="true"></i></label>
-        <label class="setting-toggle"><span><strong>Free navigation</strong><small>Let the right arrow move ahead without the word goal.</small></span><input type="checkbox" data-setting-toggle="freeNavigation"><i aria-hidden="true"></i></label>
+        <h3>Question movement</h3>
+        <label class="setting-toggle"><span><strong>Require the word goal before continuing</strong><small>When off, Next and Finish always work. The goal still controls rewards.</small></span><input type="checkbox" data-setting-toggle="requireWordGoal"><i aria-hidden="true"></i></label>
+        <label class="setting-toggle"><span><strong>Enter goes to the next question</strong><small>Press Shift + Enter for a new line.</small></span><input type="checkbox" data-setting-toggle="enterNext"><i aria-hidden="true"></i></label>
       </section>
       <section class="setting-section">
         <h3>Hints</h3>
@@ -1179,7 +1180,7 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.8.0";
+  const APP_VERSION = "1.9.0";
   const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
   // Optional: set a same-folder filename to publish a PDF with the site. This makes it public to anyone with the link.
@@ -1229,8 +1230,8 @@
     timerPausePanels: true,    // Pause while Settings, Hint, or the page is hidden
     timerSaveDraft: true,      // Save unfinished text when the timer restarts
     timerResetProgress: true,  // Reset XP and streak on a timed restart
-    showQuestionArrows: true,  // Show free previous/next question arrows
-    freeNavigation: true,      // Allow the next arrow to skip the word goal
+    requireWordGoal: false,    // Lock forward movement until the goal is reached
+    enterNext: !("ontouchstart" in window), // Enter advances on computers, inserts a line on touch devices
     animations: "full"        // "full", "lite", or "off"; Full is the default even with reduced-motion enabled
   };
   // Settings and answer history stay in this browser on this device.
@@ -1995,7 +1996,7 @@
   let sessionAnswerEntries=new Map();
   let historyUndo=null, historyUndoTimer=null, pendingHistoryEntry=null;
   let hintsUsed=new Set(), hintCostApplied=new Set();
-  let passedQuestions=[],unansweredQuestions=[],passesUsed=0,reviewMode=false,reviewQuestions=[],reviewIndex=0,reviewOffered=false;
+  let passedQuestions=[],unansweredQuestions=[],rewardedQuestionIds=new Set(),passesUsed=0,reviewMode=false,reviewQuestions=[],reviewIndex=0,reviewOffered=false;
   let passToastTimer=null,passMessageTimer=null,gateMessageTimer=null,lastPass=null;
   let speechInterim="", applyingSpeech=false, silenceTimer=null, micInactivityTimer=null, voiceUndoTimer=null, lastVoiceUndo=null;
   let restartFailures=0, speechRestarting=false, restartDelay=350, voiceRoundCounter=0, currentVoiceRound=null, textGuardTimer=null, textGuardSnapshot="";
@@ -2380,7 +2381,7 @@
     clearGameArtifacts();
     activeSet=null;activeQuestions=[];activeWasShuffled=false;
     answers=[];index=0;furthestIndex=0;points=0;streak=0;
-    passedQuestions=[];unansweredQuestions=[];passesUsed=0;reviewMode=false;reviewQuestions=[];reviewIndex=0;reviewOffered=false;
+    passedQuestions=[];unansweredQuestions=[];rewardedQuestionIds=new Set();passesUsed=0;reviewMode=false;reviewQuestions=[];reviewIndex=0;reviewOffered=false;
     hintsUsed=new Set();hintCostApplied=new Set();
     notePanelOpen=false;busy=false;pendingReturn=false;orderSettingChanged=false;
     $("leave-modal").hidden=true;
@@ -2415,7 +2416,7 @@
     Object.keys(allowedSettings).forEach(key=>{
       if(allowedSettings[key].includes(saved[key]))result[key]=saved[key];
     });
-    ["streak","background","confetti","sound","shuffleQuestions","reshuffleOnReplay","myAnswerChip","saveAnswersOnDevice","showVoiceTest","smartCleanup","spokenPunctuation","removeVoiceFillers","allowHints","rememberPlace","hintsCostPoints","timerEnabled","timerSounds","timerTickWhileMic","timerPausePanels","timerSaveDraft","timerResetProgress","showQuestionArrows","freeNavigation"].forEach(key=>{
+    ["streak","background","confetti","sound","shuffleQuestions","reshuffleOnReplay","myAnswerChip","saveAnswersOnDevice","showVoiceTest","smartCleanup","spokenPunctuation","removeVoiceFillers","allowHints","rememberPlace","hintsCostPoints","timerEnabled","timerSounds","timerTickWhileMic","timerPausePanels","timerSaveDraft","timerResetProgress","requireWordGoal","enterNext"].forEach(key=>{
       if(typeof saved[key]==="boolean")result[key]=saved[key];
     });
     ["timerMode","timerUnit"].forEach(key=>{if(allowedSettings[key]?.includes(saved[key]))result[key]=saved[key];});
@@ -3031,6 +3032,7 @@
     if(key==="timerDuration")value=Math.max(10,Math.min(3600,Number(value)||120));
     if(key==="timerVolume")value=Math.max(0,Math.min(100,Number(value)||0));
     applySettings();
+    if(key==="enterNext")showEnterHint(true);
     if(key==="requiredWords")refreshGateMessage();
     if(activeSet&&key==="offerPassed"&&index>=questionTotal()&&!reviewMode)render();
     saveSettings();
@@ -3287,7 +3289,7 @@
     return settings.requiredWords===0||countWords((textarea?.value||"")+(guess?" "+guess:""))>=settings.requiredWords;
   }
   function canAdvanceCurrent(){
-    return currentAnswerMeetsGoal()||(!isPassed(activeQuestions[index])&&index<furthestIndex);
+    return !settings.requireWordGoal||currentAnswerMeetsGoal()||(!isPassed(activeQuestions[index])&&index<furthestIndex);
   }
   function randomIndex(maxInclusive){
     const span=maxInclusive+1;
@@ -3374,7 +3376,7 @@
       const record={
         version:1,savedAt:Date.now(),screen:currentScreen,setNumber:activeSet.number,
         orderedIds:activeQuestions.map(item=>item.id),index,answers:activeQuestions.reduce((out,item,n)=>{out[item.id]=answers[n]||"";return out;},{}),
-        points,streak,furthestIndex,passedIds:passedQuestions.map(item=>item.id),unansweredIds:unansweredQuestions.map(item=>item.id),passesUsed,reviewMode,
+        points,streak,furthestIndex,passedIds:passedQuestions.map(item=>item.id),unansweredIds:unansweredQuestions.map(item=>item.id),rewardedIds:[...rewardedQuestionIds],passesUsed,reviewMode,
         reviewIds:reviewQuestions.map(item=>item.id),reviewIndex,reviewOffered,hintsUsed:[...hintsUsed],
         timerEnabled:timerStarted,timerMode:settings.timerMode,timerRemaining,timerQuestionRemaining:Object.fromEntries(timerQuestionRemaining),attempts
       };
@@ -3408,6 +3410,7 @@
     answers=activeQuestions.map(item=>typeof storedAnswers[item.id]==="string"?storedAnswers[item.id]:"");
     passedQuestions=(Array.isArray(record.passedIds)?record.passedIds:[]).map(id=>byId.get(id)).filter(Boolean);
     unansweredQuestions=(Array.isArray(record.unansweredIds)?record.unansweredIds:[]).map(id=>byId.get(id)).filter(Boolean);
+    rewardedQuestionIds=new Set(Array.isArray(record.rewardedIds)?record.rewardedIds.filter(id=>byId.has(id)):[]);
     passesUsed=Math.max(0,Number(record.passesUsed)||0);reviewMode=Boolean(record.reviewMode);
     reviewQuestions=(Array.isArray(record.reviewIds)?record.reviewIds:[]).map(id=>byId.get(id)).filter(Boolean);
     reviewIndex=Math.max(0,Number(record.reviewIndex)||0);reviewOffered=Boolean(record.reviewOffered);
@@ -3428,7 +3431,7 @@
   function refreshHud(){
     if(!activeSet) return;
     const total = questionTotal();
-    const completed = progressCount();
+    const completed = rewardedQuestionIds.size;
     const starsBefore=[...starsEl.children].map(star=>star.classList.contains("lit"));
     $("level-copy").textContent = "Set " + activeSet.number + ": " + activeSet.name + "  •  Level " + (index < total ? index + 1 : total);
     $("streak-count").textContent = streak;
@@ -3438,12 +3441,12 @@
     [...segmentsEl.children].forEach((el,n)=>{
       const passed=isPassed(activeQuestions[n]);
       el.classList.toggle("passed",passed);
-      el.classList.toggle("done",!passed&&(n < furthestIndex || index >= total));
+      el.classList.toggle("done",!passed&&rewardedQuestionIds.has(activeQuestions[n]?.id));
       el.classList.toggle("current",n === index && index < total);
     });
     const thresholds = [Math.ceil(total/3),Math.ceil(total*2/3),total];
     [...starsEl.children].forEach((star,n)=>{
-      const lit = completed >= thresholds[n] || index >= total;
+      const lit = completed >= thresholds[n];
       star.classList.toggle("lit",lit);
     });
     if([...starsEl.children].some((star,n)=>star.classList.contains("lit")&&!starsBefore[n]))playSoftTone("star");
@@ -3492,15 +3495,6 @@
     const column=document.querySelector(".question-column");
     const question=column?.querySelector(".question");
     if(column&&question)fitQuestionText(column,question);
-  }
-  function updateQuestionArrows(){
-    const wrap=$("question-arrows"),prev=$("question-prev"),nextArrow=$("question-next");
-    const visible=Boolean(activeSet&&settings.showQuestionArrows&&index<questionTotal()&&!reviewMode);
-    if(!wrap)return;
-    wrap.hidden=!visible;
-    if(!visible)return;
-    prev.disabled=index<=0;
-    nextArrow.disabled=index>=questionTotal()-1||(!settings.freeNavigation&&!canAdvanceCurrent());
   }
   function ensureAnswerColumnVisible(){
     const column=document.querySelector(".answer-column");
@@ -3572,7 +3566,6 @@
     wasReady=false;
     updateWordUI();
     updateChips();
-    updateQuestionArrows();
     syncTimerQuestion(currentQuestion.id);
     if(hintPanelOpen)renderHintModal(currentNoteId());
     refreshHud();
@@ -3582,7 +3575,8 @@
     pendingQuestionShineId=null;
     cancelQuestionCardShine();
     slot.innerHTML='<div class="pass-offer"><p class="quest-label">A gentle second chance</p><h1 class="pass-offer-message"></h1><div class="pass-offer-actions"><button class="pass-offer-button" id="show-passed" type="button">Yes, show me</button><button class="pass-offer-button secondary" id="finish-passed" type="button">No, finish</button></div></div>';
-    slot.querySelector(".pass-offer-message").textContent="You have "+passedQuestions.length+" passed"+(unansweredQuestions.length?" and "+unansweredQuestions.length+" skipped":"")+". Want a gentle second chance?";
+    const pendingCount=unansweredQuestions.length+passedQuestions.filter(question=>!unansweredQuestions.includes(question)).length;
+    slot.querySelector(".pass-offer-message").textContent="You have "+pendingCount+" unanswered question"+(pendingCount===1?"":"s")+". Want to go back to them?";
     $("show-passed").addEventListener("click",startSecondChance);
     $("finish-passed").addEventListener("click",finishWithoutReview);
     const gateMessage=$("gate-message");
@@ -3597,7 +3591,6 @@
     $("hint-modal-backdrop").hidden=true;
     $("settings-backdrop").hidden=true;
     $("my-answer-panel").inert=true;
-    $("question-arrows").hidden=true;
     completedSets.add(activeSet.number);
     slot.innerHTML = '<div class="finish-content"><p class="quest-label">A little adventure, well traveled</p><h1>Quest Complete!</h1><p class="finish-set-name"></p><p class="finish-order-note"></p><p class="finish-summary"></p><p class="total-words"></p><p class="finish-order-note" id="finish-hints-used"></p><div class="finish-stars" aria-label="Three stars earned"></div><div class="finish-stats"><span class="finish-stat gold">✦ <span id="final-points"></span> XP</span><span class="finish-stat" id="final-streak-stat">♨ Streak <span id="final-streak"></span></span></div><button class="finish-notes-button" id="finish-notes-button" type="button">See my answers</button><button class="copy-answers" id="copy-answers" type="button">Copy my answers</button><button class="manuscript-open" id="finish-manuscript-button" type="button">Open manuscript</button><label class="include-notes-option"><input id="include-answer-history" type="checkbox"> Include answer history</label><p class="copy-status" id="copy-status" aria-live="polite"></p><div class="finish-actions"><button class="play-again" id="play-again" type="button">Play again <span aria-hidden="true">↻</span></button><button class="choose-again" id="choose-again" type="button">Choose another set</button></div></div>';
     slot.querySelector(".finish-set-name").textContent = "You finished Set " + activeSet.number + ": " + activeSet.name + ".";
@@ -3649,11 +3642,19 @@
     function createWritingArea(){
       const area=document.createElement("div");
       area.className="writing-area";
-      area.innerHTML='<div class="answer-box"><div class="answer-input-layer"><textarea class="answer-input" id="answer-input" aria-label="Write your answer" placeholder="Write or speak your answer here..." rows="5"></textarea></div><div class="speech-display" id="speech-display" aria-hidden="true"><span class="speech-interim" id="speech-interim"></span></div><div class="writing-tools"><div class="mic-wrap voice-area"><button class="mic-button" id="mic-button" type="button" aria-label="Start Taglish voice typing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3m-4 0h8"/></svg></button><span class="voice-waves" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div><div class="word-row"><svg class="word-ring" id="word-ring" viewBox="0 0 44 44" aria-label="Word goal progress"><circle class="ring-track" cx="22" cy="22" r="18"/><circle class="ring-progress" id="ring-progress" cx="22" cy="22" r="18"/><path class="ring-sparkle" d="M22 5.5 23.2 9l3.3 1.2-3.3 1.2L22 15l-1.2-3.6 3.3-1.2-3.3-1.2-3.3-1.2L22 5.5z"/></svg><span class="word-readout"><strong id="word-count">0</strong><span id="word-goal-copy"> / 100 words</span></span><span class="ready-note" id="ready-note">✦ Nice! You can continue.</span></div><button class="voice-fix-link" id="voice-fix-link" type="button" hidden>Fix a word?</button></div></div><button class="undo-voice" id="undo-voice-text" type="button" hidden>Undo voice text</button><div class="voice-fix-box" id="voice-fix-box" hidden><input id="voice-fix-hear" type="text" maxlength="80" placeholder="Heard as..." aria-label="Heard as"><input id="voice-fix-write" type="text" maxlength="80" placeholder="Write as..." aria-label="Write as"><button id="voice-fix-save" type="button">Add</button></div><p class="voice-message" id="voice-message" aria-live="polite"></p><button class="note-quiet-button mic-retry" id="mic-retry" type="button" hidden>Try again</button>';
+      area.innerHTML='<div class="answer-box"><div class="answer-input-layer"><textarea class="answer-input" id="answer-input" aria-label="Write your answer" title="Enter for next · Shift + Enter for new line" placeholder="Write or speak your answer here..." rows="5"></textarea><span class="enter-hint" id="enter-hint" aria-hidden="true">Enter for next · Shift + Enter for new line</span></div><div class="speech-display" id="speech-display" aria-hidden="true"><span class="speech-interim" id="speech-interim"></span></div><div class="writing-tools"><div class="mic-wrap voice-area"><button class="mic-button" id="mic-button" type="button" aria-label="Start Taglish voice typing"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="12" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3m-4 0h8"/></svg></button><span class="voice-waves" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div><div class="word-row"><svg class="word-ring" id="word-ring" viewBox="0 0 44 44" aria-label="Word goal progress"><circle class="ring-track" cx="22" cy="22" r="18"/><circle class="ring-progress" id="ring-progress" cx="22" cy="22" r="18"/><path class="ring-sparkle" d="M22 5.5 23.2 9l3.3 1.2-3.3 1.2L22 15l-1.2-3.6 3.3-1.2-3.3-1.2-3.3-1.2L22 5.5z"/></svg><span class="word-readout"><strong id="word-count">0</strong><span id="word-goal-copy"> / 100 words</span></span><span class="ready-note" id="ready-note">✦ Nice! You can continue.</span></div><button class="voice-fix-link" id="voice-fix-link" type="button" hidden>Fix a word?</button></div></div><button class="undo-voice" id="undo-voice-text" type="button" hidden>Undo voice text</button><div class="voice-fix-box" id="voice-fix-box" hidden><input id="voice-fix-hear" type="text" maxlength="80" placeholder="Heard as..." aria-label="Heard as"><input id="voice-fix-write" type="text" maxlength="80" placeholder="Write as..." aria-label="Write as"><button id="voice-fix-save" type="button">Add</button></div><p class="voice-message" id="voice-message" aria-live="polite"></p><button class="note-quiet-button mic-retry" id="mic-retry" type="button" hidden>Try again</button>';
       const retry=area.querySelector("#mic-retry");
       retry.addEventListener("click",()=>startListening(area.querySelector("#answer-input")));
       const textarea=area.querySelector("#answer-input");
       textarea.value=answers[index]||"";
+      showEnterHint();
+      textarea.addEventListener("keydown",event=>{
+        if(event.key!=="Enter"||event.repeat||event.isComposing||notePanelOpen||hintPanelOpen||!$("settings-backdrop").hidden||!$("manuscript-add-backdrop").hidden)return;
+        if(event.shiftKey&&!event.ctrlKey&&!event.metaKey)return;
+        if(!event.ctrlKey&&!event.metaKey&&!settings.enterNext)return;
+        event.preventDefault();
+        if(!busy)handleNext();
+      });
       textarea.dataset.userScrolled="false";
       speechInterim="";
       renderSpeechDisplay(area);
@@ -3720,7 +3721,7 @@
       if(!textarea)return;
       const liveGuess=voiceTextarea===textarea?speechInterim:"";
       const count=countWords(textarea.value+(liveGuess?" "+liveGuess:"")), goal=settings.requiredWords;
-      const complete=goal===0||count>=goal||(!isPassed(activeQuestions[index])&&index<furthestIndex);
+        const complete=goal===0||count>=goal;
       $("word-count").textContent=count;
       $("word-goal-copy").textContent=goal===0?" words written":" / "+goal+" words";
       $("word-ring").setAttribute("aria-label",goal===0?"Words written; no minimum":"Word goal progress");
@@ -3728,9 +3729,10 @@
       $("ring-progress").style.strokeDashoffset=(113.1*(goal===0?0:1-Math.min(count/goal,1))).toFixed(1);
       const goalReached=goal>0&&count>=goal;
       $("word-ring").classList.toggle("ready",goalReached);
-      $("ready-note").classList.toggle("visible",goalReached);
+      $("ready-note").textContent=goalReached?"✦ Nice! Goal reached":"✦ Nice! You can continue.";
+      $("ready-note").classList.toggle("visible",true);
       $("ready-note").setAttribute("aria-hidden",String(!goalReached));
-      next.setAttribute("aria-disabled",String(!complete));
+      next.setAttribute("aria-disabled","false");
       if(complete&&!wasReady){
         next.classList.remove("unlocked");
         void next.offsetWidth;
@@ -4388,12 +4390,25 @@
       if(gateMessageTimer){clearDelay(gateMessageTimer);gateMessageTimer=null;}
       $("gate-message").textContent="";
     }
+    function showEnterHint(force=false){
+      const hint=$("enter-hint");
+      if(!hint)return;
+      let seen=0;
+      try{seen=Number(localStorage.getItem(STORAGE_PREFIX+"enter-hint-seen")||0);}catch(_){}
+      if(!force&&!settings.enterNext&&seen>=3)return;
+      if(!force&&seen>=3)return;
+      hint.classList.add("visible");
+      if(!force){
+        try{localStorage.setItem(STORAGE_PREFIX+"enter-hint-seen",String(seen+1));}catch(_){}
+      }
+      delay(()=>hint.classList.remove("visible"),5000);
+    }
     function refreshGateMessage(){
       const message=$("gate-message");
       if(!message?.textContent)return;
       const textarea=$("answer-input"),guess=voiceTextarea===textarea?speechInterim:"";
       const count=countWords((textarea?.value||"")+(guess?" "+guess:""));
-      if(settings.requiredWords===0||count>=settings.requiredWords||next.getAttribute("aria-disabled")!=="true"){
+      if(!settings.requireWordGoal||settings.requiredWords===0||count>=settings.requiredWords){
         clearGateMessage();
         return;
       }
@@ -4414,6 +4429,7 @@
     }
     function showGateMessage(){
       const textarea=$("answer-input"),guess=voiceTextarea===textarea?speechInterim:"";
+      if(!settings.requireWordGoal)return;
       const remaining=Math.max(0,settings.requiredWords-countWords((textarea?.value||"")+(guess?" "+guess:"")));
       $("gate-message").textContent="Almost there! "+remaining+" more word"+(remaining===1?"":"s")+" to go.";
       next.classList.remove("wiggle");
@@ -4645,7 +4661,7 @@
       if(!timedRestart)attempts=1;
       answers=activeQuestions.map(()=> "");
       sessionAnswerEntries=new Map();
-      passedQuestions=[];unansweredQuestions=[];passesUsed=0;reviewMode=false;reviewQuestions=[];reviewIndex=0;reviewOffered=false;
+      passedQuestions=[];unansweredQuestions=[];rewardedQuestionIds=new Set();passesUsed=0;reviewMode=false;reviewQuestions=[];reviewIndex=0;reviewOffered=false;
       questStartedAt=Date.now();
       $("pass-message").textContent="";
       updatePoints(0);
@@ -4675,7 +4691,7 @@
       clearGameArtifacts();
       await fadeSwap(gameView,startView);
       activeSet=null;activeQuestions=[];activeWasShuffled=false;orderSettingChanged=false;index=0;furthestIndex=0;points=0;streak=0;answers=[];
-      passedQuestions=[];unansweredQuestions=[];passesUsed=0;reviewMode=false;reviewQuestions=[];reviewIndex=0;reviewOffered=false;
+      passedQuestions=[];unansweredQuestions=[];rewardedQuestionIds=new Set();passesUsed=0;reviewMode=false;reviewQuestions=[];reviewIndex=0;reviewOffered=false;
       if(pointsFrame)cancelAnimationFrame(pointsFrame);
       pointsFrame=0;
       $("xp-count").textContent="0 XP";
@@ -4786,12 +4802,12 @@
       document.body.classList.remove("transition-locked");
     }
   }
-  async function moveTo(target,{earn=false,skip=false,free=false}={}){
+  async function moveTo(target,{earn=false,skip=false}={}){
     if(busy||!activeSet||target<0||target>questionTotal()||target===index) return;
     const answerTextarea=$("answer-input"),answerGuess=voiceTextarea===answerTextarea?speechInterim:"";
     const currentQuestion=activeQuestions[index],wordCount=countWords((answerTextarea?.value||"")+(answerGuess?" "+answerGuess:""));
     const currentPassed=isPassed(currentQuestion);
-    if(!free&&!skip&&target>index&&settings.requiredWords>0&&wordCount<settings.requiredWords&&(currentPassed||index>=furthestIndex)){
+    if(settings.requireWordGoal&&!skip&&target>index&&settings.requiredWords>0&&wordCount<settings.requiredWords&&(currentPassed||index>=furthestIndex)){
       showGateMessage();
       return;
     }
@@ -4801,16 +4817,19 @@
       if(notePanelOpen)await closeMyAnswerPanel({restoreFocus:false});
       prepareVoiceForQuestionChange();
       clearVoiceUndo();
-      if($("answer-input")?.value.trim()&&(!earn||wordCount<settings.requiredWords))recordAnswer(currentQuestion,$("answer-input").value,"Draft");
-      else if(direction>0&&!skip)recordAnswer(currentQuestion,$("answer-input")?.value||"");
+      if($("answer-input")?.value.trim())recordAnswer(currentQuestion,$("answer-input").value,settings.requiredWords>0&&wordCount<settings.requiredWords?"Draft":"");
       clearGateMessage();
       if(direction>0){
-        if(free&&!(answerTextarea?.value||"").trim()&&!currentPassed&&!unansweredQuestions.includes(currentQuestion))unansweredQuestions.push(currentQuestion);
+        if(!(answerTextarea?.value||"").trim()&&!currentPassed&&!unansweredQuestions.includes(currentQuestion))unansweredQuestions.push(currentQuestion);
         if((answerTextarea?.value||"").trim())unansweredQuestions=unansweredQuestions.filter(question=>question!==currentQuestion);
         if(!skip&&(settings.requiredWords===0||wordCount>=settings.requiredWords))removePassed(currentQuestion);
-        streak++;
-        bumpStreak();
-        if(earn) reward();
+        const goalReached=settings.requiredWords===0||wordCount>=settings.requiredWords;
+        if(!skip&&goalReached&&!rewardedQuestionIds.has(currentQuestion.id)){
+          rewardedQuestionIds.add(currentQuestion.id);
+          streak++;
+          bumpStreak();
+          reward();
+        }
         furthestIndex=Math.max(furthestIndex,target);
       }
       if(direction<0) streak=0;
@@ -4842,10 +4861,17 @@
       if(notePanelOpen)await closeMyAnswerPanel({restoreFocus:false});
       prepareVoiceForQuestionChange();
       clearVoiceUndo();
-      recordAnswer(activeQuestions[index],$("answer-input")?.value||"");
+      const currentQuestion=activeQuestions[index],currentText=$("answer-input")?.value||"",currentCount=countWords(currentText);
+      if(currentText.trim())recordAnswer(currentQuestion,currentText,settings.requiredWords>0&&currentCount<settings.requiredWords?"Draft":"");
       clearGateMessage();
       removePassed(activeQuestions[index]);
       unansweredQuestions=unansweredQuestions.filter(question=>question!==activeQuestions[index]);
+      if((settings.requiredWords===0||currentCount>=settings.requiredWords)&&!rewardedQuestionIds.has(currentQuestion.id)){
+        rewardedQuestionIds.add(currentQuestion.id);
+        streak++;
+        bumpStreak();
+        reward();
+      }
       await transitionQuestion(1,()=>{
         reviewIndex++;
         if(reviewIndex>=reviewQuestions.length){reviewMode=false;index=questionTotal();}
@@ -4959,8 +4985,6 @@
   $("leave-button").addEventListener("click",returnToPicker);
   next.addEventListener("click",handleNext);
   back.addEventListener("click",handleBack);
-  $("question-prev").addEventListener("click",()=>{if(!busy)moveTo(index-1,{free:true});});
-  $("question-next").addEventListener("click",()=>{if(!busy&&settings.freeNavigation)moveTo(index+1,{free:true});else if(!busy)showGateMessage();});
   $("pass").addEventListener("click",passQuestion);
   $("pass-undo").addEventListener("click",undoPass);
   function toggleMyAnswerPanel(){
@@ -5389,8 +5413,8 @@
       if(chosen){event.preventDefault();beginSet(chosen);}
       return;
     }
-    if(key==="arrowright"){event.preventDefault();if(index<questionTotal()-1)moveTo(index+1,{free:settings.freeNavigation});}
-    else if(key==="arrowleft"){event.preventDefault();if(index>0)moveTo(index-1,{free:true});}
+    if(key==="arrowright"){event.preventDefault();if(!event.repeat&&index<questionTotal())moveTo(index+1);}
+    else if(key==="arrowleft"){event.preventDefault();if(!event.repeat&&index>0)moveTo(index-1);}
     else if(key==="enter"&&index<questionTotal()&&!(target instanceof Element&&target.closest("button,input,textarea,select,a"))){event.preventDefault();handleNext();}
     else if(key==="s"&&index<questionTotal()){event.preventDefault();if(reviewMode)passQuestion();else moveTo(index+1,{skip:true});}
     else if(key==="p"&&index<questionTotal()){event.preventDefault();passQuestion();}
