@@ -1108,6 +1108,12 @@
         <button class="note-quiet-button" id="check-updates" type="button">Check for updates</button>
         <p class="setting-help" id="update-status" aria-live="polite"></p>
       </section>
+      <section class="setting-section">
+        <h3>Website link</h3>
+        <p class="setting-help website-link-value" id="website-link"></p>
+        <button class="note-quiet-button" id="copy-website-link" type="button">Copy website link</button>
+        <p class="setting-help" id="website-link-status" aria-live="polite"></p>
+      </section>
       <section class="setting-section setting-reset">
         <button class="reset-settings" id="reset-settings" type="button">Reset to default</button>
         <p class="setting-help">This resets settings only. Your answers stay safe.</p>
@@ -1187,7 +1193,8 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.9.5";
+  const APP_VERSION = "1.9.7";
+  const PUBLIC_WEBSITE_URL = "https://xyzenchris-cloud.github.io/slide-cards/";
   const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
   // Optional: set a same-folder filename to publish a PDF with the site. This makes it public to anyone with the link.
@@ -3007,6 +3014,7 @@
     if($("performance-enabled"))$("performance-enabled").checked=performanceTools.enabled;
     renderWordList();
     $("version-line").textContent="Version "+APP_VERSION+", "+VERSION_DATE;
+    updateWebsiteLink();
     if($("mic-permission-state"))setMicPermissionState(micPermissionState);
     refreshNotesStatus();
     const range=$("word-range"),number=$("word-number");
@@ -5142,6 +5150,27 @@
     iosData.hidden=installed||!isAppleTouchDevice();
     status.textContent=installed?"App installed":"";
   }
+  function websiteUrl(){
+    const previewHost=/^(localhost|127\.0\.0\.1|browser-preview-local\.localhost)$/i.test(location.hostname);
+    if(["http:","https:"].includes(location.protocol)&&!previewHost)return new URL("./",location.href).href;
+    return PUBLIC_WEBSITE_URL;
+  }
+  function updateWebsiteLink(){
+    const link=$("website-link");
+    if(link)link.textContent=websiteUrl();
+  }
+  async function copyWebsiteLink(){
+    const status=$("website-link-status"),url=websiteUrl(),button=$("copy-website-link");
+    try{
+      if(navigator.clipboard&&navigator.clipboard.writeText)await navigator.clipboard.writeText(url);
+      else if(!fallbackCopy(url))throw new Error("Clipboard unavailable");
+      status.textContent="Website link copied.";
+      button.textContent="Copied!";
+      delay(()=>{if($("copy-website-link"))$("copy-website-link").textContent="Copy website link";if($("website-link-status"))$("website-link-status").textContent="";},1800);
+    }catch(_){
+      status.textContent="Copy isn't available here. Select the link above and copy it manually.";
+    }
+  }
   function showUpdateBar(){
     const bar=$("pwa-update-bar");
     bar.hidden=false;
@@ -5181,6 +5210,7 @@
     deferredInstallPrompt=null;
     updateInstallUI();
   });
+  $("copy-website-link").addEventListener("click",copyWebsiteLink);
   $("check-updates").addEventListener("click",async()=>{
     const status=$("update-status");
     if(!pwaRegistration){status.textContent="Updates are checked automatically on the online version.";return;}
