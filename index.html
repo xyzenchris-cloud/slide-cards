@@ -1193,7 +1193,7 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.9.7";
+  const APP_VERSION = "1.9.8";
   const PUBLIC_WEBSITE_URL = "https://xyzenchris-cloud.github.io/slide-cards/";
   const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
@@ -1820,6 +1820,216 @@
       "label": "Answer 1",
       "text": "It followed the core of Scrum: a Product Backlog, Sprints, reviews, and retrospectives. We adapted it for a small student team, including informal Daily Scrums. That is why we call it Scrum-Agile instead of claiming every formal practice."
     }
+  ],
+  "s7-q1": [
+    {
+      "label": "Answer 1",
+      "text": "It is a web-based community management system for the HappYness Project, a charity in Bacoor, Cavite. It puts volunteers, activities, donations, beneficiaries, reports, and an online store for community-made products into one platform. Administrators can see everything on a real-time dashboard, and the system generates PDF reports and volunteer certificates automatically."
+    }
+  ],
+  "s7-q2": [
+    {
+      "label": "Answer 1",
+      "text": "HappYness runs its programs across Bacoor, Quiapo, and Binangonan using paper logbooks and chat groups. That caused delays, inconsistent records, lost data, and weak tracking of volunteers and donations. The administrators and staff feel it most, but it also affects volunteers and beneficiaries when records are late or wrong."
+    }
+  ],
+  "s7-q3": [
+    {
+      "label": "Answer 1",
+      "text": "HappYness has run nearly 1,000 outreach programs and reached more than 80 communities, yet it still works manually. That made it a real organization with a documented need, which our interview and fishbone analysis confirmed. It is also a charity with limited budget, so a custom system could help it directly."
+    }
+  ],
+  "s7-q4": [
+    {
+      "label": "Answer 1",
+      "text": "There are four. The Admin manages users, activities, donations, and reports, and approves volunteers. The Volunteer registers, signs up for events, and views assigned tasks and certificates. The Beneficiary updates their profile, applies for assistance, and submits feedback. The Regular User can browse the products and send feedback."
+    }
+  ],
+  "s7-q5": [
+    {
+      "label": "Answer 1",
+      "text": "The main features are volunteer management, activity management, donation management, beneficiary management, reports and certificates, the e-commerce store, community engagement, and the dashboard. The most important is volunteer and donation tracking, because those were the biggest problems in our analysis and the foundation for the reports."
+    }
+  ],
+  "s7-q6": [
+    {
+      "label": "Answer 1",
+      "text": "They used paper logbooks for attendance and donations, chat groups for coordination, and manual tallying for inventory and reports. Each site kept its own records, so there was no single view across the three locations."
+    }
+  ],
+  "s7-q7": [
+    {
+      "label": "Answer 1",
+      "text": "Records now live in one database, so they are consistent and easy to search. Attendance, hours, and donations are traceable, and reports and certificates are generated automatically instead of typed by hand. Role-based access controls who sees what, which a paper logbook cannot do."
+    }
+  ],
+  "s7-q8": [
+    {
+      "label": "Answer 1",
+      "text": "Most systems we reviewed focus on one thing, such as volunteer matching or donation tracking. Ours combines education programs, livelihood activities like rag-making, and donation distribution in one platform built around HappYness's actual workflow. To the best of our knowledge from the studies we reviewed, no existing system combined these for grassroots Philippine projects."
+    }
+  ],
+  "s7-q9": [
+    {
+      "label": "Answer 1",
+      "text": "HappYness operates in three locations, and staff need to share the same records. A web system is reachable from any device with a browser, so nothing has to be installed, which suits a charity with limited budget and mixed devices."
+    }
+  ],
+  "s7-q10": [
+    {
+      "label": "Answer 1",
+      "text": "[Answer truthfully.] Sample: the system has been deployed and the staff have been trained on it, and HappYness is using it alongside their paper records during the transition. If it is still a pilot, say so and explain the plan for full adoption."
+    }
+  ],
+  "s7-q11": [
+    {
+      "label": "Answer 1",
+      "text": "We used Python 3.10 with Django, SQLite3 for the database, and HTML5, CSS3, and JavaScript for the interface. Django has built-in authentication, role handling, and security features, which sped up development. SQLite3 is lightweight, needs no separate server, and suits HappYness's current size and weak connections. If the organization grows, the database can be upgraded to MySQL or PostgreSQL."
+    }
+  ],
+  "s7-q12": [
+    {
+      "label": "Answer 1",
+      "text": "HappYness's needs were not fully clear at the start, and stakeholders could only give useful feedback once they saw something working. Scrum let us build module by module in short Sprints, show each result, and adjust before moving on. It lowered the risk of building the wrong thing."
+    }
+  ],
+  "s7-q13": [
+    {
+      "label": "Answer 1",
+      "text": "[Use your real division.] Sample: one member led the back end and database, one handled the front end and design, one handled testing and documentation, and one coordinated with HappYness and the Sprint schedule. Everyone understands the whole system and can explain any module."
+    }
+  ],
+  "s7-q14": [
+    {
+      "label": "Answer 1",
+      "text": "[Use your real answer.] Sample: making the different user roles work together, especially keeping each role limited to its own pages while still sharing data across modules like volunteers, activities, and reports. It taught us to plan the database and permissions early, because changing them later affects every module."
+    }
+  ],
+  "s7-q15": [
+    {
+      "label": "Answer 1",
+      "text": "We tested at three levels. Unit tests checked individual functions, such as validating a form or computing hours. Integration tests checked that modules worked together, such as a signup appearing in the admin list and the dashboard. System tests ran the complete system for each role, from login to reports. Bugs were logged, fixed, and re-tested."
+    }
+  ],
+  "s7-q16": [
+    {
+      "label": "Answer 1",
+      "text": "We used a questionnaire based on ISO 25010, the international software quality standard. It was answered by 48 respondents: 30 beneficiaries, 8 admin and staff, and 10 IT professionals. This gave us the views of users, operators, and technical experts."
+    }
+  ],
+  "s7-q17": [
+    {
+      "label": "Answer 1",
+      "text": "The overall rating was Very Good, and all eight quality characteristics also landed at Very Good. It means evaluators found the system functional, usable, and reliable for HappYness's needs. It also showed where to improve, mainly in recoverability, security, and portability."
+    }
+  ],
+  "s7-q18": [
+    {
+      "label": "Answer 1",
+      "text": "Functional Suitability was highest, because the features came directly from stakeholders' needs. Portability was lowest, mainly because replacing paper takes training and entering old records, and the system has no mobile app or offline mode. Both are still within Very Good."
+    }
+  ],
+  "s7-q19": [
+    {
+      "label": "Answer 1",
+      "text": "Three sources of evidence: our unit, integration, and system tests, the functional checks by users in each role, and the evaluation by 48 respondents. We can also demonstrate the main workflows live."
+    }
+  ],
+  "s7-q20": [
+    {
+      "label": "Answer 1",
+      "text": "[Use real feedback.] Sample: HappYness staff said the dashboard and automatic reports would save them time, and they asked for improvements to the volunteer list, which we made. Replace this with what they actually said."
+    }
+  ],
+  "s7-q21": [
+    {
+      "label": "Answer 1",
+      "text": "There is no native mobile app and no offline mode, the donation portal supports GCash only, and the budget did not allow premium hosting or advanced security. It may also slow down under heavy use because of SQLite, and our evaluation cannot measure long-term effects like volunteer retention."
+    }
+  ],
+  "s7-q22": [
+    {
+      "label": "Answer 1",
+      "text": "It cannot work offline, send SMS notifications, or support payment methods beyond what we built. It also does not yet have automatic backups or detailed audit logs. These are in our future work."
+    }
+  ],
+  "s7-q23": [
+    {
+      "label": "Answer 1",
+      "text": "Automatic backups, because they protect the data HappYness cannot recreate and address our weakest reliability result. After that, I would add audit logs and offline support."
+    }
+  ],
+  "s7-q24": [
+    {
+      "label": "Answer 1",
+      "text": "The system cannot be used until the connection returns, because it is web-based. HappYness would keep paper as a temporary backup during outages and encode the records afterward. Offline support, such as a progressive web app that syncs later, is part of our future work."
+    }
+  ],
+  "s7-q25": [
+    {
+      "label": "Answer 1",
+      "text": "It has basic, working protections: login, role-based access so users only reach their own pages, hashed passwords, and automatic logout for inactive users. We do not have enterprise-level tools like a firewall or penetration testing because of our budget. Evaluators rated security Very Good, but among the lower categories, so we treat it as an area to strengthen."
+    }
+  ],
+  "s7-q26": [
+    {
+      "label": "Answer 1",
+      "text": "HappYness's designated system admin will handle daily operations, backups, and user accounts, following the maintenance guidelines and user manual we provide. For updates or larger changes, the organization can work with future students or developers, since the code is modular and documented."
+    }
+  ],
+  "s7-q27": [
+    {
+      "label": "Answer 1",
+      "text": "Our team conducts the initial hands-on training for staff and volunteers, using the user manual. State your real duration. Basic use takes a short session, and the admin needs a bit longer. We keep the interface simple and can adjust the training for users with less digital experience."
+    }
+  ],
+  "s7-q28": [
+    {
+      "label": "Answer 1",
+      "text": "The main cost is hosting, which is currently [plan and monthly cost]. There are no license fees, because the tools are open source. Costs would rise only if HappYness upgrades to premium hosting or a larger database."
+    }
+  ],
+  "s7-q29": [
+    {
+      "label": "Answer 1",
+      "text": "SQLite works at HappYness's current scale, but heavy simultaneous use could slow it down, which we list as a limitation. The upgrade path is migrating to MySQL or PostgreSQL and moving to stronger hosting. Because Django separates the database from the application logic, that change does not require rebuilding the system."
+    }
+  ],
+  "s7-q30": [
+    {
+      "label": "Answer 1",
+      "text": "We back up the database file, which holds all the records, and keep copies in a separate location. Right now the backup is manual, and we plan to automate it. If the system fails, we redeploy the code and restore the latest backup, and we would lose only data entered since then."
+    }
+  ],
+  "s7-q31": [
+    {
+      "label": "Answer 1",
+      "text": "Technically, we learned to design a database and permissions for several user roles and to work in Sprints. Beyond that, we learned that a useful system comes from listening to users, since the people on the ground know their problems better than we do."
+    }
+  ],
+  "s7-q32": [
+    {
+      "label": "Answer 1",
+      "text": "That all the modules work together as one system that solves a real problem for a real organization, and that people outside our group evaluated it favorably."
+    }
+  ],
+  "s7-q33": [
+    {
+      "label": "Answer 1",
+      "text": "We would gather requirements and set the final tech stack earlier, test after every Sprint with written test cases, automate backups from the start, and keep the paper consistent with the system as it changed."
+    }
+  ],
+  "s7-q34": [
+    {
+      "label": "Answer 1",
+      "text": "We applied what we learned to a real community need by analyzing a manual process, designing a system, building it, testing it, and handing it over with training and maintenance guidelines. HappYness gets a working tool, and the community benefits from more organized and transparent programs."
+    }
+  ],
+  "s7-q35": [
+    {
+      "label": "Answer 1",
+      "text": "Because it solves a documented problem for a real organization, it works, it was tested and evaluated by 48 respondents as Very Good, and we are honest about its limitations and have a plan for improving them. The system is ready for HappYness to use and for future students to build on."
+    }
   ]
 };
   // QUEST SETS — make all set and question edits in this section.
@@ -1968,6 +2178,48 @@
         { id: "s6-q13", question: "Your requirements mention social work students. Who actually receives certificates?", hint: "Clarify that verified volunteers and students who complete required activities and hours receive certificates." },
         { id: "s6-q14", question: "Who were the stakeholders in your Sprint Reviews, and did beneficiaries review every Sprint?", hint: "Identify HappYness staff, the representative, and volunteers, while explaining beneficiaries mainly joined final evaluation." },
         { id: "s6-q15", question: "Is your process really Scrum, or was it only iterative development?", hint: "Point to the Product Backlog, Sprints, reviews, retrospectives, and the small-team adaptations." }
+      ]
+    },
+    {
+      number: 7,
+      name: "Generalized Questions with Sample Answers",
+      keepOrder: true,
+      questions: [
+        { id: "s7-q1", question: "Can you briefly explain what your system is about?", hint: "Give the project, client, main modules, dashboard, reports, and certificates in one clear overview." },
+        { id: "s7-q2", question: "What problem are you solving, and who has that problem?", hint: "Describe the paper-and-chat process across the three locations and who it affects." },
+        { id: "s7-q3", question: "Why did you choose HappYness as your client?", hint: "Connect the organization's real scale, manual process, documented need, and limited budget." },
+        { id: "s7-q4", question: "Who are the users, and what can each one do?", hint: "Name the Admin, Volunteer, Beneficiary, and Regular User and give each role's main actions." },
+        { id: "s7-q5", question: "What are the main features, and which is the most important?", hint: "List the major modules, then justify volunteer and donation tracking as the priority." },
+        { id: "s7-q6", question: "How did HappYness do this before your system?", hint: "Explain the paper logbooks, chat groups, manual tallying, and separate site records." },
+        { id: "s7-q7", question: "How is your system better than what they had?", hint: "Compare one searchable database, traceability, automation, and role-based access with paper." },
+        { id: "s7-q8", question: "What makes it different from other systems like it?", hint: "Explain the combination of education, livelihood, donations, and the actual HappYness workflow." },
+        { id: "s7-q9", question: "Why does this need to be a web system?", hint: "Relate the three locations, shared records, browser access, mixed devices, and limited budget." },
+        { id: "s7-q10", question: "Is HappYness actually using it now?", hint: "Answer truthfully about deployment, training, transition use, or pilot status." },
+        { id: "s7-q11", question: "What language, framework, and database did you use, and why?", hint: "Name Python, Django, SQLite3, and the front-end technologies, then justify the choices." },
+        { id: "s7-q12", question: "Why did you choose Scrum or Agile?", hint: "Explain unclear needs, short Sprints, working increments, feedback, and reduced risk." },
+        { id: "s7-q13", question: "Who did what in your group?", hint: "Use your real division of back end, front end, testing, documentation, coordination, and shared knowledge." },
+        { id: "s7-q14", question: "What was the hardest part of building it?", hint: "Discuss role permissions, shared module data, and what early database planning taught you." },
+        { id: "s7-q15", question: "How did you test the system?", hint: "Give one concrete unit, integration, and system-test example and explain bug retesting." },
+        { id: "s7-q16", question: "How did you evaluate it, and who evaluated it?", hint: "State the ISO 25010 questionnaire and the 48 respondents by group." },
+        { id: "s7-q17", question: "What were the results, and what do they mean?", hint: "Explain the overall Very Good result, all eight characteristics, and the areas needing improvement." },
+        { id: "s7-q18", question: "What was the highest score and the lowest?", hint: "Name Functional Suitability and Portability and explain why each landed there." },
+        { id: "s7-q19", question: "How do you know the system actually works?", hint: "Use testing, role-based functional checks, the 48-person evaluation, and a live demonstration." },
+        { id: "s7-q20", question: "Did the client say anything about it?", hint: "Use the real feedback; if using the sample, mention dashboard, reports, and volunteer-list improvements." },
+        { id: "s7-q21", question: "What are the limitations?", hint: "Cover no native app or offline mode, GCash-only donations, hosting/security limits, SQLite scale, and long-term effects." },
+        { id: "s7-q22", question: "What can't your system do yet?", hint: "Mention offline use, SMS, additional payment methods, automatic backups, and detailed audit logs." },
+        { id: "s7-q23", question: "What would you improve first?", hint: "Prioritize automatic backups, then explain audit logs and offline support." },
+        { id: "s7-q24", question: "What happens when the internet is down?", hint: "Explain the web dependency, temporary paper backup, later encoding, and future sync support." },
+        { id: "s7-q25", question: "Is it secure? How do you know?", hint: "Describe login, role access, hashed passwords, inactivity logout, limits, and the Very Good security result." },
+        { id: "s7-q26", question: "Who will maintain the system after you graduate?", hint: "Identify the designated HappYness admin, maintenance guide, user manual, and future developers." },
+        { id: "s7-q27", question: "Who trains the users, and how long does it take to learn?", hint: "Give your real training duration and explain hands-on, role-based, accessible training." },
+        { id: "s7-q28", question: "How much does it cost to keep running?", hint: "State the real hosting plan and monthly cost, then note the absence of open-source license fees." },
+        { id: "s7-q29", question: "What if HappYness grows and gets many more users?", hint: "Explain SQLite's current limit, the MySQL/PostgreSQL upgrade path, and stronger hosting." },
+        { id: "s7-q30", question: "What happens to the data if something goes wrong?", hint: "Describe the current manual database backup, separate copies, redeployment, restore, and possible data loss." },
+        { id: "s7-q31", question: "What did you learn?", hint: "Combine technical learning about databases, permissions, and Sprints with learning to listen to users." },
+        { id: "s7-q32", question: "What are you most proud of?", hint: "Describe the integrated working system, its real community purpose, and favorable outside evaluation." },
+        { id: "s7-q33", question: "If you did this again, what would you change?", hint: "Mention earlier requirements and stack decisions, Sprint testing, automated backups, and consistent documentation." },
+        { id: "s7-q34", question: "What is your contribution as an IT student?", hint: "Connect analysis, design, development, testing, handover, training, and community benefit." },
+        { id: "s7-q35", question: "Why should we approve your project?", hint: "Give a concise case based on the real need, working system, Very Good evaluation, honesty, and future plan." }
       ]
     }
   ];

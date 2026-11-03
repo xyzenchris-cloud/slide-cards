@@ -25,7 +25,7 @@ Open `index.html` in a text editor. Near the top of the script, update `APP_VERS
 
 The Manuscript chip opens the PDF directly in a new browser tab on desktop and mobile, leaving Little Quest open in its original tab so you can switch between the app and the manuscript. The Settings dialog also has an optional share action for sending the public PDF to Google Drive, Files, or another installed app; the app cannot force a specific PDF viewer. Choose or replace a private PDF from the device, or drag it into the Manuscript section in Settings. The selected private PDF is stored in this browser's IndexedDB and is never uploaded, sent to a server, or included in answer backups. A new browser profile or device will require choosing the private PDF again; clearing site data, private browsing, storage quota limits, or browser cleanup can also remove it. This upload includes a public bundled `manuscript.pdf`, so the same manuscript is available on other devices without a local upload. To use a different public manuscript, place a PDF beside `index.html` and set the `bundledPdf` constant near the top of the script to its filename; do not use that option for a private manuscript.
 
-The app does not bundle PDF.js, render pages, search inside the PDF, or upload the selected file. If you configure a bundled PDF in `index.html`, that file becomes public with the site and is opened as a normal same-folder PDF. Version `1.9.7` removes older app caches on service-worker activation; when replacing an older upload, also remove any obsolete `vendor/pdfjs/` files from the published folder.
+The app does not bundle PDF.js, render pages, search inside the PDF, or upload the selected file. If you configure a bundled PDF in `index.html`, that file becomes public with the site and is opened as a normal same-folder PDF. Version `1.9.8` removes older app caches on service-worker activation; when replacing an older upload, also remove any obsolete `vendor/pdfjs/` files from the published folder.
 
 ## Performance check
 
@@ -35,7 +35,9 @@ The optional **Challenge timer** can run per question or across a whole set. It 
 
 Settings also includes **Copy website link**, which copies the public GitHub Pages address. When the page is already online, it copies the current site folder; when opened as a local file, it uses the configured public Pages address.
 
-## Reference hints
+## Question sets and reference hints
+
+The app includes Set 7, **Generalized Questions with Sample Answers**, as an ordered 35-question practice set. Its Hint action contains the supplied sample answers, including placeholders where the answer must be replaced with the team's truthful project details.
 
 The Hint chip opens a centered reference-answer modal showing the prepared answers stored in the `HINT_ANSWERS` block near the top of `index.html`. Hints are local page content, not a server feature; anyone who can view the page source can read them. Answers are plain text in a minimal, scrollable modal and are prepared only when opened. A small configurable XP cost can be enabled once per question.
 
