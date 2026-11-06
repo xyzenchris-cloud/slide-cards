@@ -43,6 +43,8 @@
   *{box-sizing:border-box}
   [hidden]{display:none!important}
   html{min-width:320px;background:var(--cream);scrollbar-gutter:stable}
+  *,*::before,*::after{scrollbar-width:none}
+  *::-webkit-scrollbar{display:none;width:0;height:0}
   body{
     min-height:100vh;min-height:100dvh;margin:0;padding:max(24px,env(safe-area-inset-top)) 22px max(24px,env(safe-area-inset-bottom));
     display:flex;align-items:center;justify-content:center;overflow-x:hidden;
@@ -748,7 +750,7 @@
     .question-column .question.question-very-long{font-size:clamp(1.12rem,.9rem + .9vw,1.55rem)}
     .question-column.question-overflow{justify-content:flex-start}
     .question-column.question-overflow .question{flex:1;min-height:0;overflow-y:auto;padding-right:10px;scroll-padding-block:10px}
-    .question-column.has-followups{justify-content:flex-start;overflow-y:auto;scrollbar-width:thin}
+    .question-column.has-followups{justify-content:flex-start;overflow-y:auto}
     .question-column.has-followups .question{flex:none}
     .answer-column>.writing-area{display:flex;flex:1;flex-direction:column;min-width:0;min-height:0;margin:0;width:100%}
     .answer-column .answer-box{display:flex;flex:1;flex-direction:column;width:100%;height:auto;min-height:160px}
