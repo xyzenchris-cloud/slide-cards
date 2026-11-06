@@ -1215,7 +1215,7 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.10.2";
+  const APP_VERSION = "1.10.3";
   const PUBLIC_WEBSITE_URL = "https://xyzenchris-cloud.github.io/slide-cards/";
   const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
@@ -3931,7 +3931,8 @@
     const rootStyles=getComputedStyle(document.documentElement);
     const configuredMax=parseFloat(rootStyles.getPropertyValue("--question-max-size"))||44;
     const configuredMin=parseFloat(rootStyles.getPropertyValue("--question-min-size"))||20;
-    const maxSize=Math.min(window.innerWidth>1600?configuredMax*1.06:configuredMax,Math.max(configuredMin,base));
+    const followupBoost=column.classList.contains("has-followups")?(window.innerWidth>720?8:4):0;
+    const maxSize=Math.min(window.innerWidth>1600?(configuredMax+followupBoost)*1.06:configuredMax+followupBoost,Math.max(configuredMin,base+followupBoost));
     const minSize=configuredMin;
     column.classList.remove("question-overflow");
     question.style.fontSize=maxSize+"px";
