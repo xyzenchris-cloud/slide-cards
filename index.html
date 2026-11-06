@@ -2388,8 +2388,9 @@
   ];
 
   const $ = id => document.getElementById(id);
-  const slot = $("slot"), card = $("card"), back = $("back"), next = $("next");
+  const slot = $("slot"), card = $("card"), back = $("back"), next = $("next"), starsEl = $("stars"), segmentsEl = $("segments");
   const startView = $("start-view"), gameView = $("game-view");
+  const questionSizePixels = {small:34,medium:39,large:42,xlarge:44};
   const allowedSettings = {
     theme: ["light","dark","auto"],
     accent: ["sage","rose","indigo","terracotta","sky"],
@@ -2426,7 +2427,7 @@
   let historyUndo=null, historyUndoTimer=null, pendingHistoryEntry=null;
   let hintsUsed=new Set(), hintCostApplied=new Set();
   let passedQuestions=[],unansweredQuestions=[],rewardedQuestionIds=new Set(),passesUsed=0,reviewMode=false,reviewQuestions=[],reviewIndex=0,reviewOffered=false;
-  let passToastTimer=null,passMessageTimer=null,gateMessageTimer=null,lastPass=null;
+  let passToastTimer=null,passMessageTimer=null,gateMessageTimer=null,lastPass=null,placeSaveTimer=0;
   let speechInterim="", applyingSpeech=false, silenceTimer=null, micInactivityTimer=null, voiceUndoTimer=null, lastVoiceUndo=null;
   let restartFailures=0, speechRestarting=false, restartDelay=350, voiceRoundCounter=0, currentVoiceRound=null, textGuardTimer=null, textGuardSnapshot="";
   let voiceAutoPhraseFallback=false, voiceTestEntries=[];
@@ -3798,7 +3799,6 @@
     star.innerHTML = starSVG;
     return star;
   }
-  const starsEl = $("stars"), segmentsEl = $("segments");
   function buildProgressUI(){
     const total = questionTotal();
     starsEl.replaceChildren();
@@ -3816,7 +3816,6 @@
   function progressCount(){
     return Math.min(index,questionTotal());
   }
-  let placeSaveTimer=0;
   function clearSavedPlace(){
     if(placeSaveTimer){clearTimeout(placeSaveTimer);placeSaveTimer=0;}
     try{localStorage.removeItem(PLACE_STORAGE_KEY);}catch(_){}
@@ -3904,7 +3903,6 @@
     });
     if([...starsEl.children].some((star,n)=>star.classList.contains("lit")&&!starsBefore[n]))playSoftTone("star");
   }
-  const questionSizePixels = {small:34,medium:39,large:42,xlarge:44};
   function putQuestionText(question){
     const p = document.createElement("p");
     p.className = "question";
