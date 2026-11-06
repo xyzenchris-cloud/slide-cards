@@ -1209,7 +1209,7 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.10.0";
+  const APP_VERSION = "1.10.1";
   const PUBLIC_WEBSITE_URL = "https://xyzenchris-cloud.github.io/slide-cards/";
   const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
@@ -3908,6 +3908,7 @@
   function putQuestionText(question){
     const p = document.createElement("p");
     p.className = "question";
+    question=String(question||"").replace(/\s*\(follow-up chain\)\s*$/iu,"").trim();
     if(question.length>150)p.classList.add("question-long");
     if(question.length>260)p.classList.add("question-very-long");
     p.textContent=question;
