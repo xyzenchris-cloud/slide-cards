@@ -1193,7 +1193,7 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.9.8";
+  const APP_VERSION = "1.9.9";
   const PUBLIC_WEBSITE_URL = "https://xyzenchris-cloud.github.io/slide-cards/";
   const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
@@ -2030,6 +2030,126 @@
       "label": "Answer 1",
       "text": "Because it solves a documented problem for a real organization, it works, it was tested and evaluated by 48 respondents as Very Good, and we are honest about its limitations and have a plan for improving them. The system is ready for HappYness to use and for future students to build on."
     }
+  ],
+  "s8-q1": [
+    {
+      "label": "Answer 1",
+      "text": "SQLite matched our current scope: small team, low hosting cost, simple deployment, and manageable traffic. When two people save at once, SQLite serializes writes, so one waits briefly; if demand grows, we migrate to MySQL/PostgreSQL. We did not start with MySQL because it adds server setup and operations overhead that HappYness did not yet need."
+    }
+  ],
+  "s8-q2": [
+    {
+      "label": "Answer 1",
+      "text": "It is hosted on the project's configured web host, and if hosting expires, the site and admin access go offline until renewed. A designated HappYness admin should own renewal reminders and payment responsibility. Long term, relying on a free plan for charity records is risky, so paid hosting with backups is the safer target."
+    }
+  ],
+  "s8-q3": [
+    {
+      "label": "Answer 1",
+      "text": "Migration means moving the same schema and data from SQLite to another database engine without changing user workflows. We would run a tested migration window, back up first, import and verify, then switch the app connection. To avoid data loss, we validate row counts, spot-check key records, and run restore drills."
+    }
+  ],
+  "s8-q4": [
+    {
+      "label": "Answer 1",
+      "text": "Passwords are stored as one-way hashes, not plaintext. Hashing verifies a login attempt without revealing the original password, while encryption is reversible with a key. If someone stole only the database file, they could see non-password records but not recover raw passwords directly from hashed values."
+    }
+  ],
+  "s8-q5": [
+    {
+      "label": "Answer 1",
+      "text": "Role-based authorization is enforced server-side, so volunteers cannot access admin-only views or actions. Typing an admin URL directly still triggers permission checks and is denied. We tested this by logging in as non-admin roles and attempting direct route access and restricted operations."
+    }
+  ],
+  "s8-q6": [
+    {
+      "label": "Answer 1",
+      "text": "We store only the personal data needed for accounts, volunteer/beneficiary workflows, and reporting. Users are informed through consent/privacy wording during registration and onboarding. If a beneficiary requests deletion, the request can be handled through admin-controlled data management according to policy and retention needs."
+    }
+  ],
+  "s8-q7": [
+    {
+      "label": "Answer 1",
+      "text": "It has baseline protections: authentication, role access control, hashed passwords, and session timeout. With budget, we would add stronger hosting controls, automated backups, audit logging, and formal security testing. Security rated lower because evaluators saw it as functional but less mature than usability/feature completeness."
+    }
+  ],
+  "s8-q8": [
+    {
+      "label": "Answer 1",
+      "text": "We chose Scrum because requirements evolved as stakeholders saw working increments. The team lead coordinated sprint flow as Scrum Master responsibilities in our small-team setup. One sprint review change was improving volunteer list scanning by adding filters and search."
+    }
+  ],
+  "s8-q9": [
+    {
+      "label": "Answer 1",
+      "text": "Testing meant verifying behavior from function level to full user workflows. Unit tests checked isolated logic, integration tests checked module interactions, and system tests validated end-to-end role journeys. We maintained test cases and rerun results as evidence for defects and fixes."
+    }
+  ],
+  "s8-q10": [
+    {
+      "label": "Answer 1",
+      "text": "A hard bug was one that affected cross-module behavior and required tracing state across role workflows. We identified it through failed expected outcomes, fixed the root condition, and re-ran the related scenario plus regression checks. A similar bug can still appear in future changes, so repeatable tests and review are essential."
+    }
+  ],
+  "s8-q11": [
+    {
+      "label": "Answer 1",
+      "text": "We used ISO 25010 to evaluate recognized software quality dimensions with structured criteria. Evaluators included users, staff/admin, and IT professionals to balance operational and technical views. The sample is enough for project-level evidence, but we avoid claiming broad statistical generalization beyond the evaluation context."
+    }
+  ],
+  "s8-q12": [
+    {
+      "label": "Answer 1",
+      "text": "Highest and lowest categories reflect where the system is most complete versus where operational risk remains. Politeness can influence surveys, but specific lower sub-scores still exposed real weaknesses like recoverability/security maturity. 'Very Good' overall did not mean perfect; it highlighted concrete improvement priorities."
+    }
+  ],
+  "s8-q13": [
+    {
+      "label": "Answer 1",
+      "text": "Certificates are generated from validated records and workflow status inside the system. Hour inflation is reduced through approval steps and role checks before completion data is finalized. If someone edits a downloaded PDF externally, verification should rely on system-side records and identifiers, not the edited file alone."
+    }
+  ],
+  "s8-q14": [
+    {
+      "label": "Answer 1",
+      "text": "Donation/payment entries are recorded through the app workflow with staff confirmation before final tagging. A responsible staff/admin verifies that payment evidence matches actual receipt. If a donor claims payment with no record, the team checks proof and logs a controlled reconciliation update."
+    }
+  ],
+  "s8-q15": [
+    {
+      "label": "Answer 1",
+      "text": "When internet is slow, response time drops; when it is down, web workflows pause until connectivity returns. Offline mode was outside this build scope due to time and implementation tradeoffs. A PWA with local-first storage and sync strategy can help, but it still needs careful conflict handling and data integrity rules."
+    }
+  ],
+  "s8-q16": [
+    {
+      "label": "Answer 1",
+      "text": "Adoption after graduation depends on handover quality, admin ownership, and practical training continuity. New volunteers should be onboarded through documented guides and role-based training run by designated staff. If they keep paper in parallel, we treat it as staged adoption and target gradual full migration."
+    }
+  ],
+  "s8-q17": [
+    {
+      "label": "Answer 1",
+      "text": "If failure happens tomorrow, recovery depends on the latest valid backup and restore readiness. The right answer includes when restore was last tested and what was verified after restore. Potential loss equals records entered since the last successful backup checkpoint."
+    }
+  ],
+  "s8-q18": [
+    {
+      "label": "Answer 1",
+      "text": "If starting over, we would tighten requirement validation early and formalize restore/security tasks sooner. The biggest regret is usually delaying one foundational operational decision like backup automation. We could still keep the stack for current scope, but with stricter performance and migration readiness from day one."
+    }
+  ],
+  "s8-q19": [
+    {
+      "label": "Answer 1",
+      "text": "The biggest weakness is operational resilience under failure and growth pressure, not core feature availability. It was not fully solved due to scope, time, and resource constraints during the capstone cycle. If it fails in production, the client faces service interruption and manual recovery effort, which is why this is the top improvement priority."
+    }
+  ],
+  "s8-q20": [
+    {
+      "label": "Answer 1",
+      "text": "The project deserves approval because it solves a real documented workflow problem with a working integrated system and measured evaluation evidence. If someone calls it basic, we point to fit-for-context design, tested role workflows, and operational value for a real organization. Our contribution was not just coding a template but analyzing needs, designing the process fit, implementing, testing, and handing over a maintainable solution."
+    }
   ]
 };
   // QUEST SETS — make all set and question edits in this section.
@@ -2220,6 +2340,33 @@
         { id: "s7-q33", question: "If you did this again, what would you change?", hint: "Mention earlier requirements and stack decisions, Sprint testing, automated backups, and consistent documentation." },
         { id: "s7-q34", question: "What is your contribution as an IT student?", hint: "Connect analysis, design, development, testing, handover, training, and community benefit." },
         { id: "s7-q35", question: "Why should we approve your project?", hint: "Give a concise case based on the real need, working system, Very Good evaluation, honesty, and future plan." }
+      ]
+    },
+    {
+      number: 8,
+      name: "Questions with Follow-Ups",
+      keepOrder: true,
+      questions: [
+        { id: "s8-q1", question: "Why did you choose SQLite for a system that three sites will use? (follow-up chain)", hint: "Follow-up prep: explain write locking on simultaneous saves, then justify why SQLite fit initial scope before MySQL." },
+        { id: "s8-q2", question: "Where is your system hosted, and what happens if the hosting expires? (follow-up chain)", hint: "Follow-up prep: identify who renews hosting at HappYness and why free plans are risky for long-term records." },
+        { id: "s8-q3", question: "Explain what “migrating” to another database means. (follow-up chain)", hint: "Follow-up prep: state downtime approach and the backup-validation steps used to prevent record loss." },
+        { id: "s8-q4", question: "How are passwords stored in your system? (follow-up chain)", hint: "Follow-up prep: distinguish hashing vs encryption and describe what an attacker could read from a stolen DB file." },
+        { id: "s8-q5", question: "How do you prevent a volunteer from seeing admin pages? (follow-up chain)", hint: "Follow-up prep: cover direct URL attempts and the exact role/authorization tests you executed." },
+        { id: "s8-q6", question: "What personal information do you store, and why? (follow-up chain)", hint: "Follow-up prep: mention consent/data-use disclosure and how beneficiary deletion requests are handled." },
+        { id: "s8-q7", question: "Is your system secure? How do you know? (follow-up chain)", hint: "Follow-up prep: list current controls, budget-priority upgrades, and why Security scored lower in evaluation." },
+        { id: "s8-q8", question: "Why did you choose Scrum instead of Waterfall? (follow-up chain)", hint: "Follow-up prep: name your Scrum Master role and one concrete Sprint Review-driven change." },
+        { id: "s8-q9", question: "What does “testing” mean in your project, and what did you test? (follow-up chain)", hint: "Follow-up prep: differentiate unit/integration/system tests and be ready to show case/results evidence." },
+        { id: "s8-q10", question: "What was the hardest bug you found, and how did you fix it? (follow-up chain)", hint: "Follow-up prep: say how you detected it, verified the fix, and why regression risk still exists." },
+        { id: "s8-q11", question: "How did you evaluate the system, and why did you use ISO 25010? (follow-up chain)", hint: "Follow-up prep: justify evaluator selection and explain what your respondent size can and cannot conclude." },
+        { id: "s8-q12", question: "Why did your system get the highest score in that category, and the lowest in another? (follow-up chain)", hint: "Follow-up prep: answer politeness-bias concerns and identify real problems despite 'Very Good' results." },
+        { id: "s8-q13", question: "How do your certificates work, and how can someone verify one? (follow-up chain)", hint: "Follow-up prep: cover controls against fake hours and how edited PDFs are checked against system records." },
+        { id: "s8-q14", question: "How do donations and payments work in your system? (follow-up chain)", hint: "Follow-up prep: state who confirms payment arrival and your reconciliation process for donor disputes." },
+        { id: "s8-q15", question: "What happens when the internet is slow or down? (follow-up chain)", hint: "Follow-up prep: explain current behavior, why offline was deferred, and what a PWA sync design would require." },
+        { id: "s8-q16", question: "Will HappYness actually use this after you graduate? (follow-up chain)", hint: "Follow-up prep: identify who trains new volunteers and how you handle parallel paper use during adoption." },
+        { id: "s8-q17", question: "What happens to the data if the system fails tomorrow? (follow-up chain)", hint: "Follow-up prep: give restore-test recency and estimate potential data loss since the latest backup." },
+        { id: "s8-q18", question: "What would you do differently if you started over? (follow-up chain)", hint: "Follow-up prep: name your biggest regret and whether you'd keep or change the stack with reasons." },
+        { id: "s8-q19", question: "What is the biggest weakness of your system? (follow-up chain)", hint: "Follow-up prep: explain why it was not fixed yet and the concrete client impact if it causes a failure." },
+        { id: "s8-q20", question: "Why should we approve your project? (follow-up chain)", hint: "Follow-up prep: answer 'basic system' criticism and highlight what your team contributed beyond templates." }
       ]
     }
   ];
