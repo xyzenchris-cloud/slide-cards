@@ -39,7 +39,7 @@ Settings also includes **Copy website link**, which copies the public GitHub Pag
 
 The app includes Set 7, **Generalized Questions with Sample Answers**, as an ordered 35-question practice set. Its Hint action contains the supplied sample answers, including placeholders where the answer must be replaced with the team's truthful project details.
 
-It also includes Set 8, **Questions with Follow-Ups**, as an ordered 20-question chain-practice set focused on defending one main answer against deeper panel follow-up questions.
+It also includes Set 8, **Questions with Follow-Ups**, as an ordered 20-question chain-practice set focused on defending one main answer against deeper panel follow-up questions. Each Set 8 card now shows its three possible follow-up questions directly below the main question; the separate Hint action remains reserved for prepared answer guidance.
 
 The Hint chip opens a centered reference-answer modal showing the prepared answers stored in the `HINT_ANSWERS` block near the top of `index.html`. Hints are local page content, not a server feature; anyone who can view the page source can read them. Answers are plain text in a minimal, scrollable modal and are prepared only when opened. A small configurable XP cost can be enabled once per question.
 

@@ -149,6 +149,18 @@
   .quest-label{margin-bottom:20px;color:var(--sage);font-size:.72rem;font-weight:700;letter-spacing:.24em;text-transform:uppercase}
   .question{margin:0;color:var(--ink);font-family:var(--serif);font-size:clamp(1.65rem,1.2rem + 2.15vw,2.4rem);font-weight:400;line-height:1.42;letter-spacing:-.018em;text-wrap:balance;overflow-wrap:anywhere}
   .word{display:inline}
+  .followup-panel{width:100%;margin:24px auto 0;padding:13px 15px 14px;border:1px solid rgba(216,170,85,.3);border-radius:16px;background:linear-gradient(135deg,rgba(255,250,235,.82),rgba(241,245,237,.78));text-align:left;box-shadow:0 4px 0 rgba(69,102,78,.08);animation:followup-in .35s ease-out both}
+  .followup-heading{display:flex;align-items:center;gap:7px;margin:0 0 9px;color:#80622d;font:700 .68rem/1.2 var(--round);letter-spacing:.12em;text-transform:uppercase}
+  .followup-heading::before{content:"↳";color:var(--gold);font-size:1rem;line-height:1}
+  .followup-list{display:grid;gap:7px;margin:0;padding:0;list-style:none;counter-reset:followup}
+  .followup-item{display:grid;grid-template-columns:18px minmax(0,1fr);gap:7px;align-items:start;color:var(--forest);font:500 .76rem/1.45 var(--round);counter-increment:followup}
+  .followup-item::before{content:counter(followup);display:grid;place-items:center;width:18px;height:18px;border-radius:50%;background:rgba(216,170,85,.2);color:#80622d;font-size:.62rem;font-weight:800}
+  @keyframes followup-in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+  [data-theme="dark"] .followup-panel{border-color:rgba(216,170,85,.28);background:linear-gradient(135deg,rgba(73,60,37,.58),rgba(40,58,46,.76));box-shadow:0 4px 0 rgba(12,27,18,.28)}
+  [data-theme="dark"] .followup-heading{color:#f1d58e}
+  [data-theme="dark"] .followup-item{color:#d8e6d3}
+  [data-theme="dark"] .followup-item::before{background:rgba(216,170,85,.2);color:#f1d58e}
+  @media(prefers-reduced-motion:reduce){.followup-panel{animation:none}}
   .hint-bubble{position:relative;max-width:410px;margin:22px auto 0;padding:11px 16px;border:1px solid rgba(120,150,120,.18);border-radius:15px;background:#f1f5ed;color:#566a54;font-size:.87rem;line-height:1.5;animation:hint-in .28s ease-out both}
   .hint-bubble::before{content:"";position:absolute;top:-6px;left:calc(50% - 6px);width:11px;height:11px;transform:rotate(45deg);background:#f1f5ed;border-left:1px solid rgba(120,150,120,.18);border-top:1px solid rgba(120,150,120,.18)}
   .note-panel-slot{position:relative;z-index:3;display:grid;grid-template-rows:0fr;flex:none;width:100%;max-width:560px;margin:0 auto;opacity:0;transition:grid-template-rows var(--note-panel-duration,400ms) ease,opacity var(--note-panel-duration,400ms) ease,margin var(--note-panel-duration,400ms) ease}
@@ -736,6 +748,8 @@
     .question-column .question.question-very-long{font-size:clamp(1.12rem,.9rem + .9vw,1.55rem)}
     .question-column.question-overflow{justify-content:flex-start}
     .question-column.question-overflow .question{flex:1;min-height:0;overflow-y:auto;padding-right:10px;scroll-padding-block:10px}
+    .question-column.has-followups{justify-content:flex-start;overflow-y:auto;scrollbar-width:thin}
+    .question-column.has-followups .question{flex:none}
     .answer-column>.writing-area{display:flex;flex:1;flex-direction:column;min-width:0;min-height:0;margin:0;width:100%}
     .answer-column .answer-box{display:flex;flex:1;flex-direction:column;width:100%;height:auto;min-height:160px}
     .answer-column .answer-input-layer{flex:1;min-height:0}
@@ -768,6 +782,8 @@
     .question-column .question.question-very-long{font-size:clamp(1rem,3.5vw,1.25rem)}
     .question-column.question-overflow{justify-content:flex-start}
     .question-column.question-overflow .question{flex:1;min-height:0;overflow-y:auto;padding-right:8px;scroll-padding-block:8px}
+    .question-column.has-followups{justify-content:flex-start;overflow-y:auto}
+    .question-column.has-followups .question{flex:none}
     .answer-column>.writing-area{display:flex;flex:1;flex-direction:column;min-width:0;min-height:0;margin:0;width:100%}
     .answer-column .answer-box{display:flex;flex:1;flex-direction:column;width:100%;min-height:160px;height:auto}
     .answer-column .answer-input{height:100%;flex:1;min-height:0;max-height:none}
@@ -1193,7 +1209,7 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.9.9";
+  const APP_VERSION = "1.10.0";
   const PUBLIC_WEBSITE_URL = "https://xyzenchris-cloud.github.io/slide-cards/";
   const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
@@ -2347,26 +2363,26 @@
       name: "Questions with Follow-Ups",
       keepOrder: true,
       questions: [
-        { id: "s8-q1", question: "Why did you choose SQLite for a system that three sites will use? (follow-up chain)", hint: "Follow-up prep: explain write locking on simultaneous saves, then justify why SQLite fit initial scope before MySQL." },
-        { id: "s8-q2", question: "Where is your system hosted, and what happens if the hosting expires? (follow-up chain)", hint: "Follow-up prep: identify who renews hosting at HappYness and why free plans are risky for long-term records." },
-        { id: "s8-q3", question: "Explain what “migrating” to another database means. (follow-up chain)", hint: "Follow-up prep: state downtime approach and the backup-validation steps used to prevent record loss." },
-        { id: "s8-q4", question: "How are passwords stored in your system? (follow-up chain)", hint: "Follow-up prep: distinguish hashing vs encryption and describe what an attacker could read from a stolen DB file." },
-        { id: "s8-q5", question: "How do you prevent a volunteer from seeing admin pages? (follow-up chain)", hint: "Follow-up prep: cover direct URL attempts and the exact role/authorization tests you executed." },
-        { id: "s8-q6", question: "What personal information do you store, and why? (follow-up chain)", hint: "Follow-up prep: mention consent/data-use disclosure and how beneficiary deletion requests are handled." },
-        { id: "s8-q7", question: "Is your system secure? How do you know? (follow-up chain)", hint: "Follow-up prep: list current controls, budget-priority upgrades, and why Security scored lower in evaluation." },
-        { id: "s8-q8", question: "Why did you choose Scrum instead of Waterfall? (follow-up chain)", hint: "Follow-up prep: name your Scrum Master role and one concrete Sprint Review-driven change." },
-        { id: "s8-q9", question: "What does “testing” mean in your project, and what did you test? (follow-up chain)", hint: "Follow-up prep: differentiate unit/integration/system tests and be ready to show case/results evidence." },
-        { id: "s8-q10", question: "What was the hardest bug you found, and how did you fix it? (follow-up chain)", hint: "Follow-up prep: say how you detected it, verified the fix, and why regression risk still exists." },
-        { id: "s8-q11", question: "How did you evaluate the system, and why did you use ISO 25010? (follow-up chain)", hint: "Follow-up prep: justify evaluator selection and explain what your respondent size can and cannot conclude." },
-        { id: "s8-q12", question: "Why did your system get the highest score in that category, and the lowest in another? (follow-up chain)", hint: "Follow-up prep: answer politeness-bias concerns and identify real problems despite 'Very Good' results." },
-        { id: "s8-q13", question: "How do your certificates work, and how can someone verify one? (follow-up chain)", hint: "Follow-up prep: cover controls against fake hours and how edited PDFs are checked against system records." },
-        { id: "s8-q14", question: "How do donations and payments work in your system? (follow-up chain)", hint: "Follow-up prep: state who confirms payment arrival and your reconciliation process for donor disputes." },
-        { id: "s8-q15", question: "What happens when the internet is slow or down? (follow-up chain)", hint: "Follow-up prep: explain current behavior, why offline was deferred, and what a PWA sync design would require." },
-        { id: "s8-q16", question: "Will HappYness actually use this after you graduate? (follow-up chain)", hint: "Follow-up prep: identify who trains new volunteers and how you handle parallel paper use during adoption." },
-        { id: "s8-q17", question: "What happens to the data if the system fails tomorrow? (follow-up chain)", hint: "Follow-up prep: give restore-test recency and estimate potential data loss since the latest backup." },
-        { id: "s8-q18", question: "What would you do differently if you started over? (follow-up chain)", hint: "Follow-up prep: name your biggest regret and whether you'd keep or change the stack with reasons." },
-        { id: "s8-q19", question: "What is the biggest weakness of your system? (follow-up chain)", hint: "Follow-up prep: explain why it was not fixed yet and the concrete client impact if it causes a failure." },
-        { id: "s8-q20", question: "Why should we approve your project? (follow-up chain)", hint: "Follow-up prep: answer 'basic system' criticism and highlight what your team contributed beyond templates." }
+        { id: "s8-q1", question: "Why did you choose SQLite for a system that three sites will use?", followUps: ["What happens when two people save at the same time?", "If it’s so limited, why didn’t you use MySQL from the start?"], hint: "Follow-up prep: explain write locking on simultaneous saves, then justify why SQLite fit initial scope before MySQL." },
+        { id: "s8-q2", question: "Where is your system hosted, and what happens if the hosting expires?", followUps: ["Who at HappYness is responsible for renewing it?", "Is it responsible to run a charity’s records on a free plan?"], hint: "Follow-up prep: identify who renews hosting at HappYness and why free plans are risky for long-term records." },
+        { id: "s8-q3", question: "Explain what “migrating” to another database means.", followUps: ["Will the system stop while you migrate?", "How would you make sure no records were lost?"], hint: "Follow-up prep: state downtime approach and the backup-validation steps used to prevent record loss." },
+        { id: "s8-q4", question: "How are passwords stored in your system?", followUps: ["What’s the difference between hashing and encryption?", "If I stole your database file, what could I read?"], hint: "Follow-up prep: distinguish hashing vs encryption and describe what an attacker could read from a stolen DB file." },
+        { id: "s8-q5", question: "How do you prevent a volunteer from seeing admin pages?", followUps: ["What if the volunteer types the admin URL directly?", "How did you test this?"], hint: "Follow-up prep: cover direct URL attempts and the exact role/authorization tests you executed." },
+        { id: "s8-q6", question: "What personal information do you store, and why?", followUps: ["Did you tell the users how their data would be used?", "A beneficiary asks you to delete their record. Can the system do that?"], hint: "Follow-up prep: mention consent/data-use disclosure and how beneficiary deletion requests are handled." },
+        { id: "s8-q7", question: "Is your system secure? How do you know?", followUps: ["What security would you add if you had budget?", "Why did evaluators rate Security lower than other categories?"], hint: "Follow-up prep: list current controls, budget-priority upgrades, and why Security scored lower in evaluation." },
+        { id: "s8-q8", question: "Why did you choose Scrum instead of Waterfall?", followUps: ["Who was your Scrum Master, and what did that person do?", "Show me one change you made because of a Sprint Review."], hint: "Follow-up prep: name your Scrum Master role and one concrete Sprint Review-driven change." },
+        { id: "s8-q9", question: "What does “testing” mean in your project, and what did you test?", followUps: ["What’s the difference between your unit, integration, and system tests?", "Can I see your test cases and results?"], hint: "Follow-up prep: differentiate unit/integration/system tests and be ready to show case/results evidence." },
+        { id: "s8-q10", question: "What was the hardest bug you found, and how did you fix it?", followUps: ["How did you find out about it, and how did you check the fix?", "Could a bug like that still exist in the system today?"], hint: "Follow-up prep: say how you detected it, verified the fix, and why regression risk still exists." },
+        { id: "s8-q11", question: "How did you evaluate the system, and why did you use ISO 25010?", followUps: ["Why did you choose those evaluators and not others?", "Is the number of respondents enough to conclude anything?"], hint: "Follow-up prep: justify evaluator selection and explain what your respondent size can and cannot conclude." },
+        { id: "s8-q12", question: "Why did your system get the highest score in that category, and the lowest in another?", followUps: ["Don’t the scores just reflect that people were being polite?", "If everything is “Very Good,” did anyone find a real problem?"], hint: "Follow-up prep: answer politeness-bias concerns and identify real problems despite 'Very Good' results." },
+        { id: "s8-q13", question: "How do your certificates work, and how can someone verify one?", followUps: ["What stops a volunteer from getting hours they didn’t work?", "What if someone edits the PDF?"], hint: "Follow-up prep: cover controls against fake hours and how edited PDFs are checked against system records." },
+        { id: "s8-q14", question: "How do donations and payments work in your system?", followUps: ["Who confirms that the money really arrived?", "What if a donor says they paid but there’s no record?"], hint: "Follow-up prep: state who confirms payment arrival and your reconciliation process for donor disputes." },
+        { id: "s8-q15", question: "What happens when the internet is slow or down?", followUps: ["Why didn’t you build offline support?", "What would it take to add it, and would a progressive web app solve it?"], hint: "Follow-up prep: explain current behavior, why offline was deferred, and what a PWA sync design would require." },
+        { id: "s8-q16", question: "Will HappYness actually use this after you graduate?", followUps: ["Who will train new volunteers when the current ones leave?", "What if they say, “We’ll keep using paper too”?"], hint: "Follow-up prep: identify who trains new volunteers and how you handle parallel paper use during adoption." },
+        { id: "s8-q17", question: "What happens to the data if the system fails tomorrow?", followUps: ["When did you last test a restore?", "How much data could HappYness lose?"], hint: "Follow-up prep: give restore-test recency and estimate potential data loss since the latest backup." },
+        { id: "s8-q18", question: "What would you do differently if you started over?", followUps: ["Which decision do you regret most?", "Would you still choose the same stack?"], hint: "Follow-up prep: name your biggest regret and whether you’d keep or change the stack with reasons." },
+        { id: "s8-q19", question: "What is the biggest weakness of your system?", followUps: ["Why didn’t you fix it?", "How would the client be affected if it caused a problem?"], hint: "Follow-up prep: explain why it was not fixed yet and the concrete client impact if it causes a failure." },
+        { id: "s8-q20", question: "Why should we approve your project?", followUps: ["What would you say to someone who thinks it’s just a basic system?", "What did you contribute that a template or tool couldn’t do?"], hint: "Follow-up prep: answer 'basic system' criticism and highlight what your team contributed beyond templates." }
       ]
     }
   ];
@@ -3983,12 +3999,30 @@
     const columns=document.createElement("div");
     columns.className="card-columns";
     const questionColumn=document.createElement("section");
-    questionColumn.className="question-column transition-content";
+    questionColumn.className="question-column transition-content"+(Array.isArray(currentQuestion.followUps)&&currentQuestion.followUps.length?" has-followups":"");
     const answerColumn=document.createElement("section");
     answerColumn.className="answer-column transition-content";
     const questionText=putQuestionText(currentQuestion.question);
     questionColumn.style.visibility="hidden";
     questionColumn.append(label,questionText);
+    if(Array.isArray(currentQuestion.followUps)&&currentQuestion.followUps.length){
+      const followupPanel=document.createElement("section");
+      followupPanel.className="followup-panel";
+      followupPanel.setAttribute("aria-label","Follow-up questions");
+      const followupHeading=document.createElement("h3");
+      followupHeading.className="followup-heading";
+      followupHeading.textContent="Possible follow-ups";
+      const followupList=document.createElement("ol");
+      followupList.className="followup-list";
+      currentQuestion.followUps.forEach(text=>{
+        const item=document.createElement("li");
+        item.className="followup-item";
+        item.textContent=text;
+        followupList.append(item);
+      });
+      followupPanel.append(followupHeading,followupList);
+      questionColumn.append(followupPanel);
+    }
     answerColumn.append(createWritingArea());
     if(gateMessage)answerColumn.append(gateMessage);
     columns.append(questionColumn,answerColumn);

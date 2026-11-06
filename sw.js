@@ -1,4 +1,4 @@
-const APP_VERSION = "1.9.9";
+const APP_VERSION = "1.10.0";
 const CACHE_NAME = "questionquest_v1_app_" + APP_VERSION;
 const APP_FILES = [
   "./",
