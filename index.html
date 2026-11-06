@@ -154,8 +154,12 @@
   .followup-panel{width:100%;margin:18px auto 0;text-align:left}
   .followup-heading{margin:0 0 7px;color:var(--muted);font:700 .65rem/1.2 var(--round);letter-spacing:.12em;text-transform:uppercase}
   .followup-list{display:grid;gap:5px;margin:0;padding:0;list-style:none}
-  .followup-item{position:relative;padding-left:13px;color:var(--muted);font:400 .74rem/1.4 var(--round)}
+  .followup-item{position:relative;padding-left:15px;color:var(--ink);font:400 1rem/1.45 var(--round)}
   .followup-item::before{content:"·";position:absolute;left:2px;color:var(--sage);font-weight:800}
+  .followup-reveal{display:inline;padding:0;border:0;background:transparent;color:var(--sage);font:700 .82rem/1.35 var(--round);text-align:left;text-decoration:underline;text-decoration-color:rgba(120,150,120,.45);text-underline-offset:3px;cursor:pointer}
+  .followup-reveal:hover{color:var(--forest)}
+  .followup-reveal[aria-expanded="true"]{display:none}
+  .followup-question[hidden]{display:none}
   .hint-bubble{position:relative;max-width:410px;margin:22px auto 0;padding:11px 16px;border:1px solid rgba(120,150,120,.18);border-radius:15px;background:#f1f5ed;color:#566a54;font-size:.87rem;line-height:1.5;animation:hint-in .28s ease-out both}
   .hint-bubble::before{content:"";position:absolute;top:-6px;left:calc(50% - 6px);width:11px;height:11px;transform:rotate(45deg);background:#f1f5ed;border-left:1px solid rgba(120,150,120,.18);border-top:1px solid rgba(120,150,120,.18)}
   .note-panel-slot{position:relative;z-index:3;display:grid;grid-template-rows:0fr;flex:none;width:100%;max-width:560px;margin:0 auto;opacity:0;transition:grid-template-rows var(--note-panel-duration,400ms) ease,opacity var(--note-panel-duration,400ms) ease,margin var(--note-panel-duration,400ms) ease}
@@ -741,6 +745,9 @@
     .question-column .question{max-width:100%;font-size:clamp(1.75rem,1.2rem + 1.8vw,2.7rem);line-height:1.28}
     .question-column .question.question-long{font-size:clamp(1.35rem,1rem + 1.25vw,2rem)}
     .question-column .question.question-very-long{font-size:clamp(1.12rem,.9rem + .9vw,1.55rem)}
+    .question-column.has-followups .question{font-size:clamp(1.8rem,1.3rem + 2vw,2.7rem)}
+    .question-column.has-followups .question.question-long{font-size:clamp(1.55rem,1.1rem + 1.5vw,2.25rem)}
+    .question-column.has-followups .question.question-very-long{font-size:clamp(1.3rem,1rem + 1.1vw,1.8rem)}
     .question-column.question-overflow{justify-content:flex-start}
     .question-column.question-overflow .question{flex:1;min-height:0;overflow-y:auto;padding-right:10px;scroll-padding-block:10px}
     .question-column.has-followups{justify-content:flex-start;overflow-y:auto}
@@ -775,6 +782,10 @@
     .question-column .question{font-size:clamp(1.35rem,5vw,2rem);line-height:1.28}
     .question-column .question.question-long{font-size:clamp(1.1rem,4vw,1.5rem)}
     .question-column .question.question-very-long{font-size:clamp(1rem,3.5vw,1.25rem)}
+    .question-column.has-followups .question{font-size:clamp(1.55rem,5.8vw,2.2rem)}
+    .question-column.has-followups .question.question-long{font-size:clamp(1.35rem,5vw,1.85rem)}
+    .question-column.has-followups .question.question-very-long{font-size:clamp(1.2rem,4.2vw,1.55rem)}
+    .followup-item{font-size:.96rem}
     .question-column.question-overflow{justify-content:flex-start}
     .question-column.question-overflow .question{flex:1;min-height:0;overflow-y:auto;padding-right:8px;scroll-padding-block:8px}
     .question-column.has-followups{justify-content:flex-start;overflow-y:auto}
@@ -1204,7 +1215,7 @@
   // Set SHOW_SETTINGS_BUTTON to false to hide the gear and lock settings for this copy of the game.
   // Set WORD_GOAL_MIN and WORD_GOAL_MAX to control the allowed required-word range.
   const SHOW_SETTINGS_BUTTON = true;
-  const APP_VERSION = "1.10.1";
+  const APP_VERSION = "1.10.2";
   const PUBLIC_WEBSITE_URL = "https://xyzenchris-cloud.github.io/slide-cards/";
   const VERSION_DATE = "Nov 1, 2026";
   const STORAGE_PREFIX = "questionquest_v1_";
@@ -4006,10 +4017,26 @@
       followupPanel.setAttribute("aria-label","Follow-up questions");
       const followupList=document.createElement("ol");
       followupList.className="followup-list";
-      currentQuestion.followUps.forEach(text=>{
+      currentQuestion.followUps.forEach((text,followupIndex)=>{
         const item=document.createElement("li");
         item.className="followup-item";
-        item.textContent=text;
+        const reveal=document.createElement("button");
+        reveal.className="followup-reveal";
+        reveal.type="button";
+        reveal.textContent="Reveal follow-up "+(followupIndex+1);
+        reveal.setAttribute("aria-expanded","false");
+        reveal.setAttribute("aria-controls","followup-"+currentQuestion.id+"-"+followupIndex);
+        const question=document.createElement("span");
+        question.className="followup-question";
+        question.id="followup-"+currentQuestion.id+"-"+followupIndex;
+        question.textContent=text;
+        question.hidden=true;
+        reveal.addEventListener("click",()=>{
+          const revealed=!question.hidden;
+          question.hidden=revealed;
+          reveal.setAttribute("aria-expanded",String(!revealed));
+        });
+        item.append(reveal,question);
         followupList.append(item);
       });
       followupPanel.append(followupList);
