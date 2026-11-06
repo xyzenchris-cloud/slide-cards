@@ -4003,9 +4003,6 @@
       const followupPanel=document.createElement("section");
       followupPanel.className="followup-panel";
       followupPanel.setAttribute("aria-label","Follow-up questions");
-      const followupHeading=document.createElement("h3");
-      followupHeading.className="followup-heading";
-      followupHeading.textContent="Possible follow-ups";
       const followupList=document.createElement("ol");
       followupList.className="followup-list";
       currentQuestion.followUps.forEach(text=>{
@@ -4014,7 +4011,7 @@
         item.textContent=text;
         followupList.append(item);
       });
-      followupPanel.append(followupHeading,followupList);
+      followupPanel.append(followupList);
       questionColumn.append(followupPanel);
     }
     answerColumn.append(createWritingArea());
