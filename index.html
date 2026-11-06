@@ -3770,10 +3770,11 @@
   }
   let SpeechRecognitionAPI = window.SpeechRecognition || window.webkitSpeechRecognition;
   const validateQuestSets = () => {
-    const numbers = new Set(), questions = new Set(), ids = new Set();
+    const numbers = new Set(), ids = new Set();
     QUEST_SETS.forEach(set => {
       if(!Number.isInteger(set.number)||set.number<1||numbers.has(set.number)||!set.name.trim()||!set.questions.length||(set.keepOrder!==undefined&&typeof set.keepOrder!=="boolean")||(set.allowPass!==undefined&&typeof set.allowPass!=="boolean")||(set.allowHints!==undefined&&typeof set.allowHints!=="boolean")) throw new Error("Each quest set needs a unique positive number, a name, and at least one question.");
       numbers.add(set.number);
+      const questions = new Set();
       set.questions.forEach((item,index) => {
         if(!item.id)item.id="s"+set.number+"-q"+(index+1);
         const id=String(item.id).trim();
@@ -5983,9 +5984,27 @@
   history.replaceState({littleQuest:"start"},"",location.href.split("#")[0]);
   applySettings();
   loadManuscriptState();
+  renderSetCards();
+  scheduleStartCardShines();
+  setTimeout(()=>{
+    if(!activeSet&&currentScreen==="start"&&!$("set-grid").children.length){
+      renderSetCards();
+      scheduleStartCardShines();
+    }
+  },0);
   restoreSavedPlace().then(restored=>{
     if(!restored){renderSetCards();scheduleStartCardShines();}
+  }).catch(()=>{
+    recoverToStart("We couldn't restore your place, so choose a quest to begin.");
   });
+  const ensurePickerReady=()=>{
+    if(!activeSet&&currentScreen==="start"&&!$("set-grid").children.length){
+      renderSetCards();
+      scheduleStartCardShines();
+    }
+  };
+  addEventListener("DOMContentLoaded",ensurePickerReady,{once:true});
+  addEventListener("load",ensurePickerReady,{once:true});
 </script>
 </body>
 </html>
